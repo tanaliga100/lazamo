@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const validator_1 = __importDefault(require("validator"));
 const UserSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -25,15 +26,17 @@ const UserSchema = new mongoose_1.default.Schema({
     email: {
         type: String,
         required: [true, "Please provide an email"],
-        match: [
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            "Please provide a valid email address",
-        ],
+        validate: {
+            validator: function (email) {
+                return validator_1.default.isEmail(email);
+            },
+            message: "Please provide a valid email address",
+        },
         unique: true,
     },
     password: {
         type: String,
-        required: [true, "Please provide a valid password"],
+        required: [true, "Please provide a password"],
         minlength: 6,
         maxlength: 50,
     },

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import mongoose, { Schema } from "mongoose";
+import validator from "validator";
 import { IRegisterUser } from "../interfaces/user.interfaces";
 const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
   name: {
@@ -12,15 +13,17 @@ const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
   email: {
     type: String,
     required: [true, "Please provide an email"],
-    match: [
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      "Please provide a valid email address",
-    ],
+    validate: {
+      validator: function (email: string) {
+        return validator.isEmail(email);
+      },
+      message: "Please provide a valid email address",
+    },
     unique: true,
   },
   password: {
     type: String,
-    required: [true, "Please provide a valid password"],
+    required: [true, "Please provide a password"],
     minlength: 6,
     maxlength: 50,
   },

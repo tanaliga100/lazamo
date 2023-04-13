@@ -46,5 +46,4 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Something went wrong");
     }
 });
-console.log(process.env);
 start();

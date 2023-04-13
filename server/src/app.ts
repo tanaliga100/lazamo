@@ -35,6 +35,5 @@ const start = async () => {
     console.log("Something went wrong");
   }
 };
-console.log(process.env);
 
 start();
