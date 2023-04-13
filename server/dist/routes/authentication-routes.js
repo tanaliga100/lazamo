@@ -10,3 +10,4 @@ const router = express_1.default.Router();
 exports.router = router;
 router.route("/register").post(auth_controller_1.REGISTER);
 router.route("/login").post(auth_controller_1.LOGIN);
+router.route("/logout").get(auth_controller_1.LOGOUT);

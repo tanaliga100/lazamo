@@ -37,7 +37,12 @@ const UserSchema = new mongoose_1.default.Schema({
         minlength: 6,
         maxlength: 50,
     },
-}, { timestamps: true });
+    role: {
+        type: String,
+        enum: ["admin", "user"],
+        default: "user",
+    },
+});
 // HASHED THE PASSWORD HERE || No params needed cause value is in the schema
 UserSchema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -51,7 +56,7 @@ UserSchema.methods.createJWT = function () {
         expiresIn: "1d",
     });
 };
-// COMAPARE PASSWORD
+// COMPARE PASSWORD
 UserSchema.methods.comparePassword = function (candidatePassword) {
     return __awaiter(this, void 0, void 0, function* () {
         const isMatch = yield bcryptjs_1.default.compare(candidatePassword, this.password);

@@ -1,17 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { IRegisterUser } from "../interfaces/user.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
+import User from "../models/user-model";
 
 const REGISTER = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-
-    const { name, email, password } = req.body;
-    //Note:  PASSWORD IS HASHED IN THE MODEL BEFORE IT SAVE TO DATABSE
-    // Creation of the User here....
+    const { name, email, password } = req.body as IRegisterUser;
+    // CHECK EMAIL
+    // const emailExists = await User.findOne({ email });
+    // if (emailExists) {
+    //   throw new BadRequestError("Email already exists");
+    // }
+    const user = await User.create(req.body);
     res.status(StatusCodes.CREATED).json({
       msg: "USER_REGISTERED",
-      data: { ...req.body },
+      data: user,
     });
   }
 );
@@ -32,4 +36,15 @@ const LOGIN = asyncMiddleware(
   }
 );
 
-export { LOGIN, REGISTER };
+const LOGOUT = asyncMiddleware(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // CHECK THE REQUEST BODY
+    const { email, password } = req.body;
+    res.status(StatusCodes.OK).json({
+      msg: "LOGOUT",
+      data: { ...req.body },
+    });
+  }
+);
+
+export { LOGIN, LOGOUT, REGISTER };

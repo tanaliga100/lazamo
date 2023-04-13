@@ -1,32 +1,35 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import mongoose, { Schema } from "mongoose";
-const UserSchema: Schema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Please provide a name"],
-      minlength: 3,
-      maxlength: 50,
-    },
-    email: {
-      type: String,
-      required: [true, "Please provide an email"],
-      match: [
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        "Please provide a valid email address",
-      ],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Please provide a valid password"],
-      minlength: 6,
-      maxlength: 50,
-    },
+import { IRegisterUser } from "../interfaces/user.interfaces";
+const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
+  name: {
+    type: String,
+    required: [true, "Please provide a name"],
+    minlength: 3,
+    maxlength: 50,
   },
-  { timestamps: true }
-);
+  email: {
+    type: String,
+    required: [true, "Please provide an email"],
+    match: [
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      "Please provide a valid email address",
+    ],
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: [true, "Please provide a valid password"],
+    minlength: 6,
+    maxlength: 50,
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    default: "user",
+  },
+});
 // HASHED THE PASSWORD HERE || No params needed cause value is in the schema
 UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
@@ -43,7 +46,7 @@ UserSchema.methods.createJWT = function () {
     }
   );
 };
-// COMAPARE PASSWORD
+// COMPARE PASSWORD
 UserSchema.methods.comparePassword = async function (
   candidatePassword: string
 ) {
