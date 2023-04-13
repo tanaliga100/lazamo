@@ -1,4 +1,4 @@
-export {};
+export { };
 interface IRole {
   enum: string[];
 }
@@ -8,4 +8,10 @@ export interface IRegisterUser {
   email: string;
   password: string;
   role?: IRole;
+}
+
+export interface ITokenPayload {
+  name: string;
+  userId: any;
+  role: string;
 }

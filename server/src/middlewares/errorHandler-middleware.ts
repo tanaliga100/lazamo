@@ -15,14 +15,17 @@ export const errorHandlerMidlleware = (
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     msg: err.message || "Something went wrong",
   };
-  // // BELOW ARE THE DIFFERENT KINDS OF ERROR THROWN BY MONGOOSE || CUSTOMIZED
-  // // Note: Validation Error Handler
+  // BELOW ARE THE DIFFERENT KINDS OF ERROR THROWN BY MONGOOSE || CUSTOMIZED
+  // Note: Validation Error Handler
 
   if (err.name && err.name === "ValidationError") {
     customError.msg = Object.values(err.errors).map((item: any) => {
       const path = item.path;
       const message = item.message;
-      return { path: path, messsage: message };
+      return {
+        path: path,
+        message: message,
+      };
     });
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }

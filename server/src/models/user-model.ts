@@ -25,7 +25,7 @@ const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
     type: String,
     required: [true, "Please provide a password"],
     minlength: 6,
-    maxlength: 50,
+    maxlength: 100,
   },
   role: {
     type: String,
@@ -34,10 +34,10 @@ const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
   },
 });
 // HASHED THE PASSWORD HERE || No params needed cause value is in the schema
-UserSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
+// UserSchema.pre("save", async function () {
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
 
 // GENERATE TOKEN HERE || use if the user properly authenticated;
 UserSchema.methods.createJWT = function () {
