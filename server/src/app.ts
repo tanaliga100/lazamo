@@ -6,6 +6,7 @@ import { connectDB } from "./config/connectDB";
 import { errorHandlerMidlleware } from "./middlewares/errorHandler-middleware";
 import { notFoundMiddleware } from "./middlewares/notFound-middleware";
 import { router as AuthRoute } from "./routes/authentication-routes";
+import { router as UserRoute } from "./routes/user-routes";
 dotenv.config();
 
 const app: Express = express();
@@ -27,6 +28,7 @@ app.get("/api/v1", (req: Request, res: Response) => {
 
 // APPLICATION ROUTES
 app.use("/api/v1/auth", AuthRoute);
+app.use("/api/v1/users", UserRoute);
 
 // 404_MIDDLEWARE
 app.use(notFoundMiddleware);

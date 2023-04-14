@@ -71,11 +71,13 @@ const LOGIN = asyncMiddleware(
 
 const LOGOUT = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
-    // CHECK THE REQUEST BODY
-    const { email, password } = req.body;
+    // REMOVED COOKIES
+    res.cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(Date.now()),
+    });
     res.status(StatusCodes.OK).json({
-      msg: "LOGOUT",
-      data: { ...req.body },
+      msg: "USER_LOGOUT",
     });
   }
 );

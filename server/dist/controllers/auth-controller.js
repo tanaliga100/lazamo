@@ -76,11 +76,13 @@ const LOGIN = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awai
 }));
 exports.LOGIN = LOGIN;
 const LOGOUT = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // CHECK THE REQUEST BODY
-    const { email, password } = req.body;
+    // REMOVED COOKIES
+    res.cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(Date.now()),
+    });
     res.status(http_status_codes_1.StatusCodes.OK).json({
-        msg: "LOGOUT",
-        data: Object.assign({}, req.body),
+        msg: "USER_LOGOUT",
     });
 }));
 exports.LOGOUT = LOGOUT;
