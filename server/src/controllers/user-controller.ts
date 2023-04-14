@@ -1,15 +1,29 @@
 import { NextFunction, Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { BadRequestError, NotFoundError } from "../errors";
 import { asyncMiddleware } from "../middlewares/async-middleware";
+import User from "../models/user-model";
 
 const ALL_USERS = asyncMiddleware(
-  async (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).send("ALL_USERS");
+  async (req: any, res: Response, next: NextFunction) => {
+    console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
+    const users = await User.find({ role: "user" }).select("-password");
+    if (!users) {
+      throw new BadRequestError("No Users found");
+    }
+    res.status(StatusCodes.OK).json({ msg: "ALL_USERS", users });
   }
 );
 
 const SINGLE_USER = asyncMiddleware(
-  async (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).send(req.params);
+  async (req: any, res: Response, next: NextFunction) => {
+    console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
+
+    const user = await User.findOne({ _id: req.params.id }).select("-password");
+    if (!user) {
+      throw new NotFoundError(`No user with id ${req.params.id}`);
+    }
+    res.status(200).json({ msg: "SINGLE_USER", user });
   }
 );
 

@@ -12,27 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+exports.authorizedPermissions = exports.authenticationMiddleware = void 0;
 const errors_1 = require("../errors");
+const unauthorized_error_1 = __importDefault(require("../errors/unauthorized-error"));
+const verifyToken_1 = require("../utils/verifyToken");
 const authenticationMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //CHECK HEADER
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer")) {
-        return next(new errors_1.UnAuthenticatedError("NO TOKEN PROVIDED"));
+    const token = req.signedCookies.token;
+    if (!token) {
+        throw new errors_1.UnAuthenticatedError("Authentication Failed");
     }
-    const token = authHeader.split(" ")[1];
     try {
-        // this payload is coming from the request object
-        const payload = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-        // if payload is verified find the resource to the database by its "ID" omitting the password
-        // const user = await User.findById(payload.id).select("-password")
-        // req.user = user;
+        const { name, userId, role } = (0, verifyToken_1.verifyToken)(token);
+        req.user = { name, userId, role };
         next();
-        // next();
-        // ATTACH THE USER TO THE JOB ROUTES
     }
     catch (error) {
-        return next(new errors_1.UnAuthenticatedError("NOT AUTHORIZED TO ACCESS THIS ROUTE"));
+        throw new errors_1.UnAuthenticatedError("Authentication failed");
     }
 });
-exports.default = authenticationMiddleware;
+exports.authenticationMiddleware = authenticationMiddleware;
+const authorizedPermissions = (roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            throw new unauthorized_error_1.default("Not authorized to access this route");
+        }
+        next();
+    };
+};
+exports.authorizedPermissions = authorizedPermissions;
