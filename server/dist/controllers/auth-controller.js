@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.REGISTER = exports.LOGOUT = exports.LOGIN = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
+const unauthenticated_error_1 = __importDefault(require("../errors/unauthenticated-error"));
 const async_middleware_1 = require("../middlewares/async-middleware");
 const user_model_1 = __importDefault(require("../models/user-model"));
 const attachCookies_1 = require("../utils/attachCookies");
@@ -49,15 +50,28 @@ const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __a
 }));
 exports.REGISTER = REGISTER;
 const LOGIN = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     // CHECK THE REQUEST BODY
     const { email, password } = req.body;
     // FIND EXISTING EMAIL, IF NONE THROW ERROR
+    if (!email || !password) {
+        throw new errors_1.BadRequestError("Please provide email and password");
+    }
+    // GET THE USER
+    const user = yield user_model_1.default.findOne({ email });
+    if (!user) {
+        throw new unauthenticated_error_1.default("Invalid Credentials : Email doesnt exist");
+    }
     // COMPARE PASSWORD USING BCRYPT JS IN THE MODEL
+    const isPasswordCorrect = yield user.comparePassword(password);
+    if (!isPasswordCorrect) {
+        throw new unauthenticated_error_1.default("Password is incorrect");
+    }
     // IF PASSWORD MATCH RELEASE THE TOKEN
+    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
     res.status(http_status_codes_1.StatusCodes.OK).json({
         msg: "LOGIN_SUCCESSFUL",
-        data: Object.assign({}, req.body),
+        data: tokenUser,
     });
 }));
 exports.LOGIN = LOGIN;

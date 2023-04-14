@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors";
+import UnAuthenticatedError from "../errors/unauthenticated-error";
 import { IRegisterUser } from "../interfaces/user.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
@@ -40,16 +41,30 @@ const REGISTER = asyncMiddleware(
 
 const LOGIN = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-
     // CHECK THE REQUEST BODY
     const { email, password } = req.body;
     // FIND EXISTING EMAIL, IF NONE THROW ERROR
+    if (!email || !password) {
+      throw new BadRequestError("Please provide email and password");
+    }
+    // GET THE USER
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new UnAuthenticatedError(
+        "Invalid Credentials : Email doesnt exist"
+      );
+    }
     // COMPARE PASSWORD USING BCRYPT JS IN THE MODEL
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
+      throw new UnAuthenticatedError("Password is incorrect");
+    }
     // IF PASSWORD MATCH RELEASE THE TOKEN
+    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    attachCookiesToResponse(res, tokenUser);
     res.status(StatusCodes.OK).json({
       msg: "LOGIN_SUCCESSFUL",
-      data: { ...req.body },
+      data: tokenUser,
     });
   }
 );
