@@ -17,7 +17,7 @@ const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const async_middleware_1 = require("../middlewares/async-middleware");
 const user_model_1 = __importDefault(require("../models/user-model"));
-const createJWT_1 = require("../utils/createJWT");
+const attachCookies_1 = require("../utils/attachCookies");
 const hashedPassword_1 = require("../utils/hashedPassword");
 const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
@@ -37,14 +37,14 @@ const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __a
     // HASHING PASSWORD
     const hashedPassword = yield (0, hashedPassword_1.hashPassword)(password);
     req.body.password = hashedPassword;
+    // CREATING USER
     const user = yield user_model_1.default.create(req.body);
-    // CREATING JWT
+    // ATTACHING COOKIES
     const tokenUser = { name: user.name, userId: user._id, role: user.role };
-    const token = yield (0, createJWT_1.createJWT)(tokenUser);
+    (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         msg: "USER_REGISTERED",
-        data: user,
-        token,
+        data: tokenUser,
     });
 }));
 exports.REGISTER = REGISTER;

@@ -4,7 +4,7 @@ import { BadRequestError } from "../errors";
 import { IRegisterUser } from "../interfaces/user.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
-import { createJWT } from "../utils/createJWT";
+import { attachCookiesToResponse } from "../utils/attachCookies";
 import { hashPassword } from "../utils/hashedPassword";
 
 const REGISTER = asyncMiddleware(
@@ -25,16 +25,15 @@ const REGISTER = asyncMiddleware(
     // HASHING PASSWORD
     const hashedPassword = await hashPassword(password);
     req.body.password = hashedPassword;
-
+    // CREATING USER
     const user = await User.create(req.body);
-    // CREATING JWT
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
-    const token = await createJWT(tokenUser);
 
+    // ATTACHING COOKIES
+    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    attachCookiesToResponse(res, tokenUser);
     res.status(StatusCodes.CREATED).json({
       msg: "USER_REGISTERED",
-      data: user,
-      token,
+      data: tokenUser,
     });
   }
 );

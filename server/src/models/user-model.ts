@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import mongoose, { Schema } from "mongoose";
 import validator from "validator";
 import { IRegisterUser } from "../interfaces/user.interfaces";
@@ -40,15 +39,15 @@ const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
 // });
 
 // GENERATE TOKEN HERE || use if the user properly authenticated;
-UserSchema.methods.createJWT = function () {
-  return jwt.sign(
-    { userId: this._id, name: this.name, email: this.email },
-    process.env.JWT_SECRET || "jwt_secret",
-    {
-      expiresIn: "1d",
-    }
-  );
-};
+// UserSchema.methods.createJWT = function () {
+//   return jwt.sign(
+//     { userId: this._id, name: this.name, email: this.email },
+//     process.env.JWT_SECRET || "jwt_secret",
+//     {
+//       expiresIn: "1d",
+//     }
+//   );
+// };
 // COMPARE PASSWORD
 UserSchema.methods.comparePassword = async function (
   candidatePassword: string

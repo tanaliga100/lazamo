@@ -12,12 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createJWT = void 0;
+exports.verifyToken = exports.createJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createJWT = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const accessToken = yield jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
+    const accessToken = yield jsonwebtoken_1.default.sign({ payload }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME,
     });
     return accessToken;
 });
 exports.createJWT = createJWT;
+const verifyToken = (accessToken) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = yield jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET);
+    return token;
+});
+exports.verifyToken = verifyToken;

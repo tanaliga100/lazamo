@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const validator_1 = __importDefault(require("validator"));
 const UserSchema = new mongoose_1.default.Schema({
@@ -52,11 +51,15 @@ const UserSchema = new mongoose_1.default.Schema({
 //   this.password = await bcrypt.hash(this.password, salt);
 // });
 // GENERATE TOKEN HERE || use if the user properly authenticated;
-UserSchema.methods.createJWT = function () {
-    return jsonwebtoken_1.default.sign({ userId: this._id, name: this.name, email: this.email }, process.env.JWT_SECRET || "jwt_secret", {
-        expiresIn: "1d",
-    });
-};
+// UserSchema.methods.createJWT = function () {
+//   return jwt.sign(
+//     { userId: this._id, name: this.name, email: this.email },
+//     process.env.JWT_SECRET || "jwt_secret",
+//     {
+//       expiresIn: "1d",
+//     }
+//   );
+// };
 // COMPARE PASSWORD
 UserSchema.methods.comparePassword = function (candidatePassword) {
     return __awaiter(this, void 0, void 0, function* () {

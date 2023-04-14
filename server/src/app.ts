@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
@@ -9,6 +10,7 @@ dotenv.config();
 
 const app: Express = express();
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
@@ -16,6 +18,13 @@ app.use(morgan("dev"));
 app.get("/", (req: Request, res: Response) => {
   res.json({ msg: "Server Alive : Express Ts" });
 });
+app.get("/api/v1", (req: Request, res: Response) => {
+  console.log(req.cookies);
+  console.log(req.signedCookies);
+
+  res.send("E-Com");
+});
+
 // APPLICATION ROUTES
 app.use("/api/v1/auth", AuthRoute);
 

@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.hashPassword = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const hashPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
+const hashPassword = (passwordToHash) => __awaiter(void 0, void 0, void 0, function* () {
     const salt = yield bcryptjs_1.default.genSalt(5);
-    const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
+    const hashedPassword = yield bcryptjs_1.default.hash(passwordToHash, salt);
     return hashedPassword;
 });
 exports.hashPassword = hashPassword;
