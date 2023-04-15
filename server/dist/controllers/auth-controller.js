@@ -20,6 +20,7 @@ const user_model_1 = __importDefault(require("../models/user-model"));
 const attachCookies_1 = require("../utils/attachCookies");
 const comparePassword_1 = require("../utils/comparePassword");
 const hashedPassword_1 = require("../utils/hashedPassword");
+const tokenUser_1 = require("../utils/tokenUser");
 const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     // CHECK EMAIL IF ITS EXISTS
@@ -52,13 +53,7 @@ const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __a
     // CREATING USER
     const user = yield user_model_1.default.create(tempUser);
     // ATTACHING COOKIES
-    const tokenUser = {
-        name: user.name,
-        userId: user._id,
-        role: user.role,
-        emai: user.email,
-        // password: user.password,
-    };
+    const tokenUser = yield (0, tokenUser_1.createTokenUser)(user);
     // USING CREATE TOKEN | TRADITIONAL
     // const token = createToken(tokenUser);
     // USING COOKIES TO ATTACH TOKEN
@@ -92,13 +87,7 @@ const LOGIN = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awai
     //   throw new UnAuthenticatedError("Password is incorrect");
     // }
     // IF PASSWORD MATCH RELEASE THE TOKEN
-    const tokenUser = {
-        name: user.name,
-        userId: user._id,
-        email: user.email,
-        role: user.role,
-        // password: user.password,
-    };
+    const tokenUser = yield (0, tokenUser_1.createTokenUser)(user);
     (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
     res.status(http_status_codes_1.StatusCodes.OK).json({
         msg: "LOGIN_SUCCESSFUL",

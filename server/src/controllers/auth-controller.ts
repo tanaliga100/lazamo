@@ -7,6 +7,7 @@ import User from "../models/user-model";
 import { attachCookiesToResponse } from "../utils/attachCookies";
 import { comparePassword } from "../utils/comparePassword";
 import { hashPassword } from "../utils/hashedPassword";
+import { createTokenUser } from "../utils/tokenUser";
 
 const REGISTER = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -40,13 +41,7 @@ const REGISTER = asyncMiddleware(
     // CREATING USER
     const user = await User.create(tempUser);
     // ATTACHING COOKIES
-    const tokenUser = {
-      name: user.name,
-      userId: user._id,
-      role: user.role,
-      emai: user.email,
-      // password: user.password,
-    };
+    const tokenUser = await createTokenUser(user);
     // USING CREATE TOKEN | TRADITIONAL
     // const token = createToken(tokenUser);
 
@@ -90,13 +85,7 @@ const LOGIN = asyncMiddleware(
     // }
 
     // IF PASSWORD MATCH RELEASE THE TOKEN
-    const tokenUser = {
-      name: user.name,
-      userId: user._id,
-      email: user.email,
-      role: user.role,
-      // password: user.password,
-    };
+    const tokenUser = await createTokenUser(user);
     attachCookiesToResponse(res, tokenUser);
     res.status(StatusCodes.OK).json({
       msg: "LOGIN_SUCCESSFUL",

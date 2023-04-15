@@ -7,13 +7,17 @@ import {
 } from "../errors";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
+import { attachCookiesToResponse } from "../utils/attachCookies";
+import { checkPermissions } from "../utils/checkPermission";
 import { comparePassword } from "../utils/comparePassword";
 import { hashPassword } from "../utils/hashedPassword";
+import { createTokenUser } from "../utils/tokenUser";
 
 const ALL_USERS = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const users = await User.find({ role: "manager" });
+    const users = await User.find({ role: ["admin", "user", "manager"] });
+
     if (!users) {
       throw new BadRequestError("No Users found");
     }
@@ -29,20 +33,34 @@ const SINGLE_USER = asyncMiddleware(
     if (!user) {
       throw new NotFoundError(`No user with id ${req.params.id}`);
     }
-    res.status(200).json({ msg: "SINGLE_USER", user });
+    checkPermissions(req.user, user._id);
+    res.status(StatusCodes.OK).json({ msg: "SINGLE_USER", user });
   }
 );
 
 const CURRENT_USER = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     const currentUser = { name: req.user.name, role: req.user.role };
-    res.status(200).json({ msg: "CURRENT_USER", currentUser });
+    res.status(StatusCodes.OK).json({ msg: "CURRENT_USER", currentUser });
   }
 );
 
 const UPDATE_USER = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
-    res.status(200).send(req.body);
+    const { name, email } = req.body;
+    if (!name || !email) {
+      throw new BadRequestError("PLEASE PROVIDE ALL THE VALUES");
+    }
+    const user = await User.findOneAndUpdate(
+      { _id: req.user.userId },
+      { email, name },
+      { new: true, runValidators: true }
+    );
+    const tokenUser = await createTokenUser(user);
+    // ATTACH COOKIES
+    attachCookiesToResponse(res, tokenUser);
+    // OK ? SEND BACK TO CLIENT : THROW ERROR
+    res.status(StatusCodes.OK).json({ msg: "USER_UPDATED", data: tokenUser });
   }
 );
 
@@ -66,7 +84,7 @@ const UPDATE_USER_PASSWORD = asyncMiddleware(
     user!.password = hashedPassword;
     await user!.save();
 
-    res.status(200).json({ msg: "USER_PASSWORD_UPDATED" });
+    res.status(StatusCodes.OK).json({ msg: "USER_PASSWORD_UPDATED" });
   }
 );
 

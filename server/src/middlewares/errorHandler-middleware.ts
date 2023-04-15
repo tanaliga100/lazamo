@@ -39,7 +39,7 @@ export const errorHandlerMidlleware = (
   // Note: Cast Error Handler
   if (err.name === "CastError") {
     customError.statusCode = StatusCodes.NOT_FOUND;
-    customError.msg = `NO ITEM FOUND WITH ID: ${err.value} `;
+    customError.msg = `NO ITEM FOUND WITH ID: ${err.value}`;
   }
   // return res.status(404).json({
   //   err,
