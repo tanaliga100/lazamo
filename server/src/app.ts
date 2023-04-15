@@ -5,7 +5,7 @@ import morgan from "morgan";
 import { connectDB } from "./config/connectDB";
 import { errorHandlerMidlleware } from "./middlewares/errorHandler-middleware";
 import { notFoundMiddleware } from "./middlewares/notFound-middleware";
-import { router as AuthRoute } from "./routes/authentication-routes";
+import { router as AuthRoute } from "./routes/auth-routes";
 import { router as UserRoute } from "./routes/user-routes";
 dotenv.config();
 
@@ -20,12 +20,11 @@ app.get("/", (req: Request, res: Response) => {
   res.json({ msg: "Server Alive : Express Ts" });
 });
 app.get("/api/v1", (req: Request, res: Response) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   console.log(req.signedCookies);
 
   res.send("E-Com");
 });
-
 // APPLICATION ROUTES
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/users", UserRoute);
@@ -40,7 +39,7 @@ const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
     app.listen(port, () => {
-      console.log(`Server alive: ${port}`);
+      console.log(`DB && SERVER ALIVE: ${port}`);
     });
   } catch (error) {
     console.log("Something went wrong");

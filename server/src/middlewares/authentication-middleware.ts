@@ -4,7 +4,7 @@ import { UnAuthenticatedError } from "../errors";
 import UnAuthorizedError from "../errors/unauthorized-error";
 import { verifyToken } from "../utils/verifyToken";
 
-const authenticationMiddleware = async (
+const authenticationMiddleware = (
   req: any,
   res: Response,
   next: NextFunction

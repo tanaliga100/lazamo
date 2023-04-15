@@ -36,7 +36,8 @@ const SINGLE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => 
 }));
 exports.SINGLE_USER = SINGLE_USER;
 const CURRENT_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).send("CURRENT USER");
+    const currentUser = { name: req.user.name, role: req.user.role };
+    res.status(200).json({ msg: "CURRENT_USER", currentUser });
 }));
 exports.CURRENT_USER = CURRENT_USER;
 const UPDATE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,6 +45,21 @@ const UPDATE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => 
 }));
 exports.UPDATE_USER = UPDATE_USER;
 const UPDATE_USER_PASSWORD = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).send(req.body);
+    console.log(req.body);
+    console.log(req.user);
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+        throw new errors_1.BadRequestError("Please provide both values");
+    }
+    const user = yield user_model_1.default.findOne({ _id: req.user.userId });
+    if (!user) {
+    }
+    const isPasswordCorrect = yield user.comparePassword(oldPassword);
+    if (!isPasswordCorrect) {
+        throw new errors_1.UnAuthenticatedError("Invalid password");
+    }
+    user.password = newPassword;
+    yield user.save();
+    res.status(200).json({ msg: "USER_PASSWORD_UPDATED" });
 }));
 exports.UPDATE_USER_PASSWORD = UPDATE_USER_PASSWORD;

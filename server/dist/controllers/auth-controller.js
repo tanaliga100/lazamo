@@ -15,37 +15,58 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.REGISTER = exports.LOGOUT = exports.LOGIN = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
-const unauthenticated_error_1 = __importDefault(require("../errors/unauthenticated-error"));
 const async_middleware_1 = require("../middlewares/async-middleware");
 const user_model_1 = __importDefault(require("../models/user-model"));
 const attachCookies_1 = require("../utils/attachCookies");
+const comparePassword_1 = require("../utils/comparePassword");
 const hashedPassword_1 = require("../utils/hashedPassword");
 const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
-    // CHECK EMAIL
+    // CHECK EMAIL IF ITS EXISTS
     const emailExists = yield user_model_1.default.findOne({ email });
     if (emailExists) {
-        throw new errors_1.BadRequestError("Email already exists");
-    }
-    // CHECK IF THERE IS A USER
-    const isFirstAccount = (yield user_model_1.default.countDocuments({})) === 0;
-    if (isFirstAccount) {
-        req.body.role = "admin";
-    }
-    else {
-        req.body.role = "user";
+        throw new errors_1.BadRequestError(`THIS EMAIL: ${email} ALREADY EXISTS`);
     }
     // HASHING PASSWORD
     const hashedPassword = yield (0, hashedPassword_1.hashPassword)(password);
-    req.body.password = hashedPassword;
+    // ASSIGNING THE USER
+    const tempUser = {
+        name,
+        email,
+        password: hashedPassword,
+        role: req.body.role,
+    };
+    const hasAdmin = yield user_model_1.default.findOne({ role: "admin" });
+    const managerCount = yield user_model_1.default.countDocuments({ role: "manager" });
+    if (!hasAdmin) {
+        tempUser.role = "admin";
+    }
+    else {
+        if (managerCount < 2) {
+            tempUser.role = "manager";
+        }
+        else {
+            tempUser.role = "user";
+        }
+    }
     // CREATING USER
-    const user = yield user_model_1.default.create(req.body);
+    const user = yield user_model_1.default.create(tempUser);
     // ATTACHING COOKIES
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const tokenUser = {
+        name: user.name,
+        userId: user._id,
+        role: user.role,
+        emai: user.email,
+        // password: user.password,
+    };
+    // USING CREATE TOKEN | TRADITIONAL
+    // const token = createToken(tokenUser);
+    // USING COOKIES TO ATTACH TOKEN
     (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         msg: "USER_REGISTERED",
         data: tokenUser,
+        // token,
     });
 }));
 exports.REGISTER = REGISTER;
@@ -56,22 +77,32 @@ const LOGIN = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awai
     if (!email || !password) {
         throw new errors_1.BadRequestError("Please provide email and password");
     }
-    // GET THE USER
+    // // GET THE USER
     const user = yield user_model_1.default.findOne({ email });
     if (!user) {
-        throw new unauthenticated_error_1.default("Invalid Credentials : Email doesnt exist");
+        throw new errors_1.UnAuthenticatedError("Invalid Credentials : Email doesnt exist");
     }
     // COMPARE PASSWORD USING BCRYPT JS IN THE MODEL
-    const isPasswordCorrect = yield user.comparePassword(password);
+    const isPasswordCorrect = yield (0, comparePassword_1.comparePassword)(password, user.password);
     if (!isPasswordCorrect) {
-        throw new unauthenticated_error_1.default("Password is incorrect");
+        throw new errors_1.UnAuthenticatedError("Password is incorrect");
     }
+    // const isPassCorredct = user.comparePassword(password);
+    // if (!isPassCorredct) {
+    //   throw new UnAuthenticatedError("Password is incorrect");
+    // }
     // IF PASSWORD MATCH RELEASE THE TOKEN
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const tokenUser = {
+        name: user.name,
+        userId: user._id,
+        email: user.email,
+        role: user.role,
+        // password: user.password,
+    };
     (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
     res.status(http_status_codes_1.StatusCodes.OK).json({
         msg: "LOGIN_SUCCESSFUL",
-        data: tokenUser,
+        tokenUser,
     });
 }));
 exports.LOGIN = LOGIN;

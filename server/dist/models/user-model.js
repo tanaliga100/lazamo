@@ -41,7 +41,7 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "user"],
+        enum: ["admin", "user", "manager"],
         default: "user",
     },
 });
@@ -63,6 +63,7 @@ const UserSchema = new mongoose_1.default.Schema({
 // COMPARE PASSWORD
 UserSchema.methods.comparePassword = function (candidatePassword) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("FROM MODEL", candidatePassword);
         const isMatch = yield bcryptjs_1.default.compare(candidatePassword, this.password);
         return isMatch;
     });

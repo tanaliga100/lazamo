@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.comparePassword = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const comparePassword = (candidatePassword, hashedPassword) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log({ candidatePassword });
+    console.log({ hashedPassword });
     const isMatch = yield bcryptjs_1.default.compare(candidatePassword, hashedPassword);
     return isMatch;
 });

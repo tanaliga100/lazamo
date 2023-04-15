@@ -28,10 +28,11 @@ const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
   },
   role: {
     type: String,
-    enum: ["admin", "user"],
+    enum: ["admin", "user", "manager"],
     default: "user",
   },
 });
+
 // HASHED THE PASSWORD HERE || No params needed cause value is in the schema
 // UserSchema.pre("save", async function () {
 //   const salt = await bcrypt.genSalt(10);
@@ -52,6 +53,8 @@ const UserSchema: Schema = new mongoose.Schema<IRegisterUser>({
 UserSchema.methods.comparePassword = async function (
   candidatePassword: string
 ) {
+  console.log("FROM MODEL", candidatePassword);
+
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch;
 };

@@ -16,13 +16,15 @@ router
   .route("/")
   .get(
     authenticationMiddleware,
-    authorizedPermissions(["admin", "manager", "user"]),
+    authorizedPermissions(["admin", "manager", "supervisor"]),
     ALL_USERS
   );
-router.route("/showMe").get(CURRENT_USER);
+router.route("/showMe").get(authenticationMiddleware, CURRENT_USER);
 
-router.route("/updateUser").patch(UPDATE_USER);
-router.route("/updateUserPass").patch(UPDATE_USER_PASSWORD);
+router.route("/updateUser").patch(authenticationMiddleware, UPDATE_USER);
+router
+  .route("/updateUserPass")
+  .patch(authenticationMiddleware, UPDATE_USER_PASSWORD);
 router.route("/:id").get(authenticationMiddleware, SINGLE_USER);
 
 export { router };

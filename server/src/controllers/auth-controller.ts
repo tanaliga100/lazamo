@@ -1,40 +1,62 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError } from "../errors";
-import UnAuthenticatedError from "../errors/unauthenticated-error";
+import { BadRequestError, UnAuthenticatedError } from "../errors";
 import { IRegisterUser } from "../interfaces/user.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
 import { attachCookiesToResponse } from "../utils/attachCookies";
+import { comparePassword } from "../utils/comparePassword";
 import { hashPassword } from "../utils/hashedPassword";
 
 const REGISTER = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body as IRegisterUser;
-    // CHECK EMAIL
+
+    // CHECK EMAIL IF ITS EXISTS
     const emailExists = await User.findOne({ email });
     if (emailExists) {
-      throw new BadRequestError("Email already exists");
-    }
-    // CHECK IF THERE IS A USER
-    const isFirstAccount = (await User.countDocuments({})) === 0;
-    if (isFirstAccount) {
-      req.body.role = "admin";
-    } else {
-      req.body.role = "user";
+      throw new BadRequestError(`THIS EMAIL: ${email} ALREADY EXISTS`);
     }
     // HASHING PASSWORD
     const hashedPassword = await hashPassword(password);
-    req.body.password = hashedPassword;
+    // ASSIGNING THE USER
+    const tempUser = {
+      name,
+      email,
+      password: hashedPassword,
+      role: req.body.role,
+    };
+    const hasAdmin = await User.findOne({ role: "admin" });
+    const managerCount = await User.countDocuments({ role: "manager" });
+    if (!hasAdmin) {
+      tempUser.role = "admin";
+    } else {
+      if (managerCount < 2) {
+        tempUser.role = "manager";
+      } else {
+        tempUser.role = "user";
+      }
+    }
     // CREATING USER
-    const user = await User.create(req.body);
+    const user = await User.create(tempUser);
 
     // ATTACHING COOKIES
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const tokenUser = {
+      name: user.name,
+      userId: user._id,
+      role: user.role,
+      emai: user.email,
+      // password: user.password,
+    };
+    // USING CREATE TOKEN | TRADITIONAL
+    // const token = createToken(tokenUser);
+
+    // USING COOKIES TO ATTACH TOKEN
     attachCookiesToResponse(res, tokenUser);
     res.status(StatusCodes.CREATED).json({
       msg: "USER_REGISTERED",
       data: tokenUser,
+      // token,
     });
   }
 );
@@ -43,28 +65,43 @@ const LOGIN = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
     // CHECK THE REQUEST BODY
     const { email, password } = req.body;
+
     // FIND EXISTING EMAIL, IF NONE THROW ERROR
     if (!email || !password) {
       throw new BadRequestError("Please provide email and password");
     }
-    // GET THE USER
+    // // GET THE USER
     const user = await User.findOne({ email });
+
     if (!user) {
       throw new UnAuthenticatedError(
         "Invalid Credentials : Email doesnt exist"
       );
     }
+
     // COMPARE PASSWORD USING BCRYPT JS IN THE MODEL
-    const isPasswordCorrect = await user.comparePassword(password);
+    const isPasswordCorrect = await comparePassword(password, user.password);
     if (!isPasswordCorrect) {
       throw new UnAuthenticatedError("Password is incorrect");
     }
+
+    // const isPassCorredct = user.comparePassword(password);
+    // if (!isPassCorredct) {
+    //   throw new UnAuthenticatedError("Password is incorrect");
+    // }
+
     // IF PASSWORD MATCH RELEASE THE TOKEN
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const tokenUser = {
+      name: user.name,
+      userId: user._id,
+      email: user.email,
+      role: user.role,
+      // password: user.password,
+    };
     attachCookiesToResponse(res, tokenUser);
     res.status(StatusCodes.OK).json({
       msg: "LOGIN_SUCCESSFUL",
-      data: tokenUser,
+      tokenUser,
     });
   }
 );

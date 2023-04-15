@@ -19,7 +19,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const connectDB_1 = require("./config/connectDB");
 const errorHandler_middleware_1 = require("./middlewares/errorHandler-middleware");
 const notFound_middleware_1 = require("./middlewares/notFound-middleware");
-const authentication_routes_1 = require("./routes/authentication-routes");
+const auth_routes_1 = require("./routes/auth-routes");
 const user_routes_1 = require("./routes/user-routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -32,12 +32,12 @@ app.get("/", (req, res) => {
     res.json({ msg: "Server Alive : Express Ts" });
 });
 app.get("/api/v1", (req, res) => {
-    console.log(req.cookies);
+    // console.log(req.cookies);
     console.log(req.signedCookies);
     res.send("E-Com");
 });
 // APPLICATION ROUTES
-app.use("/api/v1/auth", authentication_routes_1.router);
+app.use("/api/v1/auth", auth_routes_1.router);
 app.use("/api/v1/users", user_routes_1.router);
 // 404_MIDDLEWARE
 app.use(notFound_middleware_1.notFoundMiddleware);
@@ -48,7 +48,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, connectDB_1.connectDB)(process.env.MONGO_URL);
         app.listen(port, () => {
-            console.log(`Server alive: ${port}`);
+            console.log(`DB && SERVER ALIVE: ${port}`);
         });
     }
     catch (error) {

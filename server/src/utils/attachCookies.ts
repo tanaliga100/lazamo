@@ -1,7 +1,10 @@
 import { ITokenPayload } from "../interfaces/user.interfaces";
 import { createToken } from "./createToken";
 
-export const attachCookiesToResponse = (res: any, user: ITokenPayload) => {
+export const attachCookiesToResponse = async (
+  res: any,
+  user: ITokenPayload
+) => {
   const token = createToken(user);
   const oneday = 1000 * 60 * 60 * 24;
 
