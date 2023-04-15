@@ -1,7 +1,9 @@
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
+import fileUpload from "express-fileupload";
 import morgan from "morgan";
+import path from "path";
 import { connectDB } from "./config/connectDB";
 import { errorHandlerMidlleware } from "./middlewares/errorHandler-middleware";
 import { notFoundMiddleware } from "./middlewares/notFound-middleware";
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(express.static(path.resolve("../dist/public")));
+app.use(fileUpload());
 
 // BASE ROUTE
 app.get("/", (req: Request, res: Response) => {

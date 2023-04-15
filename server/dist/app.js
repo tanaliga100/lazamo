@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const morgan_1 = __importDefault(require("morgan"));
 const connectDB_1 = require("./config/connectDB");
 const errorHandler_middleware_1 = require("./middlewares/errorHandler-middleware");
@@ -28,6 +29,8 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, morgan_1.default)("dev"));
+app.use(express_1.default.static("./dist/public"));
+app.use((0, express_fileupload_1.default)());
 // BASE ROUTE
 app.get("/", (req, res) => {
     res.json({ msg: "Server Alive : Express Ts" });
