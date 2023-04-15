@@ -20,6 +20,7 @@ const connectDB_1 = require("./config/connectDB");
 const errorHandler_middleware_1 = require("./middlewares/errorHandler-middleware");
 const notFound_middleware_1 = require("./middlewares/notFound-middleware");
 const auth_routes_1 = require("./routes/auth-routes");
+const product_routes_1 = require("./routes/product-routes");
 const user_routes_1 = require("./routes/user-routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -39,6 +40,7 @@ app.get("/api/v1", (req, res) => {
 // APPLICATION ROUTES
 app.use("/api/v1/auth", auth_routes_1.router);
 app.use("/api/v1/users", user_routes_1.router);
+app.use("/api/v1/products", product_routes_1.router);
 // 404_MIDDLEWARE
 app.use(notFound_middleware_1.notFoundMiddleware);
 // ERROR_MIDDLEWARE

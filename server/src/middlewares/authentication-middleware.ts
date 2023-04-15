@@ -10,10 +10,14 @@ const authenticationMiddleware = (
   next: NextFunction
 ) => {
   //CHECK HEADER
+  // USING COOKIES
   const token = req.signedCookies.token;
   if (!token) {
     throw new UnAuthenticatedError("Authentication Failed");
   }
+  // // USING HEADERS AUTHORIZATION
+  // const authHeader = req.headers.authorization;
+  // const token = authHeader.split(" ")[1]
   try {
     const { name, userId, role } = verifyToken(token) as JwtPayload;
     req.user = { name, userId, role };
@@ -31,5 +35,4 @@ const authorizedPermissions = (roles: string[]) => {
     next();
   };
 };
-
 export { authenticationMiddleware, authorizedPermissions };

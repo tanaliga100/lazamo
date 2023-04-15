@@ -9,10 +9,14 @@ const unauthorized_error_1 = __importDefault(require("../errors/unauthorized-err
 const verifyToken_1 = require("../utils/verifyToken");
 const authenticationMiddleware = (req, res, next) => {
     //CHECK HEADER
+    // USING COOKIES
     const token = req.signedCookies.token;
     if (!token) {
         throw new errors_1.UnAuthenticatedError("Authentication Failed");
     }
+    // // USING HEADERS AUTHORIZATION
+    // const authHeader = req.headers.authorization;
+    // const token = authHeader.split(" ")[1]
     try {
         const { name, userId, role } = (0, verifyToken_1.verifyToken)(token);
         req.user = { name, userId, role };
