@@ -7,11 +7,13 @@ import {
 } from "../errors";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
+import { comparePassword } from "../utils/comparePassword";
+import { hashPassword } from "../utils/hashedPassword";
 
 const ALL_USERS = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const users = await User.find({ role: "user" }).select("-password");
+    const users = await User.find({ role: "manager" });
     if (!users) {
       throw new BadRequestError("No Users found");
     }
@@ -23,7 +25,7 @@ const SINGLE_USER = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
 
-    const user = await User.findOne({ _id: req.params.id }).select("-password");
+    const user = await User.findOne({ _id: req.params.id });
     if (!user) {
       throw new NotFoundError(`No user with id ${req.params.id}`);
     }
@@ -46,9 +48,6 @@ const UPDATE_USER = asyncMiddleware(
 
 const UPDATE_USER_PASSWORD = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
-    console.log(req.body);
-    console.log(req.user);
-
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
       throw new BadRequestError("Please provide both values");
@@ -56,12 +55,15 @@ const UPDATE_USER_PASSWORD = asyncMiddleware(
     const user = await User.findOne({ _id: req.user.userId });
     if (!user) {
     }
-    const isPasswordCorrect = await user!.comparePassword(oldPassword);
+    const isPasswordCorrect = await comparePassword(
+      oldPassword,
+      user?.password
+    );
     if (!isPasswordCorrect) {
       throw new UnAuthenticatedError("Invalid password");
     }
-    user!.password = newPassword;
-
+    const hashedPassword = await hashPassword(newPassword);
+    user!.password = hashedPassword;
     await user!.save();
 
     res.status(200).json({ msg: "USER_PASSWORD_UPDATED" });

@@ -31,7 +31,7 @@ const REGISTER = asyncMiddleware(
     if (!hasAdmin) {
       tempUser.role = "admin";
     } else {
-      if (managerCount < 2) {
+      if (managerCount < 3) {
         tempUser.role = "manager";
       } else {
         tempUser.role = "user";
@@ -39,7 +39,6 @@ const REGISTER = asyncMiddleware(
     }
     // CREATING USER
     const user = await User.create(tempUser);
-
     // ATTACHING COOKIES
     const tokenUser = {
       name: user.name,

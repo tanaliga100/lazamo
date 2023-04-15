@@ -42,7 +42,7 @@ const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __a
         tempUser.role = "admin";
     }
     else {
-        if (managerCount < 2) {
+        if (managerCount < 3) {
             tempUser.role = "manager";
         }
         else {

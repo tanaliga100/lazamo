@@ -17,9 +17,11 @@ const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const async_middleware_1 = require("../middlewares/async-middleware");
 const user_model_1 = __importDefault(require("../models/user-model"));
+const comparePassword_1 = require("../utils/comparePassword");
+const hashedPassword_1 = require("../utils/hashedPassword");
 const ALL_USERS = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const users = yield user_model_1.default.find({ role: "user" }).select("-password");
+    const users = yield user_model_1.default.find({ role: "manager" });
     if (!users) {
         throw new errors_1.BadRequestError("No Users found");
     }
@@ -28,7 +30,7 @@ const ALL_USERS = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __
 exports.ALL_USERS = ALL_USERS;
 const SINGLE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const user = yield user_model_1.default.findOne({ _id: req.params.id }).select("-password");
+    const user = yield user_model_1.default.findOne({ _id: req.params.id });
     if (!user) {
         throw new errors_1.NotFoundError(`No user with id ${req.params.id}`);
     }
@@ -45,8 +47,6 @@ const UPDATE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => 
 }));
 exports.UPDATE_USER = UPDATE_USER;
 const UPDATE_USER_PASSWORD = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    console.log(req.user);
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
         throw new errors_1.BadRequestError("Please provide both values");
@@ -54,11 +54,12 @@ const UPDATE_USER_PASSWORD = (0, async_middleware_1.asyncMiddleware)((req, res, 
     const user = yield user_model_1.default.findOne({ _id: req.user.userId });
     if (!user) {
     }
-    const isPasswordCorrect = yield user.comparePassword(oldPassword);
+    const isPasswordCorrect = yield (0, comparePassword_1.comparePassword)(oldPassword, user === null || user === void 0 ? void 0 : user.password);
     if (!isPasswordCorrect) {
         throw new errors_1.UnAuthenticatedError("Invalid password");
     }
-    user.password = newPassword;
+    const hashedPassword = yield (0, hashedPassword_1.hashPassword)(newPassword);
+    user.password = hashedPassword;
     yield user.save();
     res.status(200).json({ msg: "USER_PASSWORD_UPDATED" });
 }));
