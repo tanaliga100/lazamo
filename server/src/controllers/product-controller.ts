@@ -1,5 +1,6 @@
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import { BadRequestError } from "../errors";
 import { IProducts } from "../interfaces/product.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import Product from "../models/product-model";
@@ -30,24 +31,55 @@ export const CREATE_PRODUCT = asyncMiddleware(
 
 export const ALL_PRODUCTS = asyncMiddleware(
   async (req: Request, res: any, next: NextFunction) => {
-    res.status(StatusCodes.OK).json({ msg: " ALL PRODUCTS" });
+    const products = await Product.find({});
+    const productsCount = (await Product.countDocuments({})) === 0;
+    if (productsCount) {
+      throw new BadRequestError(
+        "No Products are on the database... Please create one"
+      );
+    }
+
+    res
+      .status(StatusCodes.OK)
+      .json({ msg: " ALL PRODUCTS", length: products.length, products });
   }
 );
 
 export const SINGLE_PRODUCT = asyncMiddleware(
-  async (req: Request, res: any, next: NextFunction) => {
-    res.status(StatusCodes.OK).json({ msg: " SINGLE PRODUCT" });
+  async (req: any, res: any, next: NextFunction) => {
+    const { id: productId } = req.params;
+    const product = await Product.findOne({ _id: productId });
+    if (!product) {
+      throw new BadRequestError(`No product with such id : ${productId}`);
+    }
+    res.status(StatusCodes.OK).json({ msg: " SINGLE PRODUCT", product });
   }
 );
 
 export const UPDATE_PRODUCT = asyncMiddleware(
-  async (req: Request, res: any, next: NextFunction) => {
-    res.status(StatusCodes.OK).json({ msg: " UPDATED" });
+  async (req: any, res: any, next: NextFunction) => {
+    const { id: productId } = req.params;
+    const product = await Product.findOneAndUpdate(
+      { _id: productId },
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!product) {
+      throw new BadRequestError(`No product with such id : ${productId}`);
+    }
+    res.status(StatusCodes.OK).json({ msg: " UPDATED", product });
   }
 );
 export const DELETE_PRODUCT = asyncMiddleware(
-  async (req: Request, res: any, next: NextFunction) => {
-    res.status(StatusCodes.OK).json({ msg: " DELETE PRODUCT" });
+  async (req: any, res: any, next: NextFunction) => {
+    const { id: productId } = req.params;
+    const product = await Product.findOneAndDelete({ _id: productId });
+    if (!product) {
+      throw new BadRequestError(`No product with such id : ${productId}`);
+    }
+
+    res.status(StatusCodes.OK).json({ msg: "PRODUCT DELETED" });
   }
 );
 
