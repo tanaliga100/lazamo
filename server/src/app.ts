@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import fileUpload from "express-fileupload";
 import morgan from "morgan";
-import path from "path";
 import { connectDB } from "./config/connectDB";
 import { errorHandlerMidlleware } from "./middlewares/errorHandler-middleware";
 import { notFoundMiddleware } from "./middlewares/notFound-middleware";
@@ -14,12 +13,12 @@ import { router as UserRoute } from "./routes/user-routes";
 dotenv.config();
 
 const app: Express = express();
+app.use(express.static("public"));
+app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(express.static(path.resolve("../dist/public")));
-app.use(fileUpload());
 
 // BASE ROUTE
 app.get("/", (req: Request, res: Response) => {
@@ -28,7 +27,6 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/api/v1", (req: Request, res: Response) => {
   // console.log(req.cookies);
   console.log(req.signedCookies);
-
   res.send("E-Com");
 });
 // APPLICATION ROUTES
@@ -54,3 +52,19 @@ const start = async () => {
 };
 
 start();
+
+// const fse = require("fs-extra");
+
+// const publicPath = path.resolve(__dirname, "src", "public");
+// const distPath = path.resolve(__dirname, "dist", "public");
+
+// async function copyStaticAssets() {
+//   try {
+//     await fse.copy(publicPath, distPath);
+//     console.log("Static assets copied successfully");
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
+// copyStaticAssets();

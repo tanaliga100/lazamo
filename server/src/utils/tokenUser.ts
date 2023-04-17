@@ -3,6 +3,6 @@ export const createTokenUser = async (user: any) => {
     name: user.name,
     userId: user._id,
     role: user.role,
-    emai: user.email,
+    email: user.email,
   };
 };

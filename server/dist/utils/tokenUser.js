@@ -15,7 +15,7 @@ const createTokenUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
         name: user.name,
         userId: user._id,
         role: user.role,
-        emai: user.email,
+        email: user.email,
     };
 });
 exports.createTokenUser = createTokenUser;

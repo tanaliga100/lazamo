@@ -25,12 +25,12 @@ const product_routes_1 = require("./routes/product-routes");
 const user_routes_1 = require("./routes/user-routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+app.use(express_1.default.static("./public"));
+app.use((0, express_fileupload_1.default)());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, morgan_1.default)("dev"));
-app.use(express_1.default.static("./dist/public"));
-app.use((0, express_fileupload_1.default)());
 // BASE ROUTE
 app.get("/", (req, res) => {
     res.json({ msg: "Server Alive : Express Ts" });
@@ -61,3 +61,15 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 start();
+// const fse = require("fs-extra");
+// const publicPath = path.resolve(__dirname, "src", "public");
+// const distPath = path.resolve(__dirname, "dist", "public");
+// async function copyStaticAssets() {
+//   try {
+//     await fse.copy(publicPath, distPath);
+//     console.log("Static assets copied successfully");
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+// copyStaticAssets();

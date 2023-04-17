@@ -1,5 +1,6 @@
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import path from "path";
 import { BadRequestError } from "../errors";
 import { IProducts } from "../interfaces/product.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
@@ -84,7 +85,32 @@ export const DELETE_PRODUCT = asyncMiddleware(
 );
 
 export const UPLOAD_IMAGE = asyncMiddleware(
-  async (req: Request, res: any, next: NextFunction) => {
+  async (req: any, res: any, next: NextFunction) => {
+    const { image } = req.files;
+    console.log(req.files);
+
+    // CHECK THE REQUEST BODY
+    if (!req.files) {
+      throw new BadRequestError("No File Uploaded");
+    }
+    // CHECK THE MIMETYPE
+    const validImage = image.mimetype.startsWith("image");
+    if (!validImage) {
+      throw new BadRequestError("Please upload Image");
+    }
+    const maxSize = 10000000;
+    if (image.size > maxSize) {
+      throw new BadRequestError("Your file is too large");
+    }
+    // MOVE THE IMAGE TO PUBLIC FOLDER  AND SENT BACK TO CLIENT WITH PATH
+    const imagePath = path.resolve(
+      __dirname,
+      "dist/public/uploads" + image.name
+    );
+    console.log({ imagePath });
+
+    await image.mv(imagePath);
+
     res.status(StatusCodes.OK).json({ msg: " UPLOADED" });
   }
 );

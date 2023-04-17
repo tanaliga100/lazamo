@@ -6,7 +6,7 @@ export const errorHandlerMidlleware = (
   err: any,
   req: Request,
   res: Response,
-  next: NextFunction
+  next?: NextFunction
 ) => {
   console.log(err instanceof CustomError ? "CUSTOM_ERROR" : "FALLBACK_ERROR");
 
@@ -14,6 +14,7 @@ export const errorHandlerMidlleware = (
   let customError = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     msg: err.message || "Something went wrong",
+    errors: err.errors || [],
   };
   // BELOW ARE THE DIFFERENT KINDS OF ERROR THROWN BY MONGOOSE || CUSTOMIZED
   // Note: Validation Error Handler
@@ -46,6 +47,6 @@ export const errorHandlerMidlleware = (
   // });
 
   return res.status(customError.statusCode).json({
-    ERROR: customError.msg,
+    ERROR: customError.msg || customError.errors,
   });
 };

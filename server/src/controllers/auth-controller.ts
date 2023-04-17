@@ -38,9 +38,13 @@ const REGISTER = asyncMiddleware(
         tempUser.role = "user";
       }
     }
+    if (managerCount > 3) {
+      throw new BadRequestError("Manager count must be less than 3");
+    }
     // CREATING USER
     const user = await User.create(tempUser);
     // ATTACHING COOKIES
+
     const tokenUser = await createTokenUser(user);
     // USING CREATE TOKEN | TRADITIONAL
     // const token = createToken(tokenUser);

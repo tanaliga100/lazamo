@@ -50,6 +50,9 @@ const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __a
             tempUser.role = "user";
         }
     }
+    if (managerCount > 3) {
+        throw new errors_1.BadRequestError("Manager count must be less than 3");
+    }
     // CREATING USER
     const user = yield user_model_1.default.create(tempUser);
     // ATTACHING COOKIES

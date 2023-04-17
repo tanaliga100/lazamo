@@ -15,3 +15,11 @@ export interface ITokenPayload {
   userId: any;
   role: string;
 }
+
+export type Roles<Partials = never> = Partial<["admin", "manager", "user"]>;
+
+export interface BadRequestErrorObject {
+  errors: {
+    [key: string]: string[];
+  };
+}

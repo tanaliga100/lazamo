@@ -2,29 +2,43 @@ import express from "express";
 import {
   ALL_USERS,
   CURRENT_USER,
+  DELETE_USER,
   SINGLE_USER,
+  UPDATE_ROLE,
   UPDATE_USER,
   UPDATE_USER_PASSWORD,
 } from "../controllers/user-controller";
-import {
-  authenticationMiddleware,
-  authorizedPermissions,
-} from "../middlewares/authentication-middleware";
+import { authenticationMiddleware } from "../middlewares/authentication-middleware";
+import { authorizedPermissions } from "../utils/authorizedPermissions";
 const router = express.Router();
 
 router
   .route("/")
   .get(
     authenticationMiddleware,
-    authorizedPermissions(["admin", "manager", "supervisor"]),
+    authorizedPermissions(["admin", "manager"]),
     ALL_USERS
   );
-router.route("/showMe").get(authenticationMiddleware, CURRENT_USER);
+router.route("/currentUser").get(authenticationMiddleware, CURRENT_USER);
 
 router.route("/updateUser").patch(authenticationMiddleware, UPDATE_USER);
 router
   .route("/updateUserPass")
   .patch(authenticationMiddleware, UPDATE_USER_PASSWORD);
-router.route("/:id").get(authenticationMiddleware, SINGLE_USER);
+router
+  .route("/updateRole/:id")
+  .patch(
+    authenticationMiddleware,
+    authorizedPermissions(["admin"]),
+    UPDATE_ROLE
+  );
+router
+  .route("/:id")
+  .get(authenticationMiddleware, SINGLE_USER)
+  .delete(
+    authenticationMiddleware,
+    authorizedPermissions(["admin"]),
+    DELETE_USER
+  );
 
 export { router };

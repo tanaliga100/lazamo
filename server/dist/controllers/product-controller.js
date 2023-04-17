@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UPLOAD_IMAGE = exports.DELETE_PRODUCT = exports.UPDATE_PRODUCT = exports.SINGLE_PRODUCT = exports.ALL_PRODUCTS = exports.CREATE_PRODUCT = void 0;
 const http_status_codes_1 = require("http-status-codes");
+const path_1 = __importDefault(require("path"));
 const errors_1 = require("../errors");
 const async_middleware_1 = require("../middlewares/async-middleware");
 const product_model_1 = __importDefault(require("../models/product-model"));
@@ -60,6 +61,25 @@ exports.DELETE_PRODUCT = (0, async_middleware_1.asyncMiddleware)((req, res, next
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "PRODUCT DELETED" });
 }));
 exports.UPLOAD_IMAGE = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { image } = req.files;
+    console.log(req.files);
+    // CHECK THE REQUEST BODY
+    if (!req.files) {
+        throw new errors_1.BadRequestError("No File Uploaded");
+    }
+    // CHECK THE MIMETYPE
+    const validImage = image.mimetype.startsWith("image");
+    if (!validImage) {
+        throw new errors_1.BadRequestError("Please upload Image");
+    }
+    const maxSize = 10000000;
+    if (image.size > maxSize) {
+        throw new errors_1.BadRequestError("Your file is too large");
+    }
+    // MOVE THE IMAGE TO PUBLIC FOLDER  AND SENT BACK TO CLIENT WITH PATH
+    const imagePath = path_1.default.resolve(__dirname, "dist/public/uploads" + image.name);
+    console.log({ imagePath });
+    yield image.mv(imagePath);
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: " UPLOADED" });
 }));
 // export {

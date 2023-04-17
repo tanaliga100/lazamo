@@ -12,6 +12,7 @@ const errorHandlerMidlleware = (err, req, res, next) => {
     let customError = {
         statusCode: err.statusCode || http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR,
         msg: err.message || "Something went wrong",
+        errors: err.errors || [],
     };
     // BELOW ARE THE DIFFERENT KINDS OF ERROR THROWN BY MONGOOSE || CUSTOMIZED
     // Note: Validation Error Handler
@@ -40,7 +41,7 @@ const errorHandlerMidlleware = (err, req, res, next) => {
     //   err,
     // });
     return res.status(customError.statusCode).json({
-        ERROR: customError.msg,
+        ERROR: customError.msg || customError.errors,
     });
 };
 exports.errorHandlerMidlleware = errorHandlerMidlleware;

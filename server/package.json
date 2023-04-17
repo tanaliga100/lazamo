@@ -8,12 +8,13 @@
     "prestart": "npm run build",
     "start": "node ./dist/app.js",
     "preserve": "npm run build",
-    "serve": "npx tsc -w & nodemon ./dist/app.js"
+    "serve": "npx tsc -w ts-node-dev & nodemon ./dist/app.js"
   },
   "keywords": [],
   "author": "jordan100",
   "license": "ISC",
   "dependencies": {
+    "@types/multer": "^1.4.7",
     "@types/validator": "^13.7.15",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
@@ -25,6 +26,7 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
+    "multer": "^1.4.5-lts.1",
     "validator": "^13.9.0"
   },
   "devDependencies": {
