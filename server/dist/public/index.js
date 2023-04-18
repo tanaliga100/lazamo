@@ -13,9 +13,6 @@ form.addEventListener("submit", async function (e) {
   try {
     const response = await fetch("/api/v1/products/uploadImage", {
       method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: formData,
     });
     const data = await response.json();

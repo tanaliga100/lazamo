@@ -1,10 +1,9 @@
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import multer from "multer";
-import path from "path";
 import { BadRequestError } from "../errors";
 import { IProducts } from "../interfaces/product.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
+import { upload } from "../middlewares/fileUpload-middleware";
 import Product from "../models/product-model";
 
 // const storage = multer.diskStorage({
@@ -96,21 +95,10 @@ export const DELETE_PRODUCT = asyncMiddleware(
   }
 );
 
-const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    const uploadDir = path.join(__dirname, "..", "public", "uploads");
-    callback(null, uploadDir);
-  },
-  // Sets file(s) to be saved in uploads folder in same directory
-  filename: function (req, file, callback) {
-    callback(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
 export const UPLOAD_IMAGE = asyncMiddleware(
   async (req: any, res: any, next: NextFunction) => {
+    console.log(req.files);
+    console.log("REQUESTED");
     upload.array("files")(req, res, function (err) {
       if (err) {
         return next(err);
@@ -120,8 +108,6 @@ export const UPLOAD_IMAGE = asyncMiddleware(
       console.log("REQUESTED");
       res.status(StatusCodes.OK).json({ msg: " UPLOADEDDD", data: req.files });
     });
-    console.log(req.files);
-    console.log("REQUESTED");
     // res.status(StatusCodes.OK).json({ msg: " UPLOADEDDD", data: req.files });
   }
 );
@@ -134,25 +120,3 @@ export const UPLOAD_IMAGE = asyncMiddleware(
 //  DELETE_PRODUCT,
 //  UPLOAD_IMAGE
 // }
-
-// const form = formidable({ multiples: true });
-// form.parse(req, (err: any, fields: any, files: any) => {
-//   return res.json({ fields, files });
-// });
-
-// const { image } = req.files;
-// console.log(req.files);
-
-// // CHECK THE REQUEST BODY
-// if (!req.files) {
-//   throw new BadRequestError("No File Uploaded");
-// }
-
-// upload.array("File")(req, res, (err) => {
-//   if (err) {
-//     console.log(err);
-//     return res.status(500).send(err);
-//   }
-//   console.log(req.file); // Contains information about the uploaded file
-//   res.send("File uploaded successfully");
-// });
