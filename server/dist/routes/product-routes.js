@@ -12,9 +12,7 @@ exports.router = router;
 router.route("/").get(product_controller_1.ALL_PRODUCTS).post(authentication_middleware_1.authenticationMiddleware, 
 // authorizedPermissions(["admin", "manager"]),
 product_controller_1.CREATE_PRODUCT);
-router.route("/uploadImage").post(authentication_middleware_1.authenticationMiddleware, 
-// authorizedPermissions(["admin", "manager"]),
-product_controller_1.UPLOAD_IMAGE);
+router.route("/uploadImage").post(authentication_middleware_1.authenticationMiddleware, product_controller_1.UPLOAD_IMAGE);
 router
     .route("/:id")
     .get(product_controller_1.SINGLE_PRODUCT)

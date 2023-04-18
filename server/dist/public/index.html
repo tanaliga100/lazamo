@@ -7,6 +7,30 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>PUBLIC</h1>
+    <h1>AUTH</h1>
+    <form id="form1">
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="AUTO FILLED"
+        disabled
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="AUTO FILLED"
+        disabled
+      />
+      <button type="submit" id="login">Submit</button>
+    </form>
+    <h1>UPLOAD</h1>
+    <form id="form2">
+      <input type="text" name="file-name" id="name" />
+      <input type="file" name="file" id="files" multiple />
+      <button type="submit" id="btnSubmit">Submit</button>
+    </form>
+    <script src="index.js"></script>
   </body>
 </html>

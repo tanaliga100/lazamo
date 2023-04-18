@@ -1,8 +1,8 @@
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import fileUpload from "express-fileupload";
 import morgan from "morgan";
+import path from "path";
 import { connectDB } from "./config/connectDB";
 import { errorHandlerMidlleware } from "./middlewares/errorHandler-middleware";
 import { notFoundMiddleware } from "./middlewares/notFound-middleware";
@@ -13,11 +13,12 @@ import { router as UserRoute } from "./routes/user-routes";
 dotenv.config();
 
 const app: Express = express();
-app.use(express.static("public"));
-app.use(fileUpload());
 app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.urlencoded({ extended: true }));
+// app.use(fileUpload());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan("dev"));
 
 // BASE ROUTE
@@ -33,6 +34,9 @@ app.get("/api/v1", (req: Request, res: Response) => {
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/users", UserRoute);
 app.use("/api/v1/products", ProductRoute);
+// app.use("*", (req: any, res: any) => {
+//   res.sendFile(express.static(path.join(__dirname, "dist/public")));
+// });
 
 // 404_MIDDLEWARE
 app.use(notFoundMiddleware);

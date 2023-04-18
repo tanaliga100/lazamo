@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
-const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const morgan_1 = __importDefault(require("morgan"));
+const path_1 = __importDefault(require("path"));
 const connectDB_1 = require("./config/connectDB");
 const errorHandler_middleware_1 = require("./middlewares/errorHandler-middleware");
 const notFound_middleware_1 = require("./middlewares/notFound-middleware");
@@ -25,11 +25,11 @@ const product_routes_1 = require("./routes/product-routes");
 const user_routes_1 = require("./routes/user-routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use(express_1.default.static("./public"));
-app.use((0, express_fileupload_1.default)());
 app.use(express_1.default.json());
-app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.urlencoded({ extended: true }));
+// app.use(fileUpload());
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
+app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use((0, morgan_1.default)("dev"));
 // BASE ROUTE
 app.get("/", (req, res) => {
@@ -44,6 +44,9 @@ app.get("/api/v1", (req, res) => {
 app.use("/api/v1/auth", auth_routes_1.router);
 app.use("/api/v1/users", user_routes_1.router);
 app.use("/api/v1/products", product_routes_1.router);
+// app.use("*", (req: any, res: any) => {
+//   res.sendFile(express.static(path.join(__dirname, "dist/public")));
+// });
 // 404_MIDDLEWARE
 app.use(notFound_middleware_1.notFoundMiddleware);
 // ERROR_MIDDLEWARE

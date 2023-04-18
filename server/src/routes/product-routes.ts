@@ -16,11 +16,7 @@ router.route("/").get(ALL_PRODUCTS).post(
   // authorizedPermissions(["admin", "manager"]),
   CREATE_PRODUCT
 );
-router.route("/uploadImage").post(
-  authenticationMiddleware,
-  // authorizedPermissions(["admin", "manager"]),
-  UPLOAD_IMAGE
-);
+router.route("/uploadImage").post(authenticationMiddleware, UPLOAD_IMAGE);
 router
   .route("/:id")
   .get(SINGLE_PRODUCT)
