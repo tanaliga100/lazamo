@@ -6,16 +6,6 @@ import { asyncMiddleware } from "../middlewares/async-middleware";
 import { upload } from "../middlewares/fileUpload-middleware";
 import Product from "../models/product-model";
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, callback) {
-//     callback(null, __dirname + "/uploads");
-//   },
-//   // Sets file(s) to be saved in uploads folder in same directory
-//   filename: function (req, file, callback) {
-//     callback(null, file.originalname);
-//   },
-// });
-
 // const upload = multer({ storage: storage });
 export const CREATE_PRODUCT = asyncMiddleware(
   async (req: any, res: any, next: NextFunction) => {
@@ -40,7 +30,6 @@ export const CREATE_PRODUCT = asyncMiddleware(
     res.status(StatusCodes.CREATED).json({ msg: "PRODUCT CREATED", product });
   }
 );
-
 export const ALL_PRODUCTS = asyncMiddleware(
   async (req: Request, res: any, next: NextFunction) => {
     const products = await Product.find({});
@@ -50,13 +39,11 @@ export const ALL_PRODUCTS = asyncMiddleware(
         "No Products are on the database... Please create one"
       );
     }
-
     res
       .status(StatusCodes.OK)
       .json({ msg: " ALL PRODUCTS", length: products.length, products });
   }
 );
-
 export const SINGLE_PRODUCT = asyncMiddleware(
   async (req: any, res: any, next: NextFunction) => {
     const { id: productId } = req.params;
@@ -67,7 +54,6 @@ export const SINGLE_PRODUCT = asyncMiddleware(
     res.status(StatusCodes.OK).json({ msg: " SINGLE PRODUCT", product });
   }
 );
-
 export const UPDATE_PRODUCT = asyncMiddleware(
   async (req: any, res: any, next: NextFunction) => {
     const { id: productId } = req.params;
@@ -97,21 +83,24 @@ export const DELETE_PRODUCT = asyncMiddleware(
 
 export const UPLOAD_IMAGE = asyncMiddleware(
   async (req: any, res: any, next: NextFunction) => {
-    console.log(req.files);
-    console.log("REQUESTED");
     upload.array("files")(req, res, function (err) {
-      if (err) {
-        return next(err);
-      }
-
       console.log(req.files);
       console.log("REQUESTED");
-      res.status(StatusCodes.OK).json({ msg: " UPLOADEDDD", data: req.files });
+      if (err) {
+        return next(new BadRequestError("No File Uploaded"));
+      }
+      const filePaths = req.files.map((file: any) => file.path);
+      const fileName = req.files.map((file: any) => file.originalname);
+      console.log(fileName);
+
+      res.status(StatusCodes.OK).json({
+        msg: " FILE UPLOADED SUCCESSFULLY",
+        src: filePaths,
+      });
     });
     // res.status(StatusCodes.OK).json({ msg: " UPLOADEDDD", data: req.files });
   }
 );
-
 // export {
 //  CREATE_PRODUCT,
 //  ALL_PRODUCTS,

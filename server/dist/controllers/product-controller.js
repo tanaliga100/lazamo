@@ -18,15 +18,6 @@ const errors_1 = require("../errors");
 const async_middleware_1 = require("../middlewares/async-middleware");
 const fileUpload_middleware_1 = require("../middlewares/fileUpload-middleware");
 const product_model_1 = __importDefault(require("../models/product-model"));
-// const storage = multer.diskStorage({
-//   destination: function (req, file, callback) {
-//     callback(null, __dirname + "/uploads");
-//   },
-//   // Sets file(s) to be saved in uploads folder in same directory
-//   filename: function (req, file, callback) {
-//     callback(null, file.originalname);
-//   },
-// });
 // const upload = multer({ storage: storage });
 exports.CREATE_PRODUCT = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, averageRating, color, category, featured, freeShipping, description, company, image, price, inventory, user, } = req.body;
@@ -71,15 +62,19 @@ exports.DELETE_PRODUCT = (0, async_middleware_1.asyncMiddleware)((req, res, next
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "PRODUCT DELETED" });
 }));
 exports.UPLOAD_IMAGE = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.files);
-    console.log("REQUESTED");
     fileUpload_middleware_1.upload.array("files")(req, res, function (err) {
-        if (err) {
-            return next(err);
-        }
         console.log(req.files);
         console.log("REQUESTED");
-        res.status(http_status_codes_1.StatusCodes.OK).json({ msg: " UPLOADEDDD", data: req.files });
+        if (err) {
+            return next(new errors_1.BadRequestError("No File Uploaded"));
+        }
+        const filePaths = req.files.map((file) => file.path);
+        const fileName = req.files.map((file) => file.originalname);
+        console.log(fileName);
+        res.status(http_status_codes_1.StatusCodes.OK).json({
+            msg: " FILE UPLOADED SUCCESSFULLY",
+            src: filePaths,
+        });
     });
     // res.status(StatusCodes.OK).json({ msg: " UPLOADEDDD", data: req.files });
 }));
