@@ -1,27 +1,16 @@
-import styled from "styled-components";
+import Contact from "../components/views/Contact";
+import Featured from "../components/views/Featured";
+import MainView from "../components/views/Main";
+import Services from "../components/views/Services";
 
 const HomePage = () => {
   return (
-    <MainContainer>
-      <section className="left-view"></section>
-      <section className="right-view"></section>
-    </MainContainer>
+    <>
+      <MainView />
+      <Featured />
+      <Services />
+      <Contact />
+    </>
   );
 };
 export default HomePage;
-
-const MainContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: tan;
-
-  .left-view {
-    background-color: green;
-  }
-  .right-view {
-    background-color: blue;
-  }
-`;

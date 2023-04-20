@@ -11,7 +11,7 @@ export default HeaderNav;
 
 const HeadNav = styled.div`
   display: flex;
-  height: 100px;
-  background-color: #d2b48c57;
+  height: 10rem;
+  background-color: #d2b48cb1;
   color: white;
 `;

@@ -39,6 +39,9 @@ const Navbar = () => {
 export default Navbar;
 
 const NavContainer = styled.nav`
+  position: sticky;
+  z-index: 999;
+  top: 0;
   height: 5rem;
   width: auto;
   display: flex;
