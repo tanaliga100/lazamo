@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { IServices, services } from "../../utils/constants";
-
 const Services = () => {
   return (
     <Container>
-      <h1>Services</h1>
       <header className="header">
-        <h3>custom furniture built only for you</h3>
+        <h3>
+          {" "}
+          <span>custom furniture</span> built only for you
+        </h3>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
           pariatur? Amet, minima dolorum quibusdam voluptatibus fugit, eos quae
@@ -34,21 +35,26 @@ const Container = styled.section`
   background-color: #d2b48c1a;
   color: white;
   text-align: center;
+  /* background-image: url("../../../public/custom.jpeg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover; */
 
-  h1 {
-    padding: 1rem 0;
-  }
   h3 {
-    font-size: 3rem;
-    line-height: 4rem;
-    font-weight: 100;
+    font-size: 2rem;
+    word-spacing: 1rem;
+    color: #b4956d;
+    font-weight: 800;
+    background: transparent;
   }
   .header {
-    display: grid;
+    display: flex;
     padding-top: 1rem;
+    padding-left: 3rem;
     gap: 1rem;
-    grid-template-rows: (2fr, 1fr);
+    grid-template-columns: auto(2fr, 1fr);
     justify-content: center;
+    text-align: left;
     align-items: center;
 
     & p {

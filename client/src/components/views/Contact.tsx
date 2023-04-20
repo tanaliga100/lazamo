@@ -4,7 +4,9 @@ const Contact = () => {
   return (
     <Container>
       <header className="header">
-        <h3>Join our newsletter and get 20% off</h3>
+        <h3>
+          <span>Join</span> our newsletter and get <span>20%</span> off
+        </h3>
       </header>
       <section className="content">
         <p>
@@ -36,7 +38,10 @@ const Container = styled.section`
     line-height: 3rem;
     text-align: left;
     padding-left: 3rem;
-    color: #de9e49;
+    font-size: 2.5rem;
+    line-height: 4rem;
+    color: #b4956d;
+    font-weight: 900;
   }
   .header {
     display: grid;
