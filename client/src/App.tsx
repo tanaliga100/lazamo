@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Footer from "./components/shared/Footer";
+import Navbar from "./components/shared/Navbar";
 import {
   AboutPage,
   CartPage,
@@ -36,5 +36,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

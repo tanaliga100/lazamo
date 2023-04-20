@@ -8,3 +8,7 @@
   color: #555;
   font-family: "Poppins", sans-serif;
 }
+html,
+body {
+  box-sizing: border-box;
+}

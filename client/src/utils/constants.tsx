@@ -38,7 +38,24 @@ export const services: IServices[] = [
   {
     id: 3,
     icon: <GiStabbedNote size={50} />,
-    title: "history",
+    title: "goals",
     text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, ea. Perferendis corrupti reiciendis nesciunt rerum velit autem unde numquam nisi",
   },
+];
+
+export const Category = [
+  { id: 1, name: "ALl" },
+  { id: 2, name: "Office" },
+  { id: 3, name: "Living Room" },
+  { id: 4, name: "Kitchen" },
+  { id: 5, name: "Bedroom" },
+  { id: 6, name: "Dining" },
+  { id: 7, name: "Kids" },
+];
+export const Company = [
+  { id: 1, name: "ALL" },
+  { id: 2, name: "marcos" },
+  { id: 3, name: "liddy" },
+  { id: 4, name: "ikea" },
+  { id: 5, name: "caressa" },
 ];

@@ -18,8 +18,8 @@ const Services = () => {
         {services.map((each: IServices) => (
           <div className="indi" key={each.id}>
             <span>{each.icon}</span>
-            <p>{each.title}</p>
             <p>{each.text}</p>
+            <h1>{each.title}</h1>
           </div>
         ))}
       </section>
@@ -30,7 +30,7 @@ const Services = () => {
 export default Services;
 
 const Container = styled.section`
-  height: 80vh;
+  height: 100vh;
   background-color: #d2b48c1a;
   color: white;
   text-align: center;
@@ -72,6 +72,14 @@ const Container = styled.section`
 
     & title {
       margin: 3rem;
+    }
+    & p {
+      font-size: 1.3rem;
+      font-weight: 200;
+    }
+    & h1 {
+      font-size: 2rem;
+      font-weight: 900;
     }
   }
   span {

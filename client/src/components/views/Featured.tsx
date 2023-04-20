@@ -4,25 +4,24 @@ const Featured = () => {
   return (
     <Container>
       <h1>Featured Products</h1>
-      <section className="content"></section>
+      <section className="content">Ongoing.....</section>
     </Container>
   );
 };
-
 export default Featured;
 
 const Container = styled.section`
   height: 80vh;
-  background-color: #d2b48c34;
-  color: white;
-  text-align: center;
+  text-align: left;
+  background-color: #d2b48c29;
 
   h1 {
-    padding: 1rem 0;
+    padding-left: 3rem;
+    font-size: 2rem;
+    font-weight: 700;
   }
-
   .content {
-    padding: 3rem;
+    padding: 0 3rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;

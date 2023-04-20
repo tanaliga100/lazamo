@@ -1,10 +1,11 @@
-import HeaderNav from "../components/HeaderNav";
+import HeaderNav from "../components/shared/HeaderNav";
+import StoryView from "../components/views/Story";
 
 const AboutPage = () => {
   return (
     <div>
-      <HeaderNav />
-      AboutPage
+      <HeaderNav title="About" />
+      <StoryView />
     </div>
   );
 };

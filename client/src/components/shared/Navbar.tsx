@@ -1,8 +1,8 @@
 import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../public/logo.png";
-import { links } from "../utils/constants";
+import logo from "../../../public/logo.png";
+import { links } from "../../utils/constants";
 
 const Navbar = () => {
   return (
@@ -26,10 +26,14 @@ const Navbar = () => {
           })}
         </ul>
         <div className="nav-right">
-          <h3>Cart</h3>
-          <AiOutlineShoppingCart size="25" />
-          <h3>Login</h3>
-          <AiOutlineLogin size="25" />
+          <Link to="/checkout" style={{ textDecoration: "none" }}>
+            <h3>Cart</h3>
+            <AiOutlineShoppingCart size="25" />
+          </Link>
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <h3>Login</h3>
+            <AiOutlineLogin size="25" />
+          </Link>
         </div>
       </div>
     </NavContainer>
@@ -51,13 +55,17 @@ const NavContainer = styled.nav`
   .nav-center {
     width: 80vw;
     margin: 0 auto;
-    max-width: var(--max-width);
   }
   .nav-right {
     width: 20vw;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+
+    * {
+      display: flex;
+      gap: 1rem;
+    }
   }
   .nav-header {
     display: flex;
@@ -72,7 +80,6 @@ const NavContainer = styled.nav`
   .nav-toggle {
     background: transparent;
     border: transparent;
-    color: var(--clr-primary-5);
     cursor: pointer;
     svg {
       font-size: 2rem;
@@ -81,6 +88,14 @@ const NavContainer = styled.nav`
   .nav-links {
     list-style: none;
     text-decoration: none;
+    a {
+      font-size: 1rem;
+      text-transform: capitalize;
+      padding: 0.5rem;
+      &:hover {
+        border-bottom: 2px solid #de9e49;
+      }
+    }
   }
   .cart-btn-wrapper {
     display: none;
@@ -102,13 +117,11 @@ const NavContainer = styled.nav`
         text-decoration: none;
       }
       a {
-        color: var(--clr-grey-3);
         font-size: 1rem;
         text-transform: capitalize;
-        letter-spacing: var(--spacing);
         padding: 0.5rem;
         &:hover {
-          border-bottom: 2px solid var(--clr-primary-7);
+          border-bottom: 2px solid #de9e49;
         }
       }
     }
