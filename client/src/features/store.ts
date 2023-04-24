@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import ProductReducer from "./products/productSlice";
 export const TestReducer = () => {
   return null;
 };
 export const store = configureStore({
-  reducer: { test: TestReducer },
+  reducer: {
+    test: TestReducer,
+    products: ProductReducer,
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 

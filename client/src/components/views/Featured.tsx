@@ -1,10 +1,25 @@
+import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { GET_FEATURED_PRODUCTS } from "../../features/products/productSlice";
+import { AppDispatch } from "../../features/store";
 
 const Featured = () => {
+  const dispatch: AppDispatch = useDispatch();
+  // const products = useAppSelector((state) => state.products.products);
+
+  React.useEffect(() => {
+    dispatch(GET_FEATURED_PRODUCTS());
+  }, []);
+
   return (
     <Container>
       <h1>Featured Products</h1>
-      <section className="content">Ongoing.....</section>
+      <section className="content">
+        {/* {products.map((product: any) => (
+          <div key={product.id}>{product.name}</div>
+        ))} */}
+      </section>
     </Container>
   );
 };

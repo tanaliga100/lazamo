@@ -1,4 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Footer from "./components/shared/Footer";
 import Navbar from "./components/shared/Navbar";
 import {
   AboutPage,
@@ -12,6 +13,25 @@ import {
 import LoginPage from "./pages/LoginPage";
 
 function App() {
+  const url = process.env.SERVER_URL;
+  console.log({ url });
+
+  // const testFetch = async () => {
+  //   try {
+  //     const response = await fetch(`${String(url)}/products`);
+  //     const data = response.json();
+  //     console.log({ data });
+  //   } catch (error) {
+  //     console.log({ error });
+  //   }
+  // };
+  // React.useEffect(() => {
+  //   testFetch();
+  //   return () => {
+  //     testFetch();
+  //   };
+  // }, []);
+
   return (
     <Router>
       <Navbar />
@@ -33,7 +53,7 @@ function App() {
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   );
 }

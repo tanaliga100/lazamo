@@ -12,14 +12,19 @@ const Filters = () => {
           <div className="category-view">
             <h1>Category</h1>
             {Category.map((category: any) => (
-              <button>{category.name}</button>
+              <button key={category.id}>{category.name}</button>
             ))}
           </div>
         </section>
         <section className="section-two">
           <div className="company-view">
             <h1>Company</h1>
-            <select name="company" id="" value="All">
+            <select
+              name="company"
+              id=""
+              value="All"
+              onChange={(e: any) => e.target.value}
+            >
               {Company.map((company: any) => (
                 <option key={company.id}> {company.name}</option>
               ))}

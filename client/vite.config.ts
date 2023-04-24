@@ -11,5 +11,6 @@ export default defineConfig({
   define: {
     "process.env.PORT": `"${process.env.PORT}"`,
     "process.env.TEST": `"${process.env.TEST}"`,
+    "process.env.SERVER_URL": `"${process.env.SERVER_URL}"`,
   },
 });

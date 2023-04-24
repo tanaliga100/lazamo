@@ -9,36 +9,19 @@ import {
   UPDATE_USER_PASSWORD,
 } from "../controllers/user-controller";
 import { authenticationMiddleware } from "../middlewares/authentication-middleware";
-import { authorizedPermissions } from "../utils/authorizedPermissions";
 const router = express.Router();
 
-router
-  .route("/")
-  .get(
-    authenticationMiddleware,
-    authorizedPermissions(["admin", "manager"]),
-    ALL_USERS
-  );
+router.route("/").get(ALL_USERS);
 router.route("/currentUser").get(authenticationMiddleware, CURRENT_USER);
 
 router.route("/updateUser").patch(authenticationMiddleware, UPDATE_USER);
 router
   .route("/updateUserPass")
   .patch(authenticationMiddleware, UPDATE_USER_PASSWORD);
-router
-  .route("/updateRole/:id")
-  .patch(
-    authenticationMiddleware,
-    authorizedPermissions(["admin"]),
-    UPDATE_ROLE
-  );
+router.route("/updateRole/:id").patch(authenticationMiddleware, UPDATE_ROLE);
 router
   .route("/:id")
   .get(authenticationMiddleware, SINGLE_USER)
-  .delete(
-    authenticationMiddleware,
-    authorizedPermissions(["admin"]),
-    DELETE_USER
-  );
+  .delete(authenticationMiddleware, DELETE_USER);
 
 export { router };

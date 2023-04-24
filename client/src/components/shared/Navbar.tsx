@@ -41,7 +41,7 @@ const Navbar = () => {
             );
           })}
         </ul>
-        <div className="nav-right">
+        <div className="nav-right nav-links">
           <NavLink to="/checkout" style={{ textDecoration: "none" }}>
             <h3>Cart</h3>
             <AiOutlineShoppingCart size="25" />
@@ -77,12 +77,12 @@ const NavContainer = styled.nav<NavContainerProps>`
   .nav-right {
     width: 20vw;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
-    * {
+    & > * {
       display: flex;
-      gap: 1rem;
+      gap: 0.5rem;
     }
   }
   .nav-header {

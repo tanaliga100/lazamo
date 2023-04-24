@@ -16,15 +16,14 @@ const LoginPage = () => {
         <RightSection>
           {title === "Register" ? (
             <form action="">
-              <input type="text" placeholder="First Name" />
-              <input type="text" placeholder="Last Name" />
+              <input type="text" placeholder="Name" />
               <input type="email" placeholder="Email" />
               <input type="password" placeholder="Password" />
             </form>
           ) : (
             <form action="">
               <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
+              <input type="password" />
             </form>
           )}
           {title === "Register" ? (
