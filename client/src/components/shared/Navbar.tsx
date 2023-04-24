@@ -1,12 +1,28 @@
+import React, { useState } from "react";
 import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../../public/logo.png";
 import { links } from "../../utils/constants";
+import logo from "/logo.png";
+type BoxShadow = string | null | undefined;
+interface NavContainerProps {
+  boxShadow?: BoxShadow | number | undefined;
+  // other props...
+}
 
 const Navbar = () => {
+  const [scrollPos, setScrollPos] = useState(0);
+  const handleScroll = () => {
+    setScrollPos(window.scrollY);
+  };
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <NavContainer>
+    <NavContainer boxShadow={scrollPos}>
       <div className="nav-center">
         <div className="nav-header">
           <NavLink to="/">
@@ -42,7 +58,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const NavContainer = styled.nav`
+const NavContainer = styled.nav<NavContainerProps>`
   position: sticky;
   z-index: 999;
   top: 0;
@@ -51,6 +67,8 @@ const NavContainer = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: ${(props: NavContainerProps) =>
+    props.boxShadow ? "2px 2px 10px rgba(0,0,0,0.2)" : "none"};
 
   .nav-center {
     width: 80vw;

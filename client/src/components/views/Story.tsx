@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import imageRight from "../../../public/hero.jpeg";
+import imageRight from "/hero.jpeg";
 
 const StoryView = () => {
   return (
