@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import logo from "/logo.png";
 const Footer = () => {
   return (
     <FooterContainer>
@@ -11,6 +11,7 @@ const Footer = () => {
         <FooterLink href="#">Privacy</FooterLink>
         <FooterLink href="#">Returns</FooterLink>
       </FooterLinks>
+      <img src={logo} width={200} height={50} />
       <FooterCopy>&copy; 2023 All rights reserved</FooterCopy>
     </FooterContainer>
   );
@@ -30,8 +31,7 @@ const FooterContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0; */
-  color: white;
-  background-color: #b4956d;
+  color: #b4956d;
 
   /* position: fixed;
   bottom: 0;
@@ -45,15 +45,11 @@ const FooterLinks = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
-  background-color: #b4956d;
-  color: white;
 `;
 
 const FooterLink = styled.a`
   margin: 0 10px;
   text-decoration: none;
-  background-color: #b4956d;
-  color: white;
 
   font-size: 14px;
   &:hover {
@@ -64,7 +60,5 @@ const FooterLink = styled.a`
 const FooterCopy = styled.div`
   font-size: 12px;
   text-align: center;
-  color: white;
-  background-color: #b4956d;
   margin-top: 10px;
 `;

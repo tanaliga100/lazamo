@@ -1,16 +1,15 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Footer from "./components/shared/Footer";
 import Navbar from "./components/shared/Navbar";
 import {
   AboutPage,
   CartPage,
-  CheckoutPage,
   ErrorPage,
   HomePage,
   PrivateRoutePage,
   ProductsPage,
   SingleProductPage,
 } from "./pages";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -22,17 +21,19 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<SingleProductPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
         <Route
-          path="/chekout"
+          path="/checkout"
           element={
             <PrivateRoutePage>
-              <CheckoutPage />
+              <CartPage />
             </PrivateRoutePage>
           }
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 }

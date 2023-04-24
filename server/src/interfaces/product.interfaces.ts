@@ -20,3 +20,7 @@ export interface IColors {
 export interface ICompany {
   company: string;
 }
+
+export interface IListener {
+  listener: string;
+}
