@@ -11,10 +11,7 @@ const Footer = () => {
         <FooterLink href="#">Privacy</FooterLink>
         <FooterLink href="#">Returns</FooterLink>
       </FooterLinks>
-      <FooterCopy>
-        &copy; 2023 All rights reserved
-        <p>Powered with MongoDB | Express | React | Node | Typescript</p>
-      </FooterCopy>
+      <FooterCopy>&copy; 2023 All rights reserved</FooterCopy>
     </FooterContainer>
   );
 };
@@ -28,6 +25,14 @@ const FooterContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
+  font-size: 4rem;
+  /* position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  color: white;
+  background-color: #b4956d;
+
   /* position: fixed;
   bottom: 0;
   left: 0;
@@ -40,11 +45,16 @@ const FooterLinks = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  background-color: #b4956d;
+  color: white;
 `;
 
 const FooterLink = styled.a`
   margin: 0 10px;
   text-decoration: none;
+  background-color: #b4956d;
+  color: white;
+
   font-size: 14px;
   &:hover {
     text-decoration: underline;
@@ -54,10 +64,7 @@ const FooterLink = styled.a`
 const FooterCopy = styled.div`
   font-size: 12px;
   text-align: center;
+  color: white;
+  background-color: #b4956d;
   margin-top: 10px;
-
-  & p {
-    opacity: 0.5;
-    padding-top: 1rem;
-  }
 `;

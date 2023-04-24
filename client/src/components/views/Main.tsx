@@ -51,7 +51,7 @@ const MainContainer = styled.div`
   h1 {
     margin: 0.3rem 0;
     line-height: 1.2em;
-    font-size: 4.5rem;
+    font-size: 4rem;
     font-weight: 800;
   }
 

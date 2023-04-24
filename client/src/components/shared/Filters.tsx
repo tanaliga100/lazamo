@@ -72,13 +72,12 @@ const Container = styled.section`
     display: grid;
     flex-direction: row;
     justify-content: start;
-    ginawa ko lang yan kasi nga * {
-      text-align: left;
-    }
 
     & button {
+      margin-top: 0.5rem;
       border: none;
       padding: 0.1rem 0.3rem;
+      text-align: start;
 
       &:hover {
         background-color: #d2b48c88;
@@ -89,7 +88,9 @@ const Container = styled.section`
   .company-view {
     padding-left: 1rem;
     margin-top: 1rem;
+
     select {
+      margin-top: 0.5rem;
       width: 300px;
       padding: 0.3rem;
       border: none;
@@ -103,6 +104,9 @@ const Container = styled.section`
   .price-view {
     padding-left: 1rem;
     margin-top: 1rem;
+    h1 {
+      margin-top: 0.5rem;
+    }
   }
   .shipping-view {
     padding-left: 1rem;

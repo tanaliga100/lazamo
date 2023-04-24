@@ -4,10 +4,7 @@ const Services = () => {
   return (
     <Container>
       <header className="header">
-        <h3>
-          {" "}
-          <span>custom furniture</span> built only for you
-        </h3>
+        <h3> custom furniture built only for you</h3>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
           pariatur? Amet, minima dolorum quibusdam voluptatibus fugit, eos quae
@@ -27,7 +24,6 @@ const Services = () => {
     </Container>
   );
 };
-
 export default Services;
 
 const Container = styled.section`
@@ -35,37 +31,36 @@ const Container = styled.section`
   background-color: #d2b48c1a;
   color: white;
   text-align: center;
+  display: grid;
   /* background-image: url("../../../public/custom.jpeg");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover; */
 
-  h3 {
-    font-size: 2rem;
-    word-spacing: 1rem;
-    color: #b4956d;
-    font-weight: 800;
-    background: transparent;
-  }
-  .header {
+  header {
     display: flex;
+    flex-direction: column;
     padding-top: 1rem;
     padding-left: 3rem;
     gap: 1rem;
-    grid-template-columns: auto(2fr, 1fr);
+    text-align: center;
     justify-content: center;
-    text-align: left;
     align-items: center;
 
-    & p {
+    p {
       padding: 0 3rem;
+    }
+    h3 {
+      font-size: 4rem;
+      word-spacing: 1rem;
+      color: #b4956d;
+      font-weight: 300;
     }
   }
   .content {
     padding-top: 5rem;
     padding: 3rem;
     display: grid;
-
     gap: 2rem;
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;

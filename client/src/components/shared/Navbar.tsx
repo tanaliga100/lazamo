@@ -1,5 +1,5 @@
 import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../../public/logo.png";
 import { links } from "../../utils/constants";
@@ -9,31 +9,31 @@ const Navbar = () => {
     <NavContainer>
       <div className="nav-center">
         <div className="nav-header">
-          <Link to="/">
+          <NavLink to="/">
             <img src={logo} alt="logo" style={{ height: "3.5rem" }} />
-          </Link>
+          </NavLink>
         </div>
         <ul className="nav-links">
           {links.map((link) => {
             const { id, text, url } = link;
             return (
               <li key={id}>
-                <Link to={url} style={{ textDecoration: "none" }}>
+                <NavLink to={url} style={{ textDecoration: "none" }}>
                   {text}
-                </Link>
+                </NavLink>
               </li>
             );
           })}
         </ul>
         <div className="nav-right">
-          <Link to="/checkout" style={{ textDecoration: "none" }}>
+          <NavLink to="/checkout" style={{ textDecoration: "none" }}>
             <h3>Cart</h3>
             <AiOutlineShoppingCart size="25" />
-          </Link>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          </NavLink>
+          <NavLink to="/login" style={{ textDecoration: "none" }}>
             <h3>Login</h3>
             <AiOutlineLogin size="25" />
-          </Link>
+          </NavLink>
         </div>
       </div>
     </NavContainer>
@@ -88,6 +88,10 @@ const NavContainer = styled.nav`
   .nav-links {
     list-style: none;
     text-decoration: none;
+    a.active {
+      border-bottom: 2px solid #de9e49;
+    }
+
     a {
       font-size: 1rem;
       text-transform: capitalize;

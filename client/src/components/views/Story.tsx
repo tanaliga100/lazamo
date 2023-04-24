@@ -14,7 +14,9 @@ const StoryView = () => {
         />
       </section>
       <section className="left-view">
-        <h1>Our Story</h1>
+        <h1>
+          Our <span>Story</span>
+        </h1>
         <small>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
           veniam ratione inventore magni quam molestiae cum! Cum, veniam libero
@@ -40,7 +42,7 @@ const Container = styled.div`
   h1 {
     margin: 0.3rem 0;
     font-size: 4rem;
-    font-weight: 1rem;
+    font-weight: 800;
   }
   button {
     margin: 2rem 0;
@@ -60,6 +62,11 @@ const Container = styled.div`
   .left-view {
     padding: 3rem;
     height: auto;
+    word-spacing: 1ch;
+
+    span {
+      color: #b4956d;
+    }
   }
   .right-view {
     padding-top: 3rem;

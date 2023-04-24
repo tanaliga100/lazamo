@@ -15,9 +15,12 @@ const Contact = () => {
           excepturi expedita saepe placeat, sed maxime consectetur quae quo
           atque. Tenetur, necessitatibus!
         </p>
-        <div>
-          <input type="text" placeholder="Enter Email" />
-          <button>Subscribe</button>
+        <div className="contact">
+          <small>Any concerns or a question ? feel free to email us</small>
+          <section>
+            <input type="text" placeholder="Enter Email" />
+            <button>Subscribe</button>
+          </section>
         </div>
       </section>
     </Container>
@@ -62,16 +65,24 @@ const Container = styled.section`
     height: auto;
 
     & p {
+      font-size: 1rem;
+      font-weight: 300;
     }
+  }
+  .contact {
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
 
     & input {
       padding: 1rem;
       border: none;
-      border-left: 10px solid #de9e49;
+      border-left: 10px solid #b4956d;
     }
 
     & button {
-      background-color: #de9e49;
+      background-color: #b4956d;
       padding: 1rem;
       color: white;
       border: none;
