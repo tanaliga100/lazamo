@@ -30,13 +30,13 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)());
 // app.use(fileUpload());
-app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
+app.use(express_1.default.static(path_1.default.join(__dirname, "dist")));
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use((0, morgan_1.default)("dev"));
 // BASE ROUTE
-app.get("/", (req, res) => {
-    res.json({ msg: "Server Alive : Express Ts" });
-});
+// app.get("/", (req: Request, res: Response) => {
+//   res.json({ msg: "Server Alive : Express Ts" });
+// });
 app.get("/api/v1", (req, res) => {
     // console.log(req.cookies);
     console.log(req.signedCookies);
@@ -46,9 +46,9 @@ app.get("/api/v1", (req, res) => {
 app.use("/api/v1/auth", auth_routes_1.router);
 app.use("/api/v1/users", user_routes_1.router);
 app.use("/api/v1/products", product_routes_1.router);
-// app.use("*", (req: any, res: any) => {
-//   res.sendFile(express.static(path.join(__dirname, "dist/public")));
-// });
+app.use("*", (req, res) => {
+    res.sendFile(express_1.default.static(path_1.default.join(__dirname, "dist")));
+});
 // 404_MIDDLEWARE
 app.use(notFound_middleware_1.notFoundMiddleware);
 // ERROR_MIDDLEWARE

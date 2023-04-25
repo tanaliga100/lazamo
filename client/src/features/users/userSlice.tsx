@@ -4,3 +4,4 @@
 //       state.user.email = profile.email;
 //       state.user.role = profile.role;
 //     },
+export {};

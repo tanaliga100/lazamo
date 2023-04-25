@@ -18,15 +18,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 // app.use(fileUpload());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan("dev"));
 
 // BASE ROUTE
-app.get("/", (req: Request, res: Response) => {
-  res.json({ msg: "Server Alive : Express Ts" });
-});
+// app.get("/", (req: Request, res: Response) => {
+//   res.json({ msg: "Server Alive : Express Ts" });
+// });
 app.get("/api/v1", (req: Request, res: Response) => {
   // console.log(req.cookies);
   console.log(req.signedCookies);
@@ -36,9 +36,9 @@ app.get("/api/v1", (req: Request, res: Response) => {
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/users", UserRoute);
 app.use("/api/v1/products", ProductRoute);
-// app.use("*", (req: any, res: any) => {
-//   res.sendFile(express.static(path.join(__dirname, "dist/public")));
-// });
+app.use("*", (req: any, res: any) => {
+  res.sendFile(express.static(path.join(__dirname, "dist")));
+});
 
 // 404_MIDDLEWARE
 app.use(notFoundMiddleware);
