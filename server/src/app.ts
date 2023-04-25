@@ -36,9 +36,6 @@ app.get("/api/v1", (req: Request, res: Response) => {
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/users", UserRoute);
 app.use("/api/v1/products", ProductRoute);
-app.use("*", (req: any, res: any) => {
-  res.sendFile(express.static(path.join(__dirname, "dist")));
-});
 
 // 404_MIDDLEWARE
 app.use(notFoundMiddleware);
