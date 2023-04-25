@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import authThunk from "../features/auth/authThunk";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
 const LoginPage = () => {
@@ -12,7 +11,6 @@ const LoginPage = () => {
   // LOGIC
 
   const initialState = {
-    name: "jordan",
     email: "jordan100@mail.com",
     password: "secret",
   };
@@ -23,11 +21,8 @@ const LoginPage = () => {
   const [formData, setFormData] = useState(initialState);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      authThunk.REGISTER_USER(initialState);
-      // dispatch(SET_REGISTER(initialState));
-      console.log("fired");
-    } catch (error) {}
+    // dispatch(SET_REGISTER(initialState));
+    console.log("fired");
   };
   return (
     <Container>

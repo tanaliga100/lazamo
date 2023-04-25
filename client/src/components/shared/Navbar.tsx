@@ -57,6 +57,7 @@ const Navbar = () => {
           <h3>Login</h3>
           <AiOutlineLogin size="25" />
         </NavLink>
+        |
         <NavLink to="/register" style={{ textDecoration: "none" }}>
           <h3>Sign Up</h3>
           <AiOutlineUserAdd size="25" />
@@ -76,7 +77,7 @@ const NavContainer = styled.nav<NavContainerProps>`
   width: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   box-shadow: ${(props: NavContainerProps) =>
     props.boxShadow ? "2px 2px 10px rgba(0,0,0,0.2)" : "none"};
 
@@ -102,11 +103,13 @@ const NavContainer = styled.nav<NavContainerProps>`
       gap: 0.5rem;
     }
   }
+
   .nav-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     text-align: center;
+    padding-right: 3rem;
     img {
       width: 175px;
       margin-left: -15px;
