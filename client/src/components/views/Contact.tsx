@@ -17,11 +17,11 @@ const Contact = () => {
         </p>
         <div className="contact">
           <small>Any concerns or a question ? feel free to email us</small>
-          <section>
-            <input type="text" placeholder="Enter Email" />
-            <button>Subscribe</button>
-          </section>
         </div>
+        <section className="input">
+          <input type="text" placeholder="Enter Email" />
+          <button>Subscribe</button>
+        </section>
       </section>
     </Container>
   );
@@ -29,22 +29,23 @@ const Contact = () => {
 
 export default Contact;
 const Container = styled.section`
-  height: 80vh;
-  background-color: #d2b48c1f;
+  min-height: 50%;
+  padding: 0 10rem;
+
+  /* background-color: #d2b48c1f; */
   color: white;
   text-align: center;
 
   h3 {
     font-size: 3rem;
     letter-spacing: 1px;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 3rem;
-    text-align: left;
+    text-align: center;
     padding-left: 3rem;
     font-size: 2.5rem;
     line-height: 4rem;
     color: #b4956d;
-    font-weight: 900;
   }
   .header {
     display: grid;
@@ -70,21 +71,35 @@ const Container = styled.section`
     }
   }
   .contact {
-    display: grid;
-    justify-content: space-between;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
     align-items: center;
+  }
+  .input {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
 
-    & input {
-      padding: 1rem;
+    input {
+      padding: 0.5rem;
+      width: 40%;
+      margin: 0 auto;
       border: none;
-      border-left: 10px solid #b4956d;
+      background-color: #b4956d2e;
+      color: black;
     }
-
-    & button {
+    button {
       background-color: #b4956d;
       padding: 1rem;
       color: white;
+      width: 40%;
+      margin: 0 auto;
+
       border: none;
       letter-spacing: 5px;
       &:hover {

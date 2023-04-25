@@ -7,10 +7,13 @@ exports.router = void 0;
 const express_1 = __importDefault(require("express"));
 const user_controller_1 = require("../controllers/user-controller");
 const authentication_middleware_1 = require("../middlewares/authentication-middleware");
+const authorizedPermissions_1 = require("../utils/authorizedPermissions");
 const router = express_1.default.Router();
 exports.router = router;
 router.route("/").get(user_controller_1.ALL_USERS);
-router.route("/currentUser").get(authentication_middleware_1.authenticationMiddleware, user_controller_1.CURRENT_USER);
+router
+    .route("/currentUser")
+    .get(authentication_middleware_1.authenticationMiddleware, (0, authorizedPermissions_1.authorizedPermissions)(["admin"]), user_controller_1.CURRENT_USER);
 router.route("/updateUser").patch(authentication_middleware_1.authenticationMiddleware, user_controller_1.UPDATE_USER);
 router
     .route("/updateUserPass")

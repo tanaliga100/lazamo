@@ -17,16 +17,16 @@ const HeaderNav = (props: IHeaderNav) => {
 export default HeaderNav;
 
 const HeadNav = styled.section`
-  padding-left: 9rem;
+  padding-left: 11rem;
   max-height: 10rem;
-  background-color: #d2b48c27;
+  background-color: #d2b48cc1;
   width: 100%;
   min-height: 15vh;
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 300;
-  color: #c4a47b;
+  color: #ffffff;
 
   & section {
     background-color: black;

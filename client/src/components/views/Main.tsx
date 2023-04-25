@@ -41,6 +41,7 @@ const MainContainer = styled.div`
   display: grid;
   max-height: 100vh;
   grid-template-columns: repeat(2, 1fr);
+  padding: 0 10rem;
   justify-content: center;
   align-items: center;
 

@@ -34,6 +34,7 @@ export default StoryView;
 
 const Container = styled.div`
   display: grid;
+  padding: 0 10rem;
   max-height: 100vh;
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;

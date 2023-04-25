@@ -40,6 +40,20 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(getAllProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.products = Array.isArray(action.payload) ? action.payload : null;
+      })
+      .addCase(getAllProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
@@ -49,6 +63,18 @@ export const getFeaturedProducts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await productsThunk.GET_FEATURED_PRODUCTS_THUNK();
+    } catch (error) {
+      console.log({ error });
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getAllProducts = createAsyncThunk(
+  "products/getAllProducts",
+  async (_, thunkAPI) => {
+    try {
+      return await productsThunk.GET_ALL_PRODUCTS_THUNK();
     } catch (error) {
       console.log({ error });
       return thunkAPI.rejectWithValue(error);

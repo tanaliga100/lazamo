@@ -25,19 +25,19 @@ export interface IServices {
 export const services: IServices[] = [
   {
     id: 1,
-    icon: <GiCompass size={50} style={{ color: "#de9e49" }} />,
+    icon: <GiCompass size={30} style={{ color: "#de9e49" }} />,
     title: "mission",
     text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, ea. Perferendis corrupti reiciendis nesciunt rerum velit autem unde numquam nisi",
   },
   {
     id: 2,
-    icon: <GiDiamondHard size={50} />,
+    icon: <GiDiamondHard size={30} />,
     title: "vision",
     text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, ea. Perferendis corrupti reiciendis nesciunt rerum velit autem unde numquam nisi",
   },
   {
     id: 3,
-    icon: <GiStabbedNote size={50} />,
+    icon: <GiStabbedNote size={30} />,
     title: "goals",
     text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, ea. Perferendis corrupti reiciendis nesciunt rerum velit autem unde numquam nisi",
   },

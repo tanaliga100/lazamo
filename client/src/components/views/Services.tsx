@@ -1,10 +1,22 @@
+import { GiWoodCabin } from "react-icons/gi";
 import styled from "styled-components";
 import { IServices, services } from "../../utils/constants";
 const Services = () => {
   return (
     <Container>
       <header className="header">
-        <h3> custom furniture built only for you</h3>
+        <h3>
+          {" "}
+          <span>
+            <GiWoodCabin
+              style={{
+                width: 200,
+                height: 100,
+              }}
+            />
+          </span>{" "}
+          custom furniture built only for you
+        </h3>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
           pariatur? Amet, minima dolorum quibusdam voluptatibus fugit, eos quae
@@ -15,9 +27,9 @@ const Services = () => {
       <section className="content">
         {services.map((each: IServices) => (
           <div className="indi" key={each.id}>
+            <h1>{each.title}</h1>
             <span>{each.icon}</span>
             <p>{each.text}</p>
-            <h1>{each.title}</h1>
           </div>
         ))}
       </section>
@@ -27,8 +39,10 @@ const Services = () => {
 export default Services;
 
 const Container = styled.section`
-  height: 100vh;
-  background-color: #d2b48c1a;
+  margin-top: 4rem;
+  min-height: 80%;
+  padding: 0 10rem;
+  /* background-color: #d2b48c1a; */
   color: white;
   text-align: center;
   display: grid;
@@ -40,7 +54,6 @@ const Container = styled.section`
   header {
     display: flex;
     flex-direction: column;
-    padding-top: 1rem;
     padding-left: 3rem;
     gap: 1rem;
     text-align: center;
@@ -48,39 +61,49 @@ const Container = styled.section`
     align-items: center;
 
     p {
-      padding: 0 3rem;
+      padding: 1rem 3rem;
     }
     h3 {
-      font-size: 4rem;
+      font-size: 3rem;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
       word-spacing: 1rem;
       color: #b4956d;
-      font-weight: 300;
+      font-weight: 900;
+
+      span {
+        margin: 5rem;
+      }
     }
   }
   .content {
-    padding-top: 5rem;
     padding: 3rem;
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;
     align-items: center;
-    height: auto;
+    min-height: 40vh;
   }
   .indi {
     border-radius: 1rem;
     height: auto;
 
-    & title {
+    title {
       margin: 3rem;
     }
-    & p {
-      font-size: 1.3rem;
+    p {
+      font-size: 1rem;
       font-weight: 200;
+      background-color: #b4956d2e;
+      padding: 1rem;
+      border-radius: 0.3rem;
     }
-    & h1 {
+    h1 {
       font-size: 2rem;
-      font-weight: 900;
+      font-weight: 800;
+      color: #b4956d;
     }
   }
   span {

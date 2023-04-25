@@ -13,8 +13,9 @@ const ErrorPage = () => {
     </Wrapper>
   );
 };
-
 const Wrapper = styled.main`
+  padding: 0 10rem;
+
   background: var(--clr-primary-10);
   display: flex;
   justify-content: center;

@@ -9,10 +9,17 @@ import {
   UPDATE_USER_PASSWORD,
 } from "../controllers/user-controller";
 import { authenticationMiddleware } from "../middlewares/authentication-middleware";
+import { authorizedPermissions } from "../utils/authorizedPermissions";
 const router = express.Router();
 
 router.route("/").get(ALL_USERS);
-router.route("/currentUser").get(authenticationMiddleware, CURRENT_USER);
+router
+  .route("/currentUser")
+  .get(
+    authenticationMiddleware,
+    authorizedPermissions(["admin"]),
+    CURRENT_USER
+  );
 
 router.route("/updateUser").patch(authenticationMiddleware, UPDATE_USER);
 router
