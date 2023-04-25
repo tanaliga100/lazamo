@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineLogin,
+  AiOutlineShoppingCart,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { links } from "../../utils/constants";
@@ -46,11 +50,17 @@ const Navbar = () => {
             <h3>Cart</h3>
             <AiOutlineShoppingCart size="25" />
           </NavLink>
-          <NavLink to="/login" style={{ textDecoration: "none" }}>
-            <h3>Login</h3>
-            <AiOutlineLogin size="25" />
-          </NavLink>
         </div>
+      </div>
+      <div className="auth-links">
+        <NavLink to="/login" style={{ textDecoration: "none" }}>
+          <h3>Login</h3>
+          <AiOutlineLogin size="25" />
+        </NavLink>
+        <NavLink to="/register" style={{ textDecoration: "none" }}>
+          <h3>Sign Up</h3>
+          <AiOutlineUserAdd size="25" />
+        </NavLink>
       </div>
     </NavContainer>
   );
@@ -70,10 +80,17 @@ const NavContainer = styled.nav<NavContainerProps>`
   box-shadow: ${(props: NavContainerProps) =>
     props.boxShadow ? "2px 2px 10px rgba(0,0,0,0.2)" : "none"};
 
-  .nav-center {
-    width: 80vw;
-    margin: 0 auto;
+  .auth-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    a {
+      display: flex;
+      gap: 1rem;
+    }
   }
+
   .nav-right {
     width: 20vw;
     display: flex;

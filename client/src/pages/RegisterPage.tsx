@@ -10,7 +10,6 @@ const LoginPage = () => {
   console.log("REGISTERED_USER", user);
 
   // LOGIC
-
   const initialState = {
     name: "jordan",
     email: "jordan100@mail.com",
@@ -37,10 +36,11 @@ const LoginPage = () => {
         </LeftSection> */}
         <RightSection>
           <form action="" onSubmit={handleSubmit}>
-            <h1>Login</h1>
+            <h1>Sign Up</h1>
+            <input type="text" placeholder="Name" />
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
-            <button type="submit">Login</button>
+            <button type="submit">Sign Up</button>
           </form>
         </RightSection>
       </section>
@@ -76,14 +76,14 @@ const RightSection = styled.section`
   display: grid;
   align-items: center;
   justify-content: center;
-  background-color: #b4956d15;
-  border-radius: 2rem;
+  background-color: #b4956d23;
   width: fit-content;
   padding: 2rem;
   margin: 0 auto;
+  border-radius: 2rem;
 
   h1 {
-    font-weight: 800;
+    ont-weight: 800;
     text-align: center;
     font-size: 2rem;
     letter-spacing: 0.1cap;
