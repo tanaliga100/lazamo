@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError } from "../errors";
+import { BadRequestError, NotFoundError } from "../errors";
 import { IProducts } from "../interfaces/product.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import { upload } from "../middlewares/fileUpload-middleware";
@@ -31,19 +31,51 @@ export const CREATE_PRODUCT = asyncMiddleware(
   }
 );
 export const ALL_PRODUCTS = asyncMiddleware(
-  async (req: Request, res: any, next: NextFunction) => {
-    const products = await Product.find({});
-    const productsCount = (await Product.countDocuments({})) === 0;
-    if (productsCount) {
-      throw new BadRequestError(
-        "No Products are on the database... Please create one"
-      );
+  async (req: any, res: any, next: NextFunction) => {
+    const {
+      search,
+      category,
+      company,
+      colors,
+      freeShipping,
+      featured,
+      name,
+      sort,
+      price,
+    } = req.query;
+    console.log(req.query);
+
+    let queryObject: any = {};
+
+    // BY QUERY
+    if (featured) {
+      queryObject.featured = featured === "true";
     }
+    if (name) {
+      queryObject.name = { $regex: new RegExp(name, "i") };
+    }
+    if (freeShipping) {
+      queryObject.freeShipping = freeShipping === "true";
+    }
+    if (company) {
+      queryObject.company = company;
+    }
+    if (category) {
+      queryObject.category = category;
+    }
+    let result = await Product.find(queryObject);
+
+    const products = await result;
+    if (products.length === 0 || products.length < 1) {
+      throw new NotFoundError("WE CANNOT FIND WHAT YOU ARE LOOKING FOR");
+    }
+
     res
       .status(StatusCodes.OK)
       .json({ msg: " ALL PRODUCTS", length: products.length, products });
   }
 );
+
 export const SINGLE_PRODUCT = asyncMiddleware(
   async (req: any, res: any, next: NextFunction) => {
     const { id: productId } = req.params;
@@ -108,4 +140,12 @@ export const UPLOAD_IMAGE = asyncMiddleware(
 //  UPDATE_PRODUCT,
 //  DELETE_PRODUCT,
 //  UPLOAD_IMAGE
+// }
+
+// const products = await Product.find({});
+// const productsCount = (await Product.countDocuments({})) === 0;
+// if (productsCount) {
+//   throw new BadRequestError(
+//     "No Products are on the database... Please create one"
+//   );
 // }

@@ -1,21 +1,16 @@
-import React from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Filters from "../components/shared/Filters";
 import HeaderNav from "../components/shared/HeaderNav";
 import ProductList from "../components/shared/ProductList";
 import Sort from "../components/shared/Sort";
-import { useAppSelector } from "../features/hooks";
-import { GET_ALL_PRODUCTS } from "../features/products/productSlice";
-import { AppDispatch } from "../features/store";
 
 const ProductsPage = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const products = useAppSelector((state) => state.products.products);
+  // const dispatch: AppDispatch = useDispatch();
+  // const products = useAppSelector((state) => state.products.products);
 
-  React.useEffect(() => {
-    dispatch(GET_ALL_PRODUCTS());
-  }, []);
+  // React.useEffect(() => {
+  //   dispatch(GET_ALL_PRODUCTS());
+  // }, []);
   return (
     <>
       <HeaderNav title="Products" />
@@ -25,7 +20,7 @@ const ProductsPage = () => {
           <Filters />
         </section>
         <section className="right-view">
-          <ProductList {...products} />
+          <ProductList />
         </section>
       </Container>
     </>

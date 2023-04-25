@@ -28,10 +28,29 @@ exports.CREATE_PRODUCT = (0, async_middleware_1.asyncMiddleware)((req, res, next
     res.status(http_status_codes_1.StatusCodes.CREATED).json({ msg: "PRODUCT CREATED", product });
 }));
 exports.ALL_PRODUCTS = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const products = yield product_model_1.default.find({});
-    const productsCount = (yield product_model_1.default.countDocuments({})) === 0;
-    if (productsCount) {
-        throw new errors_1.BadRequestError("No Products are on the database... Please create one");
+    const { search, category, company, colors, freeShipping, featured, name, sort, price, } = req.query;
+    console.log(req.query);
+    let queryObject = {};
+    // BY QUERY
+    if (featured) {
+        queryObject.featured = featured === "true";
+    }
+    if (name) {
+        queryObject.name = { $regex: new RegExp(name, "i") };
+    }
+    if (freeShipping) {
+        queryObject.freeShipping = freeShipping === "true";
+    }
+    if (company) {
+        queryObject.company = company;
+    }
+    if (category) {
+        queryObject.category = category;
+    }
+    let result = yield product_model_1.default.find(queryObject);
+    const products = yield result;
+    if (products.length === 0 || products.length < 1) {
+        throw new errors_1.NotFoundError("WE CANNOT FIND WHAT YOU ARE LOOKING FOR");
     }
     res
         .status(http_status_codes_1.StatusCodes.OK)
@@ -85,4 +104,11 @@ exports.UPLOAD_IMAGE = (0, async_middleware_1.asyncMiddleware)((req, res, next) 
 //  UPDATE_PRODUCT,
 //  DELETE_PRODUCT,
 //  UPLOAD_IMAGE
+// }
+// const products = await Product.find({});
+// const productsCount = (await Product.countDocuments({})) === 0;
+// if (productsCount) {
+//   throw new BadRequestError(
+//     "No Products are on the database... Please create one"
+//   );
 // }
