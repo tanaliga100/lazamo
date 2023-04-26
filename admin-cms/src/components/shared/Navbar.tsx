@@ -72,7 +72,8 @@ const NavContainer = styled.nav<NavContainerProps>`
   width: auto;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 0 4rem;
   box-shadow: ${(props: NavContainerProps) =>
     props.boxShadow ? "2px 2px 10px rgba(0,0,0,0.2)" : "none"};
 

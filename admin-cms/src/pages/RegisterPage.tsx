@@ -1,27 +1,48 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
-const LoginPage = () => {
+const RegisterPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth);
-  console.log("REGISTERED_USER", user);
+  const navigate = useNavigate();
 
   // LOGIC
   const initialState = {
-    name: "jordan",
-    email: "jordan100@mail.com",
-    password: "secret",
+    name: "",
+    email: "",
+    password: "",
   };
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  // CHANGE EVENT
   const [formData, setFormData] = useState(initialState);
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    console.log("fired");
+  };
+  // FORM SUBMIT
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // dispatch(SET_REGISTER(initialState));
-    console.log("fired");
+    const { name, email, password } = formData;
+    if (!email || !password || !name) {
+      toast.error("All fields are required");
+    } else {
+      toast.success("Form Submission Success");
+      setFormData(initialState);
+      navigate("/dashboard");
+    }
+    console.log("fired", formData);
   };
   return (
     <Container>
@@ -32,9 +53,27 @@ const LoginPage = () => {
         <RightSection>
           <form action="" onSubmit={handleSubmit}>
             <h1>Sign Up</h1>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
             <button type="submit">Sign Up</button>
           </form>
         </RightSection>
@@ -43,7 +82,7 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
 const Container = styled.main`
   width: 100vw;
   text-align: center;
@@ -78,7 +117,7 @@ const RightSection = styled.section`
   border-radius: 2rem;
 
   h1 {
-    ont-weight: 800;
+    font-weight: 800;
     text-align: center;
     font-size: 2rem;
     letter-spacing: 0.1cap;

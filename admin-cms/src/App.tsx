@@ -1,7 +1,8 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Footer from "./components/shared/Footer";
+import { ToastContainer } from "react-toastify";
 import Navbar from "./components/shared/Navbar";
-import { ErrorPage } from "./pages";
+import { ErrorPage, PrivateRoutePage } from "./pages";
+import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -28,6 +29,8 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <ToastContainer />
+
       <Routes>
         {/* <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -37,17 +40,16 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* <Route
-          path="/checkout"
+        <Route
+          path="/dashboard"
           element={
             <PrivateRoutePage>
-              <CartPage />
+              <DashboardPage />
             </PrivateRoutePage>
           }
-        /> */}
+        />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <Footer />
     </Router>
   );
 }

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
@@ -6,23 +8,23 @@ const LoginPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth);
-  console.log("REGISTERED_USER", user);
-
+  const navigate = useNavigate();
   // LOGIC
-
-  const initialState = {
-    email: "jordan100@mail.com",
-    password: "secret",
-  };
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [formData, setFormData] = useState(initialState);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // dispatch(SET_REGISTER(initialState));
-    console.log("fired");
+    if (!email || !password) {
+      toast.error("All fields are required");
+    } else {
+      toast.success("Form Submission Success");
+      navigate("/dashboard");
+      setEmail("");
+      setPassword("");
+    }
+    console.log({ email, password });
   };
   return (
     <Container>
@@ -33,8 +35,18 @@ const LoginPage = () => {
         <RightSection>
           <form action="" onSubmit={handleSubmit}>
             <h1>Login</h1>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <button type="submit">Login</button>
           </form>
         </RightSection>

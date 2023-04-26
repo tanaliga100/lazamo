@@ -12,7 +12,7 @@ const REGISTER_USER = async (userData: any) => {
 };
 const LOGIN_USER = async (userData: any) => {
   try {
-    const response = await axios.post(`${API}/auth/register`, userData);
+    const response = await axios.post(`${API}/auth/login`, userData);
     console.log("RESPONSE TO LOGIN", response.data);
   } catch (error) {
     console.log({ error });
@@ -20,7 +20,7 @@ const LOGIN_USER = async (userData: any) => {
 };
 const LOGOUT_USER = async (userData: any) => {
   try {
-    const response = await axios.get(`${API}/auth/register`, userData);
+    const response = await axios.get(`${API}/auth/logout`, userData);
     console.log("RESPONSE TO LOGOUT", response.data);
   } catch (error) {
     console.log({ error });
