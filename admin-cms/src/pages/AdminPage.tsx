@@ -56,10 +56,10 @@ const AdminPage = () => {
 export default AdminPage;
 
 const Header = styled.header`
-  padding: 1rem 0rem 1rem 18rem;
+  padding: 1rem 0rem 1rem 17rem;
   text-align: center;
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 500;
   display: flex;
   text-align: center;
   width: 100%;
