@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { links } from "../utils/constants";
 
-const DashboardPage = () => {
+const AdminPage = () => {
   const [activeLink, setActiveLink] = useState(links[0]);
 
   const handleLinkClick = (link: any) => {
@@ -36,7 +36,7 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default AdminPage;
 
 const Container = styled.main`
   /* display: flex; */

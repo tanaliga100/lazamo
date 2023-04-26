@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import logo from "/logo.png";
 type BoxShadow = string | null | undefined;
@@ -9,8 +9,17 @@ interface NavContainerProps {
   // other props...
 }
 
-const Navbar = () => {
+interface NavContentProps {
+  login?: string;
+  signUp?: string;
+  logout?: string;
+}
+
+const Navbar = (props: NavContentProps) => {
   const [scrollPos, setScrollPos] = useState(0);
+  const location = useLocation();
+  console.log(location.pathname);
+
   const handleScroll = () => {
     setScrollPos(window.scrollY);
   };
@@ -49,13 +58,34 @@ const Navbar = () => {
       </div>
       <div className="auth-links">
         <NavLink to="/login" style={{ textDecoration: "none" }}>
-          <h3>Login</h3>
-          <AiOutlineLogin size="25" />
+          {location.pathname === "/" ? (
+            <section>
+              <h3>{props?.login && props.login}</h3>
+              <AiOutlineLogin size="25" />
+            </section>
+          ) : (
+            ""
+          )}
         </NavLink>
-        |
         <NavLink to="/register" style={{ textDecoration: "none" }}>
-          <h3>Sign Up</h3>
-          <AiOutlineUserAdd size="25" />
+          {location.pathname === "/" ? (
+            <section>
+              <h3>{props?.signUp && props.signUp}</h3>
+              <AiOutlineUserAdd size="25" />
+            </section>
+          ) : (
+            ""
+          )}
+        </NavLink>
+        <NavLink to="/" style={{ textDecoration: "none" }}>
+          {location.pathname === "/dashboard" ? (
+            <section>
+              <h3>{props?.logout && props.logout}</h3>
+              <AiOutlineUserAdd size="25" />
+            </section>
+          ) : (
+            ""
+          )}
         </NavLink>
       </div>
     </NavContainer>
@@ -71,6 +101,7 @@ const NavContainer = styled.nav<NavContainerProps>`
   height: 5rem;
   width: auto;
   display: flex;
+  background: white;
   align-items: center;
   justify-content: space-between;
   padding: 0 4rem;
@@ -81,10 +112,24 @@ const NavContainer = styled.nav<NavContainerProps>`
     display: flex;
     gap: 1rem;
     align-items: center;
+    justify-content: center;
+
+    section {
+      display: flex;
+      gap: 1rem;
+      text-align: center;
+    }
 
     a {
       display: flex;
       gap: 1rem;
+      align-items: center;
+      color: white;
+      justify-content: center;
+
+      &:hover {
+        color: #de9e49;
+      }
     }
   }
 
@@ -121,6 +166,8 @@ const NavContainer = styled.nav<NavContainerProps>`
   }
   .nav-links {
     list-style: none;
+    color: white;
+
     text-decoration: none;
     a.active {
       border-bottom: 2px solid #de9e49;
@@ -130,6 +177,8 @@ const NavContainer = styled.nav<NavContainerProps>`
       font-size: 1rem;
       text-transform: capitalize;
       padding: 0.5rem;
+      color: white;
+
       &:hover {
         border-bottom: 2px solid #de9e49;
       }
@@ -157,6 +206,8 @@ const NavContainer = styled.nav<NavContainerProps>`
       a {
         font-size: 1rem;
         text-transform: capitalize;
+        color: white;
+
         padding: 0.5rem;
         &:hover {
           border-bottom: 2px solid #de9e49;

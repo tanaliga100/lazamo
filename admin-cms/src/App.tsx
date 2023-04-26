@@ -1,8 +1,8 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Navbar from "./components/shared/Navbar";
+import RootLayout from "./components/layout/RootLayout";
 import { ErrorPage, PrivateRoutePage } from "./pages";
-import DashboardPage from "./pages/DashboardPage";
+import AdminPage from "./pages/DashboardPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -28,30 +28,23 @@ function App() {
   // }, []);
 
   return (
-    <Router>
+    <RootLayout>
       <ToastContainer />
-      <Navbar />
       <Routes>
-        {/* <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:id" element={<SingleProductPage />} /> */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
         <Route
           path="/dashboard"
           element={
             <PrivateRoutePage>
-              <DashboardPage />
+              <AdminPage />
             </PrivateRoutePage>
           }
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </Router>
+    </RootLayout>
   );
 }
 export default App;
