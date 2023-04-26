@@ -1,22 +1,36 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { links } from "../utils/constants";
 
 const DashboardPage = () => {
+  const [activeLink, setActiveLink] = useState(links[0]);
+
+  const handleLinkClick = (link: any) => {
+    setActiveLink(link);
+  };
+  React.useEffect(() => {
+    console.log({ activeLink });
+  }, [activeLink]);
+
   return (
     <Container>
       <LeftSection>
         {links.map((link) => (
-          <Link to={`${link.url}`} key={link.id}>
-            <span className="content">
+          <NavLink
+            to={`${link.url}`}
+            key={link.id}
+            onClick={() => handleLinkClick(link)}
+          >
+            <span className={`content ${activeLink === link ? "active" : ""}`}>
               {link.icon}
               {link.text}
             </span>
-          </Link>
+          </NavLink>
         ))}
       </LeftSection>
       <RightSection>
-        <p></p>
+        <section>{activeLink.component}</section>
       </RightSection>
     </Container>
   );
@@ -42,6 +56,10 @@ const LeftSection = styled.section`
     align-items: center;
     justify-content: center;
 
+    .active {
+      background-color: #ccb46a3a;
+    }
+
     .content {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -60,7 +78,8 @@ const RightSection = styled.section`
   width: 100%;
   background-color: #ccb46a3a;
 
-  p {
-    background: transparent !important;
+  section {
+    padding: 0 3rem;
+    text-align: left;
   }
 `;

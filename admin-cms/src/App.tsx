@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import Navbar from "./components/shared/Navbar";
 import { ErrorPage, PrivateRoutePage } from "./pages";
 import DashboardPage from "./pages/DashboardPage";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -28,16 +29,16 @@ function App() {
 
   return (
     <Router>
-      <Navbar />
       <ToastContainer />
-
+      <Navbar />
       <Routes>
         {/* <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<SingleProductPage />} /> */}
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
         <Route

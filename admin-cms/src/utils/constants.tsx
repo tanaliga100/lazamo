@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { GiCompass, GiDiamondHard, GiStabbedNote } from "react-icons/gi";
 
 import { BsBorderStyle } from "react-icons/bs";
@@ -6,11 +6,17 @@ import { GrUserSettings } from "react-icons/gr";
 import { ImProfile } from "react-icons/im";
 import { MdOutlineReviews, MdProductionQuantityLimits } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
+import DashboardView from "../components/views/DashboardView";
+import OrdersView from "../components/views/OrdersView";
+import ProductsView from "../components/views/ProductsView";
+import ReviewsView from "../components/views/ReviewsView";
+import UsersView from "../components/views/UsersView";
 export interface ILinks {
   id: number;
   icon: React.ReactNode;
   url: string;
   text: string;
+  component: ReactElement;
 }
 
 export const links: ILinks[] = [
@@ -19,30 +25,35 @@ export const links: ILinks[] = [
     text: "Dashboard",
     url: "/",
     icon: <RxDashboard size={20} style={{ color: "#de9e49" }} />,
+    component: <DashboardView />,
   },
   {
     id: 2,
     text: "Users",
     url: "/users",
     icon: <GrUserSettings size={20} style={{ color: "#de9e49" }} />,
+    component: <UsersView />,
   },
   {
     id: 3,
     text: "Products",
     url: "/products",
     icon: <MdProductionQuantityLimits size={20} style={{ color: "#de9e49" }} />,
+    component: <ProductsView />,
   },
   {
     id: 4,
     text: "Orders",
     url: "/orders",
     icon: <BsBorderStyle size={20} style={{ color: "#de9e49" }} />,
+    component: <OrdersView />,
   },
   {
     id: 5,
     text: "Reviews",
     url: "/reviews",
     icon: <MdOutlineReviews size={20} style={{ color: "#de9e49" }} />,
+    component: <ReviewsView />,
   },
 
   {
@@ -50,6 +61,7 @@ export const links: ILinks[] = [
     text: "Profile",
     url: "/profile",
     icon: <ImProfile size={20} style={{ color: "#de9e49" }} />,
+    component: <ProductsView />,
   },
 ];
 export interface IServices {

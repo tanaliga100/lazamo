@@ -48,7 +48,7 @@ const Navbar = () => {
         </div> */}
       </div>
       <div className="auth-links">
-        <NavLink to="/" style={{ textDecoration: "none" }}>
+        <NavLink to="/login" style={{ textDecoration: "none" }}>
           <h3>Login</h3>
           <AiOutlineLogin size="25" />
         </NavLink>
