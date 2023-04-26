@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useAppSelector } from "../features/hooks";
 interface IPrivate {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const PrivateRoutePage = (props: IPrivate) => {
@@ -20,7 +20,12 @@ const PrivateRoutePage = (props: IPrivate) => {
       </section>
     </Wrapper>;
   }
-  return <div>{props.children}</div>;
+  return (
+    <div>
+      {props.children}
+      {/* <Outlet /> */}
+    </div>
+  );
 };
 
 export default PrivateRoutePage;

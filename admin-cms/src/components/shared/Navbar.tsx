@@ -18,7 +18,6 @@ interface NavContentProps {
 const Navbar = (props: NavContentProps) => {
   const [scrollPos, setScrollPos] = useState(0);
   const location = useLocation();
-  console.log(location.pathname);
 
   const handleScroll = () => {
     setScrollPos(window.scrollY);

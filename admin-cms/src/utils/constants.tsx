@@ -23,7 +23,7 @@ export const links: ILinks[] = [
   {
     id: 1,
     text: "Dashboard",
-    url: "/",
+    url: "/dashboard",
     icon: <RxDashboard size={20} style={{ color: "#de9e49" }} />,
     component: <DashboardView />,
   },

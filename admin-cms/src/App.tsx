@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import RootLayout from "./components/layout/RootLayout";
 import { ErrorPage, PrivateRoutePage } from "./pages";
-import AdminPage from "./pages/DashboardPage";
+import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -26,14 +25,13 @@ function App() {
   //     testFetch();
   //   };
   // }, []);
-
   return (
-    <RootLayout>
-      <ToastContainer />
-      <Routes>
+    <Routes>
+      <Route element={<RootLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+
         <Route
           path="/dashboard"
           element={
@@ -42,9 +40,9 @@ function App() {
             </PrivateRoutePage>
           }
         />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </RootLayout>
+      </Route>
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
   );
 }
 export default App;

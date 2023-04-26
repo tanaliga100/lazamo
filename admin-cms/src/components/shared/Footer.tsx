@@ -8,13 +8,14 @@ const FooterContainer = styled.footer`
   justify-content: center;
   align-items: center;
   height: 50px;
-  padding-bottom: 5rem;
+  background-color: transparent;
 `;
 
 const FooterText = styled.p`
   font-size: 14px;
   color: #999;
   text-align: center;
+  background-color: transparent;
 `;
 
 function Footer() {

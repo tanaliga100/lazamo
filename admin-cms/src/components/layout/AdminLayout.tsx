@@ -1,9 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 
-const RootLayout = (props: any) => {
+const AdminLayout = (props: any) => {
   const location = useLocation();
   const content = {
     login: "Login",
@@ -15,11 +14,10 @@ const RootLayout = (props: any) => {
       <Navbar {...content} />
       {/* {props.children} */}
       <Outlet />
-      {location.pathname === "/" && <Footer />}
     </Container>
   );
 };
-export default RootLayout;
+export default AdminLayout;
 
 const Container = styled.main`
   /* background-color: #d2b48c; */
