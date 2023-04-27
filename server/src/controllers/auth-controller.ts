@@ -28,19 +28,15 @@ const REGISTER = asyncMiddleware(
       role: req.body.role,
     };
     const hasAdmin = await User.findOne({ role: "admin" });
-    const managerCount = await User.countDocuments({ role: "manager" });
+    // const managerCount = await User.countDocuments({ role: "manager" });
     if (!hasAdmin) {
       tempUser.role = "admin";
     } else {
-      if (managerCount < 3) {
-        tempUser.role = "manager";
-      } else {
-        tempUser.role = "user";
-      }
+      tempUser.role = "user";
     }
-    if (managerCount > 3) {
-      throw new BadRequestError("Manager count must be less than 3");
-    }
+    // if (managerCount > 3) {
+    //   throw new BadRequestError("Manager count must be less than 3");
+    // }
     // CREATING USER
     const user = await User.create(tempUser);
     // ATTACHING COOKIES

@@ -1,52 +1,114 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import authThunk from "./authThunk";
 
-type UserType = {
-  name: string;
+interface IUser {
+  name?: string;
+  email?: string;
+  role?: string;
+  userId?: string;
+}
+
+interface ServerResponse {
+  msg: string;
+  data: {
+    name: string;
+    userId: string;
+    role: string;
+    email: string;
+  };
+}
+
+interface AuthState {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  user: IUser;
+}
+
+interface Credentials {
   email: string;
   password: string;
-};
+}
 
-type InitialState = {
-  auth?: boolean;
-  isLoggedIn?: boolean;
-  isLoggedOut?: boolean;
-  isRegister?: boolean;
-  user?: UserType;
-};
-
-const initialState: InitialState = {
-  auth: false,
-  isLoggedIn: false,
-  isLoggedOut: false,
-  isRegister: false,
+const initialState: AuthState = {
+  isAuthenticated: false,
+  isLoading: false,
+  error: null,
   user: {
     name: "",
     email: "",
-    password: "",
+    role: "",
+    userId: "",
   },
 };
 
-const authSlice = createSlice({
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (credentials: Credentials, thunkAPI) => {
+    try {
+      const response = await authThunk.REGISTER_USER(credentials);
+      return response as ServerResponse | void;
+    } catch (error) {
+      console.log("THUNK", error);
+    }
+  }
+);
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (credentials: Credentials, thunkAPI) => {
+    try {
+      const response = await authThunk.LOGIN_USER(credentials);
+      return response as IUser | void;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error as string);
+    }
+  }
+);
+
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    SET_LOGIN(state, action) {
-      state.isLoggedIn = action.payload;
+    LOGOUT_USER: (state) => {
+      state.isAuthenticated = false;
     },
-    SET_REGISTER(state, action) {
-      // state.isLoggedIn = action.payload
-      console.log("PAYLOAD", action.payload);
+  },
+  extraReducers: (builder) => {
+    builder
 
-      state.user = action.payload;
-      state.isRegister = true;
-      state.auth = true;
-    },
-    SET_LOGOUT(state, action) {
-      state.isLoggedOut = action.payload;
-    },
+      // REGISTER USER
+      .addCase(registerUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.error = null;
+        state.isLoading = false;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.error = action.payload as null;
+      })
+
+      // LOGIN USER
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.user = action.payload as IUser;
+        state.isAuthenticated = true;
+        state.error = null;
+        state.isLoading = false;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as null;
+      });
   },
 });
 
-export const { SET_LOGIN, SET_REGISTER, SET_LOGOUT } = authSlice.actions;
-
+export const { LOGOUT_USER } = authSlice.actions;
 export default authSlice.reducer;

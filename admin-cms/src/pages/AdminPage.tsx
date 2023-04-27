@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { useAppSelector } from "../features/hooks";
 import { links } from "../utils/constants";
 import ErrorPage from "./ErrorPage";
 
@@ -21,14 +22,14 @@ const AdminPage = (props: any) => {
   }, [activeLink]);
   const handleLinkClick = (selectedLink: any) => {
     setActiveLink(selectedLink);
-    console.log("fired", activeLink.url);
   };
-
+  const user = useAppSelector((state) => state?.auth?.user);
   return (
     <>
       <Header>{activeLink.text.toUpperCase()}</Header>
       <Container>
         <LeftSection>
+          <h2>{(user && user.name) || (user && user.role)}</h2>
           {links.map((link: any) => (
             <NavLink
               to={`${link.url}`}
@@ -45,10 +46,13 @@ const AdminPage = (props: any) => {
           ))}
         </LeftSection>
         <RightSection>
-          <section>{activeLink.component}</section>
-          <section>
-            {!allowedUrls.includes(activeLink.url) && <ErrorPage />}
-          </section>
+          {!allowedUrls.includes(activeLink.url) ? (
+            <section>
+              <ErrorPage />
+            </section>
+          ) : (
+            <section>{activeLink.component}</section>
+          )}
         </RightSection>
       </Container>
     </>
@@ -63,7 +67,7 @@ const Header = styled.header`
   font-weight: 500;
   display: flex;
   text-align: center;
-  width: 100%;
+  width: auto;
   background-color: #d2b48c89;
   padding-bottom: 1rem;
 `;
@@ -73,6 +77,7 @@ const Container = styled.main`
   display: grid;
   grid-template-columns: 1fr 5fr;
   width: 100%;
+  height: 100%;
 `;
 
 const LeftSection = styled.section`

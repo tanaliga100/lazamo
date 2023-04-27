@@ -6,7 +6,6 @@ const LoginPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth);
-  console.log("REGISTERED_USER", user);
 
   // LOGIC
 

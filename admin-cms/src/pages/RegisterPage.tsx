@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { SET_REGISTER } from "../features/auth/authSlice";
+import { registerUser } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
 const RegisterPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth);
+  const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
 
   // LOGIC
@@ -17,9 +17,6 @@ const RegisterPage = () => {
     email: "",
     password: "",
   };
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
 
   // CHANGE EVENT
   const [formData, setFormData] = useState(initialState);
@@ -29,9 +26,8 @@ const RegisterPage = () => {
       ...formData,
       [name]: value,
     });
-
-    // console.log("fired");
   };
+  React.useEffect(() => {}, [formData]);
   // FORM SUBMIT
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,10 +35,9 @@ const RegisterPage = () => {
     if (!email || !password || !name) {
       toast.error("All fields are required");
     } else {
-      dispatch(SET_REGISTER(formData));
-      toast.success("Form Submission Success");
+      dispatch(registerUser(formData));
       setFormData(initialState);
-      navigate("/dashboard");
+      if (authenticated) navigate("/dashboard");
     }
     // console.log("fired", formData);
   };

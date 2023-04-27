@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { SET_LOGIN } from "../features/auth/authSlice";
+import { loginUser } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
 const LoginPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth);
+  const user = useAppSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   // LOGIC
   const [email, setEmail] = useState("");
@@ -19,13 +19,13 @@ const LoginPage = () => {
     if (!email || !password) {
       toast.error("All fields are required");
     } else {
-      dispatch(SET_LOGIN({ email, password }));
-      toast.success("Form Submission Success");
-      navigate("/dashboard");
-      setEmail("");
-      setPassword("");
+      if (user) {
+        navigate("/dashboard");
+        setEmail("");
+        setPassword("");
+      }
+      dispatch(loginUser({ email, password }));
     }
-    console.log({ email, password });
   };
   return (
     <Container>

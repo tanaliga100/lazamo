@@ -38,21 +38,16 @@ const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __a
         role: req.body.role,
     };
     const hasAdmin = yield user_model_1.default.findOne({ role: "admin" });
-    const managerCount = yield user_model_1.default.countDocuments({ role: "manager" });
+    // const managerCount = await User.countDocuments({ role: "manager" });
     if (!hasAdmin) {
         tempUser.role = "admin";
     }
     else {
-        if (managerCount < 3) {
-            tempUser.role = "manager";
-        }
-        else {
-            tempUser.role = "user";
-        }
+        tempUser.role = "user";
     }
-    if (managerCount > 3) {
-        throw new errors_1.BadRequestError("Manager count must be less than 3");
-    }
+    // if (managerCount > 3) {
+    //   throw new BadRequestError("Manager count must be less than 3");
+    // }
     // CREATING USER
     const user = yield user_model_1.default.create(tempUser);
     // ATTACHING COOKIES
