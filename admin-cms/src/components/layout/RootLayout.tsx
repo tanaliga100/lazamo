@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 
-const RootLayout = (props: any) => {
+const RootLayout = () => {
   const location = useLocation();
   const content = {
     login: "Login",
@@ -13,7 +13,6 @@ const RootLayout = (props: any) => {
   return (
     <Container>
       <Navbar {...content} />
-      {/* {props.children} */}
       <Outlet />
       {location.pathname === "/" && <Footer />}
     </Container>

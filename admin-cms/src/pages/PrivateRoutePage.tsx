@@ -1,15 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useAppSelector } from "../features/hooks";
 import AdminPage from "./AdminPage";
 interface IPrivate {
   children?: React.ReactNode;
 }
-
 const PrivateRoutePage = (props: IPrivate) => {
-  const authenticated = useAppSelector((state) => state.auth);
-  // console.log("PRIVATE ROUTE", authenticated);
+  const authenticated = useAppSelector((state) => state.auth.auth);
+  console.log("PRIVATE ROUTE", authenticated);
 
   // if (!authenticated) {
   //   <Wrapper className="page-100">
@@ -22,11 +21,10 @@ const PrivateRoutePage = (props: IPrivate) => {
   //     </section>
   //   </Wrapper>;
   // }
-  const content = {
-    login: "Login",
-    signUp: "Sign Up",
-    logout: "Logout",
-  };
+
+  const location = useLocation();
+  console.log({ location });
+
   return (
     <div>
       {/* {props.children} */}
@@ -41,7 +39,7 @@ const PrivateRoutePage = (props: IPrivate) => {
           </section>
         </Wrapper>
       )}
-      <AdminPage />
+      {authenticated && <AdminPage />}
     </div>
   );
 };
@@ -49,15 +47,14 @@ const PrivateRoutePage = (props: IPrivate) => {
 export default PrivateRoutePage;
 
 const Wrapper = styled.main`
-  padding: 0 10rem;
-
+  padding: 5rem 10rem 0rem 10rem;
   background: var(--clr-primary-10);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   h1 {
-    font-size: 10rem;
+    font-size: 6rem;
   }
   h3 {
     text-transform: none;

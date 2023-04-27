@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
+import { SET_REGISTER } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
 const RegisterPage = () => {
@@ -38,8 +39,9 @@ const RegisterPage = () => {
     if (!email || !password || !name) {
       toast.error("All fields are required");
     } else {
+      dispatch(SET_REGISTER(formData));
       toast.success("Form Submission Success");
-      // setFormData(initialState);
+      setFormData(initialState);
       navigate("/dashboard");
     }
     // console.log("fired", formData);

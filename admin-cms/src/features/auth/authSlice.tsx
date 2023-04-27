@@ -35,6 +35,8 @@ const authSlice = createSlice({
     },
     SET_REGISTER(state, action) {
       // state.isLoggedIn = action.payload
+      console.log("PAYLOAD", action.payload);
+
       state.user = action.payload;
       state.isRegister = true;
       state.auth = true;

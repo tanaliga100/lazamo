@@ -1,17 +1,17 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import Navbar from "../shared/Navbar";
 
-const AdminLayout = (props: any) => {
-  const location = useLocation();
-
+const AdminLayout = () => {
   const content = {
     login: "Login",
     signUp: "Sign Up",
     logout: "Logout",
   };
+
   return (
     <Container>
-      {/* {props.children} */}
+      <Navbar {...content} />
       <Outlet />
     </Container>
   );

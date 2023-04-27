@@ -1,18 +1,27 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { links } from "../utils/constants";
+import ErrorPage from "./ErrorPage";
 
 const AdminPage = (props: any) => {
   const [activeLink, setActiveLink] = useState(links[0]);
-  const location = useLocation();
+
+  const allowedUrls = [
+    "/dashboard",
+    "/dashboard/users",
+    "/dashboard/products",
+    "/dashboard/orders",
+    "/dashboard/reviews",
+    "/dashboard/profile",
+  ];
 
   React.useEffect(() => {
     // console.log("ACTIVE LINK", activeLink);
   }, [activeLink]);
   const handleLinkClick = (selectedLink: any) => {
     setActiveLink(selectedLink);
-    // console.log("fired", selectedLink);
+    console.log("fired", activeLink.url);
   };
 
   return (
@@ -37,6 +46,9 @@ const AdminPage = (props: any) => {
         </LeftSection>
         <RightSection>
           <section>{activeLink.component}</section>
+          <section>
+            {!allowedUrls.includes(activeLink.url) && <ErrorPage />}
+          </section>
         </RightSection>
       </Container>
     </>

@@ -31,9 +31,9 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<AdminLayout />}>
-          <Route index path="*" element={<PrivateRoutePage />} />
-        </Route>
+      </Route>
+      <Route path="/dashboard" element={<AdminLayout />}>
+        <Route index path="*" element={<PrivateRoutePage />} />
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
