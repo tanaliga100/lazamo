@@ -29,7 +29,7 @@ const RegisterPage = () => {
       [name]: value,
     });
 
-    console.log("fired");
+    // console.log("fired");
   };
   // FORM SUBMIT
   const handleSubmit = (e: React.FormEvent) => {
@@ -39,10 +39,10 @@ const RegisterPage = () => {
       toast.error("All fields are required");
     } else {
       toast.success("Form Submission Success");
-      setFormData(initialState);
+      // setFormData(initialState);
       navigate("/dashboard");
     }
-    console.log("fired", formData);
+    // console.log("fired", formData);
   };
   return (
     <Container>

@@ -2,28 +2,46 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useAppSelector } from "../features/hooks";
+import AdminPage from "./AdminPage";
 interface IPrivate {
   children?: React.ReactNode;
 }
 
 const PrivateRoutePage = (props: IPrivate) => {
-  const user = useAppSelector((state) => state.auth.user);
+  const authenticated = useAppSelector((state) => state.auth);
+  // console.log("PRIVATE ROUTE", authenticated);
 
-  if (!user) {
-    <Wrapper className="page-100">
-      <section>
-        <h1>Forbidden</h1>
-        <h3>Sorry, the page you tried needs authentication</h3>
-        <Link to="/" className="btn">
-          back home
-        </Link>
-      </section>
-    </Wrapper>;
-  }
+  // if (!authenticated) {
+  //   <Wrapper className="page-100">
+  //     <section>
+  //       <h1>Forbidden</h1>
+  //       <h3>Sorry, the page you tried needs authentication</h3>
+  //       <Link to="/" className="btn">
+  //         back home
+  //       </Link>
+  //     </section>
+  //   </Wrapper>;
+  // }
+  const content = {
+    login: "Login",
+    signUp: "Sign Up",
+    logout: "Logout",
+  };
   return (
     <div>
-      {props.children}
-      {/* <Outlet /> */}
+      {/* {props.children} */}
+      {!authenticated && (
+        <Wrapper className="page-100">
+          <section>
+            <h1>Forbidden</h1>
+            <h3>Sorry, the page you tried needs authentication</h3>
+            <Link to="/" className="btn">
+              back home
+            </Link>
+          </section>
+        </Wrapper>
+      )}
+      <AdminPage />
     </div>
   );
 };

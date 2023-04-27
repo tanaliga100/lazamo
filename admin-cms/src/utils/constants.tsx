@@ -30,28 +30,28 @@ export const links: ILinks[] = [
   {
     id: 2,
     text: "Users",
-    url: "/users",
-    icon: <GrUserSettings size={20} style={{ color: "#de9e49" }} />,
+    url: "/dashboard/users",
+    icon: <ImProfile size={20} style={{ color: "#de9e49" }} />,
     component: <UsersView />,
   },
   {
     id: 3,
     text: "Products",
-    url: "/products",
+    url: "/dashboard/products",
     icon: <MdProductionQuantityLimits size={20} style={{ color: "#de9e49" }} />,
     component: <ProductsView />,
   },
   {
     id: 4,
     text: "Orders",
-    url: "/orders",
+    url: "/dashboard/orders",
     icon: <BsBorderStyle size={20} style={{ color: "#de9e49" }} />,
     component: <OrdersView />,
   },
   {
     id: 5,
     text: "Reviews",
-    url: "/reviews",
+    url: "/dashboard/reviews",
     icon: <MdOutlineReviews size={20} style={{ color: "#de9e49" }} />,
     component: <ReviewsView />,
   },
@@ -59,11 +59,12 @@ export const links: ILinks[] = [
   {
     id: 6,
     text: "Profile",
-    url: "/profile",
-    icon: <ImProfile size={20} style={{ color: "#de9e49" }} />,
+    url: "/dashboard/profile",
+    icon: <GrUserSettings size={20} style={{ color: "#de9e49" }} />,
     component: <ProductsView />,
   },
 ];
+
 export interface IServices {
   id: number;
   icon: React.ReactNode;

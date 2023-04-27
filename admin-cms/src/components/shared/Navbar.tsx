@@ -77,7 +77,7 @@ const Navbar = (props: NavContentProps) => {
           )}
         </NavLink>
         <NavLink to="/" style={{ textDecoration: "none" }}>
-          {location.pathname === "/dashboard" ? (
+          {location.pathname.startsWith("/dashboard") ? (
             <section>
               <h3>{props?.logout && props.logout}</h3>
               <AiOutlineUserAdd size="25" />

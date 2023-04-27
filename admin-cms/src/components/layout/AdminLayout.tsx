@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Navbar from "../shared/Navbar";
 
 const AdminLayout = (props: any) => {
   const location = useLocation();
+
   const content = {
     login: "Login",
     signUp: "Sign Up",
@@ -11,7 +11,6 @@ const AdminLayout = (props: any) => {
   };
   return (
     <Container>
-      <Navbar {...content} />
       {/* {props.children} */}
       <Outlet />
     </Container>

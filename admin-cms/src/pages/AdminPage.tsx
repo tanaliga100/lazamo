@@ -1,23 +1,26 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { links } from "../utils/constants";
 
-const AdminPage = () => {
+const AdminPage = (props: any) => {
   const [activeLink, setActiveLink] = useState(links[0]);
+  const location = useLocation();
 
-  // React.useEffect(() => {
-  // }, []);
+  React.useEffect(() => {
+    // console.log("ACTIVE LINK", activeLink);
+  }, [activeLink]);
   const handleLinkClick = (selectedLink: any) => {
     setActiveLink(selectedLink);
-    console.log("fired", selectedLink);
+    // console.log("fired", selectedLink);
   };
+
   return (
     <>
       <Header>{activeLink.text.toUpperCase()}</Header>
       <Container>
         <LeftSection>
-          {links.map((link) => (
+          {links.map((link: any) => (
             <NavLink
               to={`${link.url}`}
               key={link.id}
@@ -33,26 +36,12 @@ const AdminPage = () => {
           ))}
         </LeftSection>
         <RightSection>
-          {/* <Routes>
-          {links.map(
-            (link) =>
-              link.url ===
-              (
-                <Route
-                  path={`${activeLink.url}`}
-                  element={activeLink.component}
-                />
-              )
-          )}
-        </Routes> */}
-
           <section>{activeLink.component}</section>
         </RightSection>
       </Container>
     </>
   );
 };
-
 export default AdminPage;
 
 const Header = styled.header`
@@ -112,7 +101,6 @@ const RightSection = styled.section`
 
   section {
     padding: 0 3rem;
-
     text-align: left;
     background-color: transparent;
   }
