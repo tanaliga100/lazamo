@@ -6,7 +6,6 @@ export const TestReducer = () => {
 };
 export const store = configureStore({
   reducer: {
-    test: TestReducer,
     auth: AuthReducer,
     products: ProductReducer,
   },

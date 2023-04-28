@@ -27,7 +27,9 @@ const RegisterPage = () => {
       [name]: value,
     });
   };
-  React.useEffect(() => {}, [formData]);
+  React.useEffect(() => {
+    if (authenticated) navigate("/dashboard");
+  }, [authenticated]);
   // FORM SUBMIT
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +39,6 @@ const RegisterPage = () => {
     } else {
       dispatch(registerUser(formData));
       setFormData(initialState);
-      if (authenticated) navigate("/dashboard");
     }
     // console.log("fired", formData);
   };

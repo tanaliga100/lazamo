@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import authThunk from "./authThunk";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface IUser {
   name?: string;
@@ -23,9 +23,11 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   user: IUser;
+  msg?: string;
 }
 
 interface Credentials {
+  name?: string;
   email: string;
   password: string;
 }
@@ -34,6 +36,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  msg: "",
   user: {
     name: "",
     email: "",
@@ -41,24 +44,30 @@ const initialState: AuthState = {
     userId: "",
   },
 };
+const API = process.env.SERVER_URL;
 
+// POST REQUEST
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (credentials: Credentials, thunkAPI) => {
     try {
-      const response = await authThunk.REGISTER_USER(credentials);
-      return response as ServerResponse | void;
+      const response = await axios.post(`${API}/auth/register`, credentials);
+      console.log("THUNK_RESPONSE_REGISTER", response);
+      return response.data;
     } catch (error) {
-      console.log("THUNK", error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
+// GET REQUEST
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials: Credentials, thunkAPI) => {
     try {
-      const response = await authThunk.LOGIN_USER(credentials);
-      return response as IUser | void;
+      const response = await axios.post(`${API}/auth/login`, credentials);
+      console.log("THUNK_RESPONSE_LOGIN", response);
+
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error as string);
     }
@@ -69,6 +78,10 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    SERVER_RESPONSE: (state, action: PayloadAction<ServerResponse>) => {
+      state.user = action.payload.data;
+      state.msg = action.payload.msg;
+    },
     LOGOUT_USER: (state) => {
       state.isAuthenticated = false;
     },
@@ -82,9 +95,12 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
+        const { data, msg } = action.payload;
         state.isAuthenticated = true;
         state.error = null;
+        state.user = data;
         state.isLoading = false;
+        state.msg = msg;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -98,8 +114,10 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload as IUser;
+        const { data, msg } = action.payload;
         state.isAuthenticated = true;
+        state.user = data;
+        state.msg = msg;
         state.error = null;
         state.isLoading = false;
       })

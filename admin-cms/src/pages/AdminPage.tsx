@@ -24,12 +24,19 @@ const AdminPage = (props: any) => {
     setActiveLink(selectedLink);
   };
   const user = useAppSelector((state) => state?.auth?.user);
+  console.log("CURRENT_USER", user);
+
   return (
     <>
-      <Header>{activeLink.text.toUpperCase()}</Header>
+      <Header>
+        <h6>{activeLink.text.toUpperCase()}</h6>
+        <p>
+          <span> Welcome, </span> {user && user.name} ||{" "}
+          {user && user.role?.toUpperCase()}
+        </p>
+      </Header>
       <Container>
         <LeftSection>
-          <h2>{(user && user.name) || (user && user.role)}</h2>
           {links.map((link: any) => (
             <NavLink
               to={`${link.url}`}
@@ -66,10 +73,31 @@ const Header = styled.header`
   font-size: 1.5rem;
   font-weight: 500;
   display: flex;
+  gap: 2rem;
+  justify-content: space-between;
   text-align: center;
   width: auto;
   background-color: #d2b48c89;
   padding-bottom: 1rem;
+
+  h6 {
+    background: transparent !important;
+    font-weight: 500;
+  }
+
+  p {
+    background-color: transparent;
+    font-size: 1rem;
+    padding-right: 4rem;
+    font-weight: 300;
+    span {
+      color: crimson;
+      background-color: transparent;
+      font-weight: 400;
+      font-size: 1rem;
+      padding-right: 1rem;
+    }
+  }
 `;
 
 const Container = styled.main`

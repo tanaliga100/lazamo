@@ -8,25 +8,26 @@ import { useAppDispatch, useAppSelector } from "../features/hooks";
 const LoginPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.isAuthenticated);
+  const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   // LOGIC
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  React.useEffect(() => {
+    if (authenticated) navigate("/dashboard");
+  }, [authenticated]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
       toast.error("All fields are required");
     } else {
-      if (user) {
-        navigate("/dashboard");
-        setEmail("");
-        setPassword("");
-      }
       dispatch(loginUser({ email, password }));
+      setEmail("");
+      setPassword("");
     }
   };
+
   return (
     <Container>
       <section className="content">
