@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import Navbar from "../shared/Navbar";
 
 const AdminLayout = () => {
   const content = {
@@ -11,7 +10,6 @@ const AdminLayout = () => {
 
   return (
     <Container>
-      <Navbar {...content} />
       <Outlet />
     </Container>
   );

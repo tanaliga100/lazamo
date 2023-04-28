@@ -32,7 +32,7 @@ const AdminPage = (props: any) => {
         <h6>{activeLink.text.toUpperCase()}</h6>
         <p>
           <span> Welcome, </span> {user && user.name} ||{" "}
-          {user && user.role?.toUpperCase()}
+          <span className="role">{user && user.role?.toUpperCase()}</span>
         </p>
       </Header>
       <Container>
@@ -88,14 +88,24 @@ const Header = styled.header`
   p {
     background-color: transparent;
     font-size: 1rem;
-    padding-right: 4rem;
     font-weight: 300;
+    padding-right: 3rem;
+
     span {
       color: crimson;
       background-color: transparent;
       font-weight: 400;
       font-size: 1rem;
       padding-right: 1rem;
+    }
+    .role {
+      color: white;
+      font-size: 0.3rem;
+      width: fit-content;
+      text-align: center;
+      background-color: #a24734da;
+      padding: 0 1rem 0.1rem 1rem;
+      border-radius: 5%;
     }
   }
 `;

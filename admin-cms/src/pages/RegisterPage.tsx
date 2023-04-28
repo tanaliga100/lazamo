@@ -9,6 +9,13 @@ const RegisterPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
   const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const msg = useAppSelector((state) => state.auth.msg);
+  const error = useAppSelector((state) => state.auth.error);
+
+  if (error) {
+    toast.error(error);
+  }
+
   const navigate = useNavigate();
 
   // LOGIC
@@ -28,7 +35,12 @@ const RegisterPage = () => {
     });
   };
   React.useEffect(() => {
-    if (authenticated) navigate("/dashboard");
+    if (authenticated) {
+      setTimeout(() => {
+        toast.success(msg);
+        navigate("/dashboard");
+      }, 1000);
+    }
   }, [authenticated]);
   // FORM SUBMIT
   const handleSubmit = (e: React.FormEvent) => {

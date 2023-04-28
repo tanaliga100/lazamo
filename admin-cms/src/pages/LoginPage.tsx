@@ -9,6 +9,11 @@ const LoginPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
   const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const error = useAppSelector((state) => state.auth.error);
+  if (error) {
+    toast.error(error);
+  }
+
   const navigate = useNavigate();
   // LOGIC
   const [email, setEmail] = useState("");

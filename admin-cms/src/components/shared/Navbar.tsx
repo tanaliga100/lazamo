@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
+import {
+  AiOutlineLogin,
+  AiOutlineUserAdd,
+  AiOutlineUserSwitch,
+} from "react-icons/ai";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { LOGOUT_USER } from "../../features/auth/authSlice";
+import { useAppDispatch } from "../../features/hooks";
 import logo from "/logo.png";
 type BoxShadow = string | null | undefined;
 interface NavContainerProps {
@@ -16,6 +22,8 @@ interface NavContentProps {
 }
 
 const Navbar = (props: NavContentProps) => {
+  const dispatch = useAppDispatch();
+
   const [scrollPos, setScrollPos] = useState(0);
   const location = useLocation();
 
@@ -76,11 +84,15 @@ const Navbar = (props: NavContentProps) => {
             ""
           )}
         </NavLink>
-        <NavLink to="/" style={{ textDecoration: "none" }}>
+        <NavLink
+          to="/"
+          style={{ textDecoration: "none" }}
+          onClick={() => dispatch(LOGOUT_USER())}
+        >
           {location.pathname.startsWith("/dashboard") ? (
             <section>
               <h3>{props?.logout && props.logout}</h3>
-              <AiOutlineUserAdd size="25" />
+              <AiOutlineUserSwitch size="25" />
             </section>
           ) : (
             ""
@@ -90,8 +102,8 @@ const Navbar = (props: NavContentProps) => {
     </NavContainer>
   );
 };
-
 export default Navbar;
+
 
 const NavContainer = styled.nav<NavContainerProps>`
   position: sticky;

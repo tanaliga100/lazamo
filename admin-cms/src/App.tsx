@@ -10,30 +10,15 @@ function App() {
   // const url = process.env.SERVER_URL;
   // console.log({ url });
 
-  // const testFetch = async () => {
-  //   try {
-  //     const response = await fetch(`${String(url)}/products`);
-  //     const data = response.json();
-  //     console.log({ data });
-  //   } catch (error) {
-  //     console.log({ error });
-  //   }
-  // };
-  // React.useEffect(() => {
-  //   testFetch();
-  //   return () => {
-  //     testFetch();
-  //   };
-  // }, []);
   return (
     <Routes>
       <Route path="/" element={<RootLayout />}>
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-      </Route>
-      <Route path="/dashboard" element={<AdminLayout />}>
-        <Route index path="*" element={<PrivateRoutePage />} />
+        <Route path="/dashboard" element={<AdminLayout />}>
+          <Route index element={<PrivateRoutePage />} />
+        </Route>
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
