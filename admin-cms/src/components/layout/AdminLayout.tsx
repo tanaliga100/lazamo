@@ -1,16 +1,14 @@
-import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { PrivateRoutePage } from "../../pages";
+import { content, links } from "../../utils/constants";
+import Navbar from "../shared/Navbar";
 
 const AdminLayout = () => {
-  const content = {
-    login: "Login",
-    signUp: "Sign Up",
-    logout: "Logout",
-  };
-
   return (
     <Container>
-      <Outlet />
+      <Navbar {...content} />
+      <PrivateRoutePage links={links} />
+      {/* <Outlet /> */}
     </Container>
   );
 };

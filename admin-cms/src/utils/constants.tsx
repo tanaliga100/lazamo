@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { GiCompass, GiDiamondHard, GiStabbedNote } from "react-icons/gi";
 
 import { BsBorderStyle } from "react-icons/bs";
@@ -12,12 +12,18 @@ import ProductsView from "../components/views/ProductsView";
 import ReviewsView from "../components/views/ReviewsView";
 import UsersView from "../components/views/UsersView";
 
+export const content = {
+  login: "Login",
+  signUp: "Sign Up",
+  logout: "Logout",
+};
+
 export interface ILinks {
   id: number;
-  icon: React.ReactNode;
+  icon: JSX.Element;
   url: string;
   text: string;
-  component: ReactElement;
+  component: JSX.Element;
 }
 
 export const links: ILinks[] = [

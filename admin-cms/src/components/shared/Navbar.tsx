@@ -6,8 +6,6 @@ import {
 } from "react-icons/ai";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { LOGOUT_USER } from "../../features/auth/authSlice";
-import { useAppDispatch } from "../../features/hooks";
 import logo from "/logo.png";
 type BoxShadow = string | null | undefined;
 interface NavContainerProps {
@@ -22,8 +20,6 @@ interface NavContentProps {
 }
 
 const Navbar = (props: NavContentProps) => {
-  const dispatch = useAppDispatch();
-
   const [scrollPos, setScrollPos] = useState(0);
   const location = useLocation();
 
@@ -40,9 +36,7 @@ const Navbar = (props: NavContentProps) => {
     <NavContainer boxShadow={scrollPos}>
       <div className="nav-center">
         <div className="nav-header">
-          <NavLink to="/">
-            <img src={logo} alt="logo" style={{ height: "3.5rem" }} />
-          </NavLink>
+          <img src={logo} alt="logo" style={{ height: "3.5rem" }} />
         </div>
         {/* <ul className="nav-links">
           {links.map((link) => {
@@ -65,7 +59,7 @@ const Navbar = (props: NavContentProps) => {
       </div>
       <div className="auth-links">
         <NavLink to="/login" style={{ textDecoration: "none" }}>
-          {location.pathname === "/" ? (
+          {location.pathname === "/register" || location.pathname === "/" ? (
             <section>
               <h3>{props?.login && props.login}</h3>
               <AiOutlineLogin size="25" />
@@ -75,7 +69,7 @@ const Navbar = (props: NavContentProps) => {
           )}
         </NavLink>
         <NavLink to="/register" style={{ textDecoration: "none" }}>
-          {location.pathname === "/" ? (
+          {location.pathname === "/login" || location.pathname === "/" ? (
             <section>
               <h3>{props?.signUp && props.signUp}</h3>
               <AiOutlineUserAdd size="25" />
@@ -84,11 +78,7 @@ const Navbar = (props: NavContentProps) => {
             ""
           )}
         </NavLink>
-        <NavLink
-          to="/"
-          style={{ textDecoration: "none" }}
-          onClick={() => dispatch(LOGOUT_USER())}
-        >
+        <NavLink to="/" style={{ textDecoration: "none" }}>
           {location.pathname.startsWith("/dashboard") ? (
             <section>
               <h3>{props?.logout && props.logout}</h3>
@@ -103,7 +93,6 @@ const Navbar = (props: NavContentProps) => {
   );
 };
 export default Navbar;
-
 
 const NavContainer = styled.nav<NavContainerProps>`
   position: sticky;
@@ -165,6 +154,10 @@ const NavContainer = styled.nav<NavContainerProps>`
     img {
       width: 175px;
       margin-left: -15px;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
   .nav-toggle {
