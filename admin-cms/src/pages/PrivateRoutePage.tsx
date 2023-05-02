@@ -145,7 +145,6 @@ const RightSection = styled.section`
   section {
     padding: 0 3rem;
     text-align: left;
-    background-color: transparent;
   }
 `;
 
