@@ -28,7 +28,9 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: ["https://localhost:3000/api/v1"],
+}));
 // app.use(fileUpload());
 app.use(express_1.default.static(path_1.default.join(__dirname, "dist")));
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
@@ -37,11 +39,11 @@ app.use((0, morgan_1.default)("dev"));
 // app.get("/", (req: Request, res: Response) => {
 //   res.json({ msg: "Server Alive : Express Ts" });
 // });
-app.get("/api/v1", (req, res) => {
-    // console.log(req.cookies);
-    console.log(req.signedCookies);
-    res.send("E-Com");
-});
+// app.get("/api/v1", (req: Request, res: Response) => {
+//   // console.log(req.cookies);
+//   console.log(req.signedCookies);
+//   res.send("E-Com");
+// });
 // APPLICATION ROUTES
 app.use("/api/v1/auth", auth_routes_1.router);
 app.use("/api/v1/users", user_routes_1.router);

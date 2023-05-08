@@ -111,6 +111,7 @@ const LeftSection = styled.section`
   display: flex;
   flex-direction: column;
   text-align: center;
+  padding-left: 1rem;
 
   a {
     text-decoration: none;
@@ -121,6 +122,8 @@ const LeftSection = styled.section`
     font-weight: 300;
 
     .active {
+      /* border-left: #ccb46a3a; */
+      /* border-left: 1rem solid #ccb46a3a; */
       background-color: #ccb46a3a;
     }
 

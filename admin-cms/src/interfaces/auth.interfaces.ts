@@ -15,9 +15,9 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   isError: boolean;
-  error: null;
+  error: string | null;
   user: IUser;
-  token: null;
+  token: string | null;
   msg?: string;
 }
 

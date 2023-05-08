@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
+import { registerUser } from "../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../features/hooks";
 // import image from "/custom.jpeg";
 const RegisterPage = () => {
   // HOOKS
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const err = useAppSelector((state) => state.auth.error);
+  const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
   // LOGIC
   const initialState = {
     name: "",
@@ -28,10 +33,19 @@ const RegisterPage = () => {
     e.preventDefault();
     const { name, email, password } = formData;
     if (!email || !password || !name) {
-      // toast.error("All fields are required");
-      navigate("/dashboard");
+      toast.error("All fields are required");
     } else {
-      navigate("/dashboard");
+      if (err && !authenticated) {
+        toast.error(err);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      } else {
+        dispatch(registerUser(formData));
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
+      }
       setFormData(initialState);
     }
     // console.log("fired", formData);

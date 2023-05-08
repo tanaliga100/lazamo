@@ -1,7 +1,7 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import morgan from "morgan";
 import path from "path";
 import { connectDB } from "./config/connectDB";
@@ -16,7 +16,11 @@ dotenv.config();
 const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://localhost:3000/api/v1"],
+  })
+);
 // app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "dist")));
 
@@ -27,11 +31,11 @@ app.use(morgan("dev"));
 // app.get("/", (req: Request, res: Response) => {
 //   res.json({ msg: "Server Alive : Express Ts" });
 // });
-app.get("/api/v1", (req: Request, res: Response) => {
-  // console.log(req.cookies);
-  console.log(req.signedCookies);
-  res.send("E-Com");
-});
+// app.get("/api/v1", (req: Request, res: Response) => {
+//   // console.log(req.cookies);
+//   console.log(req.signedCookies);
+//   res.send("E-Com");
+// });
 // APPLICATION ROUTES
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/users", UserRoute);

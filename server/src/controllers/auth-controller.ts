@@ -4,8 +4,8 @@ import { BadRequestError, UnAuthenticatedError } from "../errors";
 import { IRegisterUser } from "../interfaces/user.interfaces";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
-import { attachCookiesToResponse } from "../utils/attachCookies";
 import { comparePassword } from "../utils/comparePassword";
+import { createToken } from "../utils/createToken";
 import { hashPassword } from "../utils/hashedPassword";
 import { createTokenUser } from "../utils/tokenUser";
 
@@ -16,10 +16,11 @@ const REGISTER = asyncMiddleware(
     // CHECK EMAIL IF ITS EXISTS
     const emailExists = await User.findOne({ email });
     if (emailExists) {
-      throw new BadRequestError(`THIS EMAIL: ${email} ALREADY EXISTS`);
+      throw new BadRequestError(`EMAIL ALREADY EXISTS...`);
     }
     // HASHING PASSWORD
     const hashedPassword = await hashPassword(password);
+
     // ASSIGNING THE USER
     const tempUser = {
       name,
@@ -43,14 +44,14 @@ const REGISTER = asyncMiddleware(
 
     const tokenUser = await createTokenUser(user);
     // USING CREATE TOKEN | TRADITIONAL
-    // const token = createToken(tokenUser);
+    const token = createToken(tokenUser);
 
     // USING COOKIES TO ATTACH TOKEN
-    attachCookiesToResponse(res, tokenUser);
+    // attachCookiesToResponse(res, tokenUser);
     res.status(StatusCodes.CREATED).json({
       msg: "USER_REGISTERED",
       data: tokenUser,
-      // token,
+      token,
     });
   }
 );
@@ -68,9 +69,7 @@ const LOGIN = asyncMiddleware(
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new UnAuthenticatedError(
-        "Invalid Credentials : Email doesnt exist"
-      );
+      throw new UnAuthenticatedError("Email doesnt exist");
     }
 
     // COMPARE PASSWORD USING BCRYPT JS IN THE MODEL
@@ -86,10 +85,15 @@ const LOGIN = asyncMiddleware(
 
     // IF PASSWORD MATCH RELEASE THE TOKEN
     const tokenUser = await createTokenUser(user);
-    attachCookiesToResponse(res, tokenUser);
+    // USING COOKIES
+    // attachCookiesToResponse(res, tokenUser);
+
+    // USING TOKEN TRADITIONAL
+    const token = createToken(tokenUser);
     res.status(StatusCodes.OK).json({
       msg: "LOGIN_SUCCESSFUL",
-      tokenUser,
+      data: tokenUser,
+      token,
     });
   }
 );
@@ -97,10 +101,10 @@ const LOGIN = asyncMiddleware(
 const LOGOUT = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
     // REMOVED COOKIES
-    res.cookie("token", "", {
-      httpOnly: true,
-      expires: new Date(Date.now()),
-    });
+    // res.cookie("token", "", {
+    //   httpOnly: true,
+    //   expires: new Date(Date.now()),
+    // });
     res.status(StatusCodes.OK).json({
       msg: "USER_LOGOUT",
     });

@@ -47,6 +47,6 @@ export const errorHandlerMidlleware = (
   // });
 
   return res.status(customError.statusCode).json({
-    ERROR: customError.msg || customError.errors,
+    msg: customError.msg || customError.errors,
   });
 };

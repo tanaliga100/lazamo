@@ -1,10 +1,10 @@
-export const getToken = () => {
-  return localStorage.getItem("currentUser");
-};
-export const removeToken = () => {
-  localStorage.removeItem("currentUser");
-};
+// export const getToken = () => {
+//   return localStorage.getItem("currentUser");
+// };
+// export const removeToken = (val: any) => {
+//   localStorage.removeItem(val);
+// };
 
-export const setToken = (val: any) => {
-  localStorage.setItem("currentUser", val);
-};
+// export const setToken = (val: any) => {
+//   localStorage.setItem("currentUser", val);
+// };

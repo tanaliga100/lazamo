@@ -6,6 +6,8 @@ import {
 } from "react-icons/ai";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { LOGOUT_USER } from "../../features/auth/authSlice";
+import { useAppDispatch } from "../../features/hooks";
 import logo from "/logo.png";
 type BoxShadow = string | null | undefined;
 interface NavContainerProps {
@@ -22,6 +24,11 @@ interface NavContentProps {
 const Navbar = (props: NavContentProps) => {
   const [scrollPos, setScrollPos] = useState(0);
   const location = useLocation();
+  const dispatch = useAppDispatch();
+
+  const logOutUser = () => {
+    dispatch(LOGOUT_USER("User logged out"));
+  };
 
   const handleScroll = () => {
     setScrollPos(window.scrollY);
@@ -38,24 +45,6 @@ const Navbar = (props: NavContentProps) => {
         <div className="nav-header">
           <img src={logo} alt="logo" style={{ height: "3.5rem" }} />
         </div>
-        {/* <ul className="nav-links">
-          {links.map((link) => {
-            const { id, text, url } = link;
-            return (
-              <li key={id}>
-                <NavLink to={url} style={{ textDecoration: "none" }}>
-                  {text}
-                </NavLink>
-              </li>
-            );
-          })}
-        </ul> */}
-        {/* <div className="nav-right nav-links">
-          <NavLink to="/checkout" style={{ textDecoration: "none" }}>
-            <h3>Cart</h3>
-            <AiOutlineShoppingCart size="25" />
-          </NavLink>
-        </div> */}
       </div>
       <div className="auth-links">
         <NavLink to="/login" style={{ textDecoration: "none" }}>
@@ -80,7 +69,7 @@ const Navbar = (props: NavContentProps) => {
         </NavLink>
         <NavLink to="/" style={{ textDecoration: "none" }}>
           {location.pathname.startsWith("/dashboard") ? (
-            <section>
+            <section onClick={logOutUser}>
               <h3>{props?.logout && props.logout}</h3>
               <AiOutlineUserSwitch size="25" />
             </section>
