@@ -14,9 +14,8 @@ import { createTokenUser } from "../utils/tokenUser";
 
 const ALL_USERS = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
-    console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const users = await User.find({ role: ["admin", "user", "manager"] });
-
+    console.log("PAYLOAD FROM VERIFIED TOKEN", req.user);
+    const users = await User.find({});
     if (!users) {
       throw new BadRequestError("No Users found");
     }

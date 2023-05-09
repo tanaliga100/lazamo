@@ -91,7 +91,7 @@ export const authSlice = createSlice({
         state.error = "" || null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        console.log("PAYLOAD_FULLFILLED_REGISTER", action.payload);
+        // console.log("PAYLOAD_FULLFILLED_REGISTER", action.payload);
         const { data, msg, token } = action.payload;
         const { name, email, role, userId } = action.payload.data;
 
@@ -123,7 +123,7 @@ export const authSlice = createSlice({
         state.error = "" || null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log("PAYLOAD_FULLFILLED_LOGIN", action.payload);
+        // console.log("PAYLOAD_FULLFILLED_LOGIN", action.payload);
         const { data, msg, token } = action.payload;
         const { name, email, role, userId } = action.payload.data;
 
@@ -141,7 +141,7 @@ export const authSlice = createSlice({
         localStorage.setItem("token", JSON.stringify(token));
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log("PAYLOAD_REJECTED_LOGIN", action.payload);
+        // console.log("PAYLOAD_REJECTED_LOGIN", action.payload);
         state.isLoading = false;
         // console.log("REJECTED_LOGIN", action.payload);
         state.isAuthenticated = false;

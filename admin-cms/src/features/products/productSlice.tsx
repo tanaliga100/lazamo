@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import productsThunk from "./productThunk";
 
 type State = {
   product: any | null;
@@ -61,7 +62,7 @@ export const getFeaturedProducts = createAsyncThunk(
   "products/getFeaturedProducts",
   async (_, thunkAPI) => {
     try {
-      // return await productsThunk.GET_FEATURED_PRODUCTS_THUNK();
+      return await productsThunk.GET_FEATURED_PRODUCTS_THUNK();
     } catch (error) {
       console.log({ error });
       return thunkAPI.rejectWithValue(error);
@@ -73,7 +74,7 @@ export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (_, thunkAPI) => {
     try {
-      // return await productsThunk.GET_ALL_PRODUCTS_THUNK();
+      return await productsThunk.GET_ALL_PRODUCTS_THUNK();
     } catch (error) {
       console.log({ error });
       return thunkAPI.rejectWithValue(error);

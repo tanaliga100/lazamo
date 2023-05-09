@@ -37,6 +37,7 @@ app.use(morgan("dev"));
 //   res.send("E-Com");
 // });
 // APPLICATION ROUTES
+
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/users", UserRoute);
 app.use("/api/v1/products", ProductRoute);

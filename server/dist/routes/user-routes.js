@@ -10,7 +10,9 @@ const authentication_middleware_1 = require("../middlewares/authentication-middl
 const authorizedPermissions_1 = require("../utils/authorizedPermissions");
 const router = express_1.default.Router();
 exports.router = router;
-router.route("/").get(user_controller_1.ALL_USERS);
+router
+    .route("/")
+    .get(authentication_middleware_1.authenticationMiddleware, (0, authorizedPermissions_1.authorizedPermissions)(["admin"]), user_controller_1.ALL_USERS);
 router
     .route("/currentUser")
     .get(authentication_middleware_1.authenticationMiddleware, (0, authorizedPermissions_1.authorizedPermissions)(["admin"]), user_controller_1.CURRENT_USER);

@@ -9,11 +9,10 @@ const forbidden_error_1 = __importDefault(require("../errors/forbidden-error"));
 const authorizedPermissions = (roles) => {
     return (req, res, next) => {
         if (roles.includes(req.user.role)) {
-            console.log("WELCOME ADMIN, MANAGER");
             next();
         }
         else {
-            throw new forbidden_error_1.default("Admin and Manager are only allowed to access this route");
+            throw new forbidden_error_1.default("Admin are the only allowed to do this operation");
         }
     };
 };

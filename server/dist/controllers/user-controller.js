@@ -22,8 +22,8 @@ const checkPermission_1 = require("../utils/checkPermission");
 const hashedPassword_1 = require("../utils/hashedPassword");
 const tokenUser_1 = require("../utils/tokenUser");
 const ALL_USERS = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const users = yield user_model_1.default.find({ role: ["admin", "user", "manager"] });
+    console.log("PAYLOAD FROM VERIFIED TOKEN", req.user);
+    const users = yield user_model_1.default.find({});
     if (!users) {
         throw new errors_1.BadRequestError("No Users found");
     }

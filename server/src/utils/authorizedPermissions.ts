@@ -7,11 +7,10 @@ import { Roles } from "../interfaces/user.interfaces";
 export const authorizedPermissions = (roles: Roles) => {
   return (req: any, res: Response, next: NextFunction) => {
     if (roles.includes(req.user.role)) {
-      console.log("WELCOME ADMIN, MANAGER");
       next();
     } else {
       throw new ForbiddenError(
-        "Admin and Manager are only allowed to access this route"
+        "Admin are the only allowed to do this operation"
       );
     }
   };

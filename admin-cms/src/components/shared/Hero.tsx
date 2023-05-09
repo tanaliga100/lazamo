@@ -8,14 +8,15 @@ const Hero = () => {
     <Container>
       <p>
         <span>Welcome,</span>
-        {user &&
-          user.name &&
-          user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+        <small>
+          {user &&
+            user.name &&
+            user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+        </small>
       </p>
     </Container>
   );
 };
-
 export default Hero;
 
 const Container = styled.section`
@@ -37,5 +38,11 @@ const Container = styled.section`
   p {
     padding-right: 1rem;
     background-color: transparent !important;
+  }
+
+  small {
+    color: #ff000091;
+    background-color: transparent !important;
+    letter-spacing: 0.1cap;
   }
 `;

@@ -12,7 +12,9 @@ import { authenticationMiddleware } from "../middlewares/authentication-middlewa
 import { authorizedPermissions } from "../utils/authorizedPermissions";
 const router = express.Router();
 
-router.route("/").get(ALL_USERS);
+router
+  .route("/")
+  .get(authenticationMiddleware, authorizedPermissions(["admin"]), ALL_USERS);
 router
   .route("/currentUser")
   .get(

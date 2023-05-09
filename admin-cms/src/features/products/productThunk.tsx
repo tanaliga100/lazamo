@@ -1,17 +1,34 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const API = process.env.SERVER_URL;
 
 const GET_FEATURED_PRODUCTS_THUNK = async () => {
-  const response = await axios.get(`${API}/products?featured=true`);
+  try {
+    const response = await axios.get(`${API}/products?featured=true`);
+    return response.data.products;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    console.log(
+      "RESPONSE ERROR TO FEATURED PRODUCTS ",
+      axiosError.response?.data
+    );
+    throw axiosError.response?.data;
+  }
   // console.log("THUNK", response.data.products);
-  return response.data.products;
 };
 
 const GET_ALL_PRODUCTS_THUNK = async () => {
-  const response = await axios.get(`${API}/products`);
-  // console.log("THUNK", response.data.products);
-  return response.data.products;
+  try {
+    const response = await axios.get(`${API}/products`);
+    return response.data.products;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    console.log(
+      "RESPONSE ERROR TO FEATURED PRODUCTS ",
+      axiosError.response?.data
+    );
+    throw axiosError.response?.data;
+  }
 };
 
 const productsThunk = {
