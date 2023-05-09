@@ -23,10 +23,17 @@ const hashedPassword_1 = require("../utils/hashedPassword");
 const tokenUser_1 = require("../utils/tokenUser");
 const REGISTER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
+    // FIND EXISTING EMAIL, IF NONE THROW ERROR
+    if (!name || !email || !password) {
+        throw new errors_1.BadRequestError("Please provide all the necessary fields");
+    }
+    if (password && password.length < 6) {
+        throw new errors_1.BadRequestError("Password must be at least 6 characters long");
+    }
     // CHECK EMAIL IF ITS EXISTS
     const emailExists = yield user_model_1.default.findOne({ email });
     if (emailExists) {
-        throw new errors_1.BadRequestError(`EMAIL ALREADY EXISTS...`);
+        throw new errors_1.BadRequestError(`Email already exists`);
     }
     // HASHING PASSWORD
     const hashedPassword = yield (0, hashedPassword_1.hashPassword)(password);

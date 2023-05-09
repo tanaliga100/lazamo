@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 import { registerUser } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
@@ -11,6 +10,8 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const err = useAppSelector((state) => state.auth.error);
   const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const hasUser = useAppSelector((state) => state.auth.user);
+
   // LOGIC
   const initialState = {
     name: "",
@@ -31,25 +32,15 @@ const RegisterPage = () => {
   // FORM SUBMIT
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, password } = formData;
-    if (!email || !password || !name) {
-      toast.error("All fields are required");
-    } else {
-      if (err && !authenticated) {
-        toast.error(err);
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
-      } else {
-        dispatch(registerUser(formData));
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1000);
-      }
-      setFormData(initialState);
-    }
-    // console.log("fired", formData);
+    // const { name, email, password } = formData;
+    dispatch(registerUser(formData));
+    setFormData(initialState);
   };
+ 
+  if (hasUser && authenticated) {
+    navigate("/dashboard");
+  }
+
   return (
     <Container>
       <section className="content">

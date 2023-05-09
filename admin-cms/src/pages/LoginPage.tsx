@@ -1,32 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
-// import image from "/custom.jpeg";
+import { loginUser } from "../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../features/hooks";
 const LoginPage = () => {
   // HOOKS
-  // const dispatch = useAppDispatch();
-  // if (error) {
-  //   toast.error(error);
-  // }
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const hasUser = useAppSelector((state) => state.auth.isAuthenticated);
+  const err = useAppSelector((state) => state.auth.error);
+  const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
   // LOGIC
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  React.useEffect(() => {}, []);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
-      // toast.error("All fields are required");
-      navigate("/dashboard");
-    } else {
-      // dispatch(loginUser({ email, password }));
-      setEmail("");
-      setPassword("");
-      navigate("/dashboard");
-    }
+    dispatch(loginUser({ email, password }));
+
+    setEmail("");
+    setPassword("");
   };
+  if (err) {
+    toast.error("Please Register");
+    setTimeout(() => {
+      navigate("/register");
+    }, 2000);
+  }
+  if (hasUser && authenticated) {
+    navigate("/dashboard");
+  }
 
   return (
     <Container>

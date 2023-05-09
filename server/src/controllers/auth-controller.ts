@@ -13,10 +13,17 @@ const REGISTER = asyncMiddleware(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body as IRegisterUser;
 
+    // FIND EXISTING EMAIL, IF NONE THROW ERROR
+    if (!name || !email || !password) {
+      throw new BadRequestError("Please provide all the necessary fields");
+    }
+    if (password && password.length < 6) {
+      throw new BadRequestError("Password must be at least 6 characters long");
+    }
     // CHECK EMAIL IF ITS EXISTS
     const emailExists = await User.findOne({ email });
     if (emailExists) {
-      throw new BadRequestError(`EMAIL ALREADY EXISTS...`);
+      throw new BadRequestError(`Email already exists`);
     }
     // HASHING PASSWORD
     const hashedPassword = await hashPassword(password);
