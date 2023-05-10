@@ -7,7 +7,6 @@ import {
 } from "../errors";
 import { asyncMiddleware } from "../middlewares/async-middleware";
 import User from "../models/user-model";
-import { attachCookiesToResponse } from "../utils/attachCookies";
 import { checkPermissions } from "../utils/checkPermission";
 import { hashPassword } from "../utils/hashedPassword";
 import { createTokenUser } from "../utils/tokenUser";
@@ -15,7 +14,7 @@ import { createTokenUser } from "../utils/tokenUser";
 const ALL_USERS = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED TOKEN", req.user);
-    const users = await User.find({});
+    const users = await User.find({}).select("-password");
     if (!users) {
       throw new BadRequestError("No Users found");
     }
@@ -29,7 +28,7 @@ const SINGLE_USER = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
 
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ _id: req.params.id }).select("-password");
     if (!user) {
       throw new NotFoundError(`No user with id ${req.params.id}`);
     }
@@ -62,7 +61,7 @@ const UPDATE_USER = asyncMiddleware(
     );
     const tokenUser = await createTokenUser(user);
     // ATTACH COOKIES
-    attachCookiesToResponse(res, tokenUser);
+    // attachCookiesToResponse(res, tokenUser);
     // OK ? SEND BACK TO CLIENT : THROW ERROR
     res.status(StatusCodes.OK).json({ msg: "USER_UPDATED", data: tokenUser });
   }
@@ -87,7 +86,7 @@ const UPDATE_ROLE = asyncMiddleware(
         { new: true, runValidators: true }
       );
       const tokenUser = await createTokenUser(user);
-      attachCookiesToResponse(res, tokenUser);
+      // attachCookiesToResponse(res, tokenUser);
       res.status(StatusCodes.OK).json({ msg: "USER_UPDATED", data: tokenUser });
     }
   }

@@ -17,13 +17,12 @@ const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const async_middleware_1 = require("../middlewares/async-middleware");
 const user_model_1 = __importDefault(require("../models/user-model"));
-const attachCookies_1 = require("../utils/attachCookies");
 const checkPermission_1 = require("../utils/checkPermission");
 const hashedPassword_1 = require("../utils/hashedPassword");
 const tokenUser_1 = require("../utils/tokenUser");
 const ALL_USERS = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("PAYLOAD FROM VERIFIED TOKEN", req.user);
-    const users = yield user_model_1.default.find({});
+    const users = yield user_model_1.default.find({}).select("-password");
     if (!users) {
         throw new errors_1.BadRequestError("No Users found");
     }
@@ -34,7 +33,7 @@ const ALL_USERS = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __
 exports.ALL_USERS = ALL_USERS;
 const SINGLE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const user = yield user_model_1.default.findOne({ _id: req.params.id });
+    const user = yield user_model_1.default.findOne({ _id: req.params.id }).select("-password");
     if (!user) {
         throw new errors_1.NotFoundError(`No user with id ${req.params.id}`);
     }
@@ -57,7 +56,7 @@ const UPDATE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => 
     const user = yield user_model_1.default.findOneAndUpdate({ _id: req.user.userId }, { email, name }, { new: true, runValidators: true });
     const tokenUser = yield (0, tokenUser_1.createTokenUser)(user);
     // ATTACH COOKIES
-    (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
+    // attachCookiesToResponse(res, tokenUser);
     // OK ? SEND BACK TO CLIENT : THROW ERROR
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "USER_UPDATED", data: tokenUser });
 }));
@@ -77,7 +76,7 @@ const UPDATE_ROLE = (0, async_middleware_1.asyncMiddleware)((req, res, next) => 
     else {
         const user = yield user_model_1.default.findOneAndUpdate({ _id: userToUpdate }, { role: roleToUpdate }, { new: true, runValidators: true });
         const tokenUser = yield (0, tokenUser_1.createTokenUser)(user);
-        (0, attachCookies_1.attachCookiesToResponse)(res, tokenUser);
+        // attachCookiesToResponse(res, tokenUser);
         res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "USER_UPDATED", data: tokenUser });
     }
 }));

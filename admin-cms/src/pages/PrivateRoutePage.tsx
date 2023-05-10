@@ -9,32 +9,28 @@ const PrivateRoutePage = (props: any) => {
     setActiveLink(selectedLink);
   };
   return (
-    <div>
-      <Container>
-        <LeftSection>
-          {props.links.map((link: any) => (
-            <NavLink
-              to={`${link.url}`}
-              key={link.id}
-              onClick={() => handleLinkClick(link)}
-            >
-              <span
-                className={`content ${activeLink === link ? "active" : ""}`}
-              >
-                {link.icon}
-                {link.text}
-              </span>
-            </NavLink>
-          ))}
-        </LeftSection>
-        <RightSection>
-          {/* <section>{activeLink.component}</section> */}
-          <section>
-            <Outlet />
-          </section>
-        </RightSection>
-      </Container>
-    </div>
+    <Container>
+      <LeftSection>
+        {props.links.map((link: any) => (
+          <NavLink
+            to={`${link.url}`}
+            key={link.id}
+            onClick={() => handleLinkClick(link)}
+          >
+            <span className={`content ${activeLink === link ? "active" : ""}`}>
+              {link.icon}
+              {link.text}
+            </span>
+          </NavLink>
+        ))}
+      </LeftSection>
+      <RightSection>
+        {/* <section>{activeLink.component}</section> */}
+        <section>
+          <Outlet />
+        </section>
+      </RightSection>
+    </Container>
   );
 };
 
@@ -144,10 +140,9 @@ const LeftSection = styled.section`
 
 const RightSection = styled.section`
   width: 100%;
-
   section {
-    padding: 0 3rem;
-    text-align: left;
+    padding: 0 2rem;
+    min-height: 100%;
   }
 `;
 
