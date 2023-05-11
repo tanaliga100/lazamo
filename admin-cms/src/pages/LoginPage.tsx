@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 import { loginUser } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../features/hooks";
@@ -22,15 +21,11 @@ const LoginPage = () => {
     setEmail("");
     setPassword("");
   };
-  if (err) {
-    toast.error("Please Register");
-    setTimeout(() => {
-      navigate("/register");
-    }, 2000);
-  }
-  if (hasUser && authenticated) {
-    navigate("/dashboard");
-  }
+  React.useEffect(() => {
+    if (hasUser && authenticated) {
+      navigate("/dashboard");
+    }
+  }, [hasUser]);
 
   return (
     <Container>

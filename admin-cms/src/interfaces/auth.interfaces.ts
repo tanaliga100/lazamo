@@ -17,13 +17,13 @@ export interface AuthState {
   isError: boolean;
   error: string | null;
   user: IUser;
-  token: string | null;
+  token?: string | null;
   msg?: string;
 }
 
 export interface APIResponse {
   msg: string;
-  token: string;
+  token: null;
   data: {
     name: string;
     userId: string;

@@ -83,14 +83,13 @@ const authenticationMiddleware = (
   if (authHeader && authHeader.startsWith("Bearer ")) {
     //verify the token if match
     const token = authHeader.slice(7);
-    console.log("HAS TOKEN", token);
+    console.log({ token });
+
     try {
       const { name, userId, role } = verifyToken(token) as JwtPayload;
       req.user = { name, userId, role };
       next();
     } catch (error) {
-      console.log("NO TOKEN");
-
       throw new UnAuthenticatedError("Uy, Authentication failed ");
     }
   } else {

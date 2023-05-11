@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import { AuthState, Credentials } from "../../interfaces/auth.interfaces";
 import { RootState } from "../store";
 
-const storedUser = localStorage.getItem("currentUser");
-const storedToken = localStorage.getItem("token");
+export const storedUser = localStorage.getItem("currentUser");
+export const storedToken = localStorage.getItem("token");
 
 const initialState: AuthState = {
   isAuthenticated: storedUser && storedToken ? true : false,
@@ -147,6 +147,7 @@ export const authSlice = createSlice({
         state.isAuthenticated = false;
         state.error = action.payload as string;
         toast.error(action.payload as string);
+        toast.error("Please Sign Up");
       });
   },
 });
