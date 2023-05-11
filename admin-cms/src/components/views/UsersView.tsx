@@ -14,6 +14,7 @@ const UsersView = () => {
       dispatch(getAllUsers());
     }, 2000);
   }, []);
+
   if (loading) {
     return <div>LOADING...</div>;
   }
@@ -31,11 +32,11 @@ const UsersView = () => {
         <tbody>
           {listOfUsers &&
             listOfUsers.map((user: any) => (
-              <tr key={user._id}>
+              <TableRow key={user._id} role={user.role}>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
-              </tr>
+              </TableRow>
             ))}
         </tbody>
       </Table>
@@ -48,6 +49,12 @@ export default UsersView;
 const Container = styled.main`
   padding: 1rem;
   background-color: transparent;
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const Table = styled.table`
@@ -58,15 +65,15 @@ const Table = styled.table`
   td {
     padding: 0.5rem;
     text-align: left;
-    border: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
   }
 
   th {
     background-color: #f2f2f2;
-    font-weight: bold;
   }
+`;
 
-  tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
+const TableRow = styled.tr`
+  ${(props) => props.role === "admin" && `color: red;`}
+  ${(props) => props.role === "user" && `color: green;`}
 `;
