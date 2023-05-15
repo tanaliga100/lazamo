@@ -49,11 +49,18 @@ const CURRENT_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) =>
 exports.CURRENT_USER = CURRENT_USER;
 const UPDATE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const { name, email } = req.body;
-    if (!name || !email) {
-        throw new errors_1.BadRequestError("PLEASE PROVIDE ALL THE VALUES");
-    }
-    const user = yield user_model_1.default.findOneAndUpdate({ _id: req.user.userId }, { email, name }, { new: true, runValidators: true });
+    const { name, email, userId } = req.body;
+    // if (!name || !email) {
+    //   throw new BadRequestError("PLEASE PROVIDE ALL THE VALUES");
+    // }
+    // const update = {};
+    // if (name) {
+    //   update.name = name;
+    // }
+    // if (email) {
+    //   update.email = email;
+    // }
+    const user = yield user_model_1.default.findOneAndUpdate({ _id: userId }, { email: email !== null && email !== void 0 ? email : undefined, name }, { new: true, runValidators: true });
     const tokenUser = yield (0, tokenUser_1.createTokenUser)(user);
     // ATTACH COOKIES
     // attachCookiesToResponse(res, tokenUser);

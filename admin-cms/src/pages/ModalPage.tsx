@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "../features/hooks";
-import { updateUser } from "../features/users/userSlice";
+import { getAllUsers, updateUser } from "../features/users/userSlice";
 
 const EditUserModal = ({ onClose, user }: any) => {
   const [name, setName] = useState(user.name);
@@ -20,18 +20,18 @@ const EditUserModal = ({ onClose, user }: any) => {
     e.preventDefault();
     // do something with updated user information
     try {
-      await dispatch(updateUser());
+      await dispatch(updateUser({ userId: user._id, name, email }));
+      await dispatch(getAllUsers());
       setTimeout(() => {
         onClose();
-      }, 1000);
+      }, 300);
       setName("");
       setEmail("");
-      console.log({ name, email });
+      console.log("name", name);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>

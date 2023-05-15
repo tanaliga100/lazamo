@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { userData } from "../../../../server/src/interfaces/user.interfaces";
 import { storedToken } from "../auth/authSlice";
 
 const initialState = {
@@ -58,21 +59,16 @@ export const getAllUsers = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "users/updateUser",
-  async (userData, thunkAPI) => {
+  async (userData: userData, thunkAPI) => {
     try {
       const currentToken = (thunkAPI.getState() as any).users.token;
 
-      const response = await axios.patch(
-        `${API}/users/updateUser`,
-        { userData },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${currentToken}`,
-          },
-        }
-      );
+      const response = await axios.patch(`${API}/users/updateUser`, userData, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${currentToken}`,
+        },
+      });
       return response.data;
     } catch (error: any) {
       const message =
@@ -159,12 +155,15 @@ export const userSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.users = action.payload.users;
         state.loading = false;
+        toast.success(action.payload.msg);
+
         state.msg = action.payload.msg;
         state.count = action.payload.count;
       })
       .addCase(updateUser.rejected, (state, action) => {
+        console.log(action.payload);
         state.loading = false;
-        state.error = action.payload as any;
+        // state.error = action.payload.msg as any;
       })
       // DELETING  THE USER
       .addCase(deleteUser.pending, (state) => {

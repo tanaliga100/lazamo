@@ -50,13 +50,20 @@ const UPDATE_USER = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
 
-    const { name, email } = req.body;
-    if (!name || !email) {
-      throw new BadRequestError("PLEASE PROVIDE ALL THE VALUES");
-    }
+    const { name, email, userId } = req.body;
+    // if (!name || !email) {
+    //   throw new BadRequestError("PLEASE PROVIDE ALL THE VALUES");
+    // }
+    // const update = {};
+    // if (name) {
+    //   update.name = name;
+    // }
+    // if (email) {
+    //   update.email = email;
+    // }
     const user = await User.findOneAndUpdate(
-      { _id: req.user.userId },
-      { email, name },
+      { _id: userId },
+      { email: email ?? undefined, name },
       { new: true, runValidators: true }
     );
     const tokenUser = await createTokenUser(user);
@@ -164,6 +171,5 @@ export {
   SINGLE_USER,
   UPDATE_ROLE,
   UPDATE_USER,
-  UPDATE_USER_PASSWORD
+  UPDATE_USER_PASSWORD,
 };
-

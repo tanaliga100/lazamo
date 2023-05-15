@@ -23,3 +23,8 @@ export interface BadRequestErrorObject {
     [key: string]: string[];
   };
 }
+export interface userData {
+  name: string;
+  email?: string;
+  userId: string;
+}
