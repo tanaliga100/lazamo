@@ -8,7 +8,6 @@ const RegisterPage = () => {
   // HOOKS
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const err = useAppSelector((state) => state.auth.error);
   const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const hasUser = useAppSelector((state) => state.auth.user);
 
@@ -36,7 +35,7 @@ const RegisterPage = () => {
     dispatch(registerUser(formData));
     setFormData(initialState);
   };
- 
+
   if (hasUser && authenticated) {
     navigate("/dashboard");
   }

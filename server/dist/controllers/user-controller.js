@@ -43,8 +43,8 @@ const SINGLE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => 
 exports.SINGLE_USER = SINGLE_USER;
 const CURRENT_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
-    const currentUser = { name: req.user.name, role: req.user.role };
-    res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "CURRENT_USER", currentUser });
+    const data = { name: req.user.name, role: req.user.role };
+    res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "CURRENT_USER", data });
 }));
 exports.CURRENT_USER = CURRENT_USER;
 const UPDATE_USER = (0, async_middleware_1.asyncMiddleware)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

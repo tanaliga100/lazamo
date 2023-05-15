@@ -41,8 +41,8 @@ const CURRENT_USER = asyncMiddleware(
   async (req: any, res: Response, next: NextFunction) => {
     console.log("PAYLOAD FROM VERIFIED COOKIE", req.user);
 
-    const currentUser = { name: req.user.name, role: req.user.role };
-    res.status(StatusCodes.OK).json({ msg: "CURRENT_USER", currentUser });
+    const data = { name: req.user.name, role: req.user.role };
+    res.status(StatusCodes.OK).json({ msg: "CURRENT_USER", data });
   }
 );
 

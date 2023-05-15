@@ -16,4 +16,7 @@ router
     .route("/updateUserPass")
     .patch(authentication_middleware_1.authenticationMiddleware, user_controller_1.UPDATE_USER_PASSWORD);
 router.route("/updateRole/:id").patch(authentication_middleware_1.authenticationMiddleware, user_controller_1.UPDATE_ROLE);
-router.route("/:id").get(authentication_middleware_1.authenticationMiddleware, user_controller_1.SINGLE_USER).delete(authentication_middleware_1.authenticationMiddleware, user_controller_1.DELETE_USER);
+router
+    .route("/:id")
+    .get(authentication_middleware_1.authenticationMiddleware, user_controller_1.SINGLE_USER)
+    .delete(authentication_middleware_1.authenticationMiddleware, user_controller_1.DELETE_USER);

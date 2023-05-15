@@ -157,7 +157,7 @@ export const { LOGOUT_USER } = authSlice.actions;
 export const hasToken = (state: RootState) => state?.auth.token;
 export const authenticated = (state: RootState) => state?.auth?.isAuthenticated;
 
-export const currentUser = (state: RootState) => state.auth.user;
+// export const currentUser = (state: RootState) => state.auth.user;
 export const msg = (state: RootState) => state.auth.msg;
 export const error = (state: RootState) => state.auth.error;
 export default authSlice.reducer;

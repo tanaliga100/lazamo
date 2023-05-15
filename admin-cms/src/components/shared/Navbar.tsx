@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { LOGOUT_USER } from "../../features/auth/authSlice";
 import { useAppDispatch } from "../../features/hooks";
-// import logo from "/logo.png";
+import logo from "/logo.png";
 type BoxShadow = string | null | undefined;
 interface NavContainerProps {
   boxShadow?: BoxShadow | number | undefined;
@@ -43,7 +43,7 @@ const Navbar = (props: NavContentProps) => {
     <NavContainer boxShadow={scrollPos}>
       <div className="nav-center">
         <div className="nav-header">
-          <img alt="Client-Logo" style={{ height: "3.5rem" }} />
+          <img src={logo} alt="Client-Logo" style={{ height: "3.5rem" }} />
         </div>
       </div>
       <div className="auth-links">

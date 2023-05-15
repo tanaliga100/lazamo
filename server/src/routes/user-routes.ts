@@ -20,10 +20,9 @@ router
   .patch(authenticationMiddleware, UPDATE_USER_PASSWORD);
 router.route("/updateRole/:id").patch(authenticationMiddleware, UPDATE_ROLE);
 
-router.route("/:id").get(authenticationMiddleware, SINGLE_USER).delete(
-  authenticationMiddleware,
-
-  DELETE_USER
-);
+router
+  .route("/:id")
+  .get(authenticationMiddleware, SINGLE_USER)
+  .delete(authenticationMiddleware, DELETE_USER);
 
 export { router };
