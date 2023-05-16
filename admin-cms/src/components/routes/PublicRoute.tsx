@@ -4,7 +4,7 @@ import { content } from "../../utils/constants";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 
-const AuthLayout = () => {
+const PublicRoute = () => {
   const location = useLocation();
 
   return (
@@ -15,7 +15,7 @@ const AuthLayout = () => {
     </Container>
   );
 };
-export default AuthLayout;
+export default PublicRoute;
 
 const Container = styled.main`
   /* background-color: #d2b48c; */

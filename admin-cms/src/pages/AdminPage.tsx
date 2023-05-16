@@ -1,71 +1,59 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { useAppSelector } from "../features/hooks";
 import { links } from "../utils/constants";
-import ErrorPage from "./ErrorPage";
 
-const AdminPage = (props: any) => {
+const AdminPage = () => {
   const [activeLink, setActiveLink] = useState(links[0]);
 
-  const allowedUrls = [
-    "/dashboard",
-    "/dashboard/users",
-    "/dashboard/products",
-    "/dashboard/orders",
-    "/dashboard/reviews",
-    "/dashboard/profile",
-  ];
-
-  React.useEffect(() => {
-    // console.log("ACTIVE LINK", activeLink);
-  }, [activeLink]);
   const handleLinkClick = (selectedLink: any) => {
     setActiveLink(selectedLink);
   };
-  const user = useAppSelector((state) => state?.auth?.user);
-  console.log("CURRENT_USER", user);
 
   return (
-    <>
-      <Header>
-        <h6>{activeLink.text.toUpperCase()}</h6>
-        <p>
-          <span> Welcome, </span> {user && user.name} ||{" "}
-          <span className="role">{user && user.role?.toUpperCase()}</span>
-        </p>
-      </Header>
-      <Container>
-        <LeftSection>
-          {links.map((link: any) => (
-            <NavLink
-              to={`${link.url}`}
-              key={link.id}
-              onClick={() => handleLinkClick(link)}
+    <Container>
+      <LeftSection>
+        {links.map((link: any) => (
+          <NavLink
+            to={`${link.url}`}
+            key={link.id}
+            onClick={() => handleLinkClick(link)}
+          >
+            <span
+              className={`content ${activeLink.id === link.id ? "active" : ""}`}
             >
-              <span
-                className={`content ${activeLink === link ? "active" : ""}`}
-              >
-                {link.icon}
-                {link.text}
-              </span>
-            </NavLink>
-          ))}
-        </LeftSection>
-        <RightSection>
-          {!allowedUrls.includes(activeLink.url) ? (
-            <section>
-              <ErrorPage />
-            </section>
-          ) : (
-            <section>{activeLink.component}</section>
-          )}
-        </RightSection>
-      </Container>
-    </>
+              {link.icon}
+              {link.text}
+            </span>
+          </NavLink>
+        ))}
+      </LeftSection>
+      <RightSection>
+        <section>
+          <Outlet />
+        </section>
+      </RightSection>
+    </Container>
   );
 };
+
 export default AdminPage;
+
+const Wrapper = styled.main`
+  padding: 5rem 10rem 0rem 10rem;
+  background: var(--clr-primary-10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  h1 {
+    font-size: 6rem;
+  }
+  h3 {
+    text-transform: none;
+    margin-bottom: 2rem;
+  }
+`;
 
 const Header = styled.header`
   padding: 1rem 0rem 1rem 17rem;
@@ -122,6 +110,7 @@ const LeftSection = styled.section`
   display: flex;
   flex-direction: column;
   text-align: center;
+  padding-left: 1rem;
 
   a {
     text-decoration: none;
@@ -132,6 +121,8 @@ const LeftSection = styled.section`
     font-weight: 300;
 
     .active {
+      /* border-left: #ccb46a3a; */
+      /* border-left: 1rem solid #ccb46a3a; */
       background-color: #ccb46a3a;
     }
 
@@ -152,11 +143,32 @@ const LeftSection = styled.section`
 
 const RightSection = styled.section`
   width: 100%;
-  background-color: #ccb46a3a;
-
   section {
-    padding: 0 3rem;
-    text-align: left;
-    background-color: transparent;
+    padding: 0 2rem;
+    min-height: 100%;
   }
 `;
+
+{
+  /* {!hasToken && !authenticated && currentUser ? (
+        <Wrapper className="page-100">
+          <section>
+            <h1>Forbidden</h1>
+            <h3>Sorry, the page you tried needs authentication</h3>
+            <Link to="/" className="btn">
+              back home
+            </Link>
+          </section>
+        </Wrapper>
+      ) : (
+        <>
+          <Header>
+            <h6>{activeLink.text.toUpperCase()}</h6>
+            <p>
+              {currentUser?.name && `Welcome, ${currentUser.name}`}
+              <span className="role">
+                {currentUser && currentUser?.role?.toUpperCase()}
+              </span>
+            </p>
+          </Header> */
+}

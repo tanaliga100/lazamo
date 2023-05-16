@@ -1,27 +1,23 @@
+import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAppSelector } from "../../features/hooks";
-import { PrivateRoutePage } from "../../pages";
-import { content, links } from "../../utils/constants";
+import AdminPage from "../../pages/AdminPage";
+import { content } from "../../utils/constants";
 import Hero from "../shared/Hero";
 import Navbar from "../shared/Navbar";
 
-const AdminLayout = () => {
+const PrivateRoute = () => {
   const authenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
-  const handleClick = () => {
-    window.history.back();
-  };
   return (
     <Container>
       <Navbar {...content} />
       <Hero />
-      <PrivateRoutePage links={links} />
-
-      {/* <Outlet /> */}
+      {authenticated ? <AdminPage /> : <Navigate to="/" />}
     </Container>
   );
 };
-export default AdminLayout;
+export default PrivateRoute;
 
 const Container = styled.main`
   /* background-color: #d2b48c; */

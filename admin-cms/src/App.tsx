@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import AdminLayout from "./components/layout/AdminLayout";
-import AuthLayout from "./components/layout/AuthLayout";
+import { default as PrivateRoute } from "./components/routes/PrivateRoute";
+import { default as PublicRoute } from "./components/routes/PublicRoute";
 import DashboardView from "./components/views/DashboardView";
 import OrdersView from "./components/views/OrdersView";
 import ProductsView from "./components/views/ProductsView";
@@ -21,12 +21,12 @@ function App() {
     <React.Fragment>
       {/* <Navbar {...content} /> */}
       <Routes>
-        <Route path="/" element={<AuthLayout />}>
+        <Route path="/" element={<PublicRoute />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>
-        <Route path="/dashboard" element={<AdminLayout />}>
+        <Route path="/dashboard" element={<PrivateRoute />}>
           <Route index element={<DashboardView />} />
           <Route path="users" element={<UsersView />} />
           <Route path="products" element={<ProductsView />} />
