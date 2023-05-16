@@ -1,17 +1,15 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 const ErrorPage = () => {
-  const handleClick = () => {
-    window.history.back();
-  };
   return (
     <Wrapper className="page-100">
       <section>
         <h1>404</h1>
         <h3>Sorry, the page you tried cannot be found</h3>
-        {/* <Link to="/" className="btn">
-          back home
-        </Link> */}
-        <button onClick={handleClick}>back home</button>
+
+        <NavLink to=".." relative="path">
+          Back Home
+        </NavLink>
       </section>
     </Wrapper>
   );
@@ -24,11 +22,12 @@ const Wrapper = styled.main`
   justify-content: center;
   align-items: center;
   text-align: center;
-  button {
+  a {
     background: #7e7871;
     border: none;
     padding: 1rem;
     color: white;
+    text-decoration: none;
     text-transform: capitalize;
     &:hover {
       cursor: pointer;

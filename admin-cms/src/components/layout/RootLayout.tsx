@@ -4,7 +4,7 @@ import { content } from "../../utils/constants";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 
-const PublicRoute = () => {
+const RootLayout = () => {
   const location = useLocation();
 
   return (
@@ -15,7 +15,7 @@ const PublicRoute = () => {
     </Container>
   );
 };
-export default PublicRoute;
+export default RootLayout;
 
 const Container = styled.main`
   /* background-color: #d2b48c; */

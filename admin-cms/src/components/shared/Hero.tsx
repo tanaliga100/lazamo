@@ -33,10 +33,9 @@ const Hero = () => {
 export default Hero;
 
 const Container = styled.section`
-  background-color: #d2b48c6f;
-  height: 5vh;
+  background-color: #d2b48c56;
+  height: 10vh;
   color: white;
-  margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;

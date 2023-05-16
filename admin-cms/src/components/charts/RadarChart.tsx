@@ -53,7 +53,7 @@ const data = [
 ];
 
 const radarChart = (
-  <RadarChart width={300} height={230} data={data}>
+  <RadarChart width={400} height={230} data={data}>
     <PolarGrid />
     <PolarAngleAxis dataKey="subject" />
     <PolarRadiusAxis angle={30} domain={[0, 150]} />

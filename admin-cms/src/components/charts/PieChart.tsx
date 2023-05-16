@@ -55,7 +55,7 @@ const PieChartComponent = () => {
   ];
 
   const pieChart = (
-    <PieChart width={360} height={300}>
+    <PieChart width={300} height={300}>
       <Pie
         data={data01}
         dataKey="value"

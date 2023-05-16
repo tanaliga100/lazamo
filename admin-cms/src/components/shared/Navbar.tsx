@@ -43,7 +43,9 @@ const Navbar = (props: NavContentProps) => {
     <NavContainer boxShadow={scrollPos}>
       <div className="nav-center">
         <div className="nav-header">
-          <img src={logo} alt="Client-Logo" style={{ height: "3.5rem" }} />
+          <NavLink to=".." relative="path">
+            <img src={logo} alt="Client-Logo" style={{ height: "3.5rem" }} />
+          </NavLink>
         </div>
       </div>
       <div className="auth-links">
@@ -93,6 +95,7 @@ const NavContainer = styled.nav<NavContainerProps>`
   background: white;
   align-items: center;
   justify-content: space-between;
+
   padding: 0 4rem;
   box-shadow: ${(props: NavContainerProps) =>
     props.boxShadow ? "2px 2px 10px rgba(0,0,0,0.2)" : "none"};
